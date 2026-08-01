@@ -63,6 +63,7 @@ const languagePath = localePath(alternateLocale(locale), pathname);
         class="locale-link"
         href={languagePath}
         hreflang={alternateLocale(locale)}
+        data-testid="header-locale-switch"
       >
         {copy.languageName}
       </a>

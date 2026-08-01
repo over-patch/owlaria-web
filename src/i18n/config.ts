@@ -7,7 +7,8 @@ export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = 'en';
 
 function normalizeLogicalPath(pathname: string): string {
-  const withLeadingSlash = pathname.startsWith('/') ? pathname : `/${pathname}`;
+  const pathBody = pathname.replace(/^\/+/, '').replace(/\/+$/, '');
+  const withLeadingSlash = pathBody.length === 0 ? '/' : `/${pathBody}`;
 
   if (/^\/(?:en|ja)(?:\/|$)/.test(withLeadingSlash)) {
     throw new Error('Expected an unprefixed logical pathname');
@@ -17,7 +18,7 @@ function normalizeLogicalPath(pathname: string): string {
     return '/';
   }
 
-  return `${withLeadingSlash.replace(/\/+$/, '')}/`;
+  return `${withLeadingSlash}/`;
 }
 
 export function localePath(locale: Locale, pathname: string): string {

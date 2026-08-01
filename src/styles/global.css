@@ -412,20 +412,20 @@ main:focus {
 
   .header-inner {
     position: relative;
+    flex-wrap: wrap;
     border-radius: var(--radius-md);
   }
 
-  .menu-button {
+  .has-js .menu-button {
     display: inline-flex;
   }
 
   .site-navigation {
-    position: absolute;
-    top: calc(100% + 0.5rem);
-    right: 0;
-    left: 0;
+    position: static;
+    flex-basis: 100%;
     flex-direction: column;
     align-items: stretch;
+    margin-top: var(--space-2);
     padding: var(--space-3);
     border: 1px solid var(--color-surface-border);
     border-radius: var(--radius-md);
@@ -434,7 +434,12 @@ main:focus {
   }
 
   .has-js .site-navigation {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    left: 0;
     display: none;
+    margin-top: 0;
   }
 
   .has-js [data-menu-open] .site-navigation {

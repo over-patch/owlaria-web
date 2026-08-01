@@ -38,6 +38,10 @@ for (const [englishPath, japanesePath] of routePairs) {
       'href',
       japanesePath,
     );
+    await expect(page.getByTestId('header-locale-switch')).toHaveAttribute(
+      'href',
+      japanesePath,
+    );
   });
 
   test(`${japanesePath} renders the Japanese localized shell`, async ({
@@ -66,8 +70,45 @@ for (const [englishPath, japanesePath] of routePairs) {
       'href',
       englishPath,
     );
+    await expect(page.getByTestId('header-locale-switch')).toHaveAttribute(
+      'href',
+      englishPath,
+    );
   });
 }
+
+test.describe('without JavaScript', () => {
+  test.use({ javaScriptEnabled: false });
+
+  test('mobile navigation stays in flow and usable', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
+
+    const navigation = page.getByRole('navigation', {
+      name: 'Primary navigation',
+    });
+    await expect(navigation).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Open menu' })).toBeHidden();
+    await expect(
+      navigation.getByRole('link', { name: 'Support', exact: true }),
+    ).toBeVisible();
+    await expect(page.locator('main h1')).toBeVisible();
+
+    const layout = await page.evaluate(() => {
+      const navigationRect = document
+        .querySelector('.site-navigation')
+        ?.getBoundingClientRect();
+      const mainRect = document.querySelector('main')?.getBoundingClientRect();
+
+      return {
+        navigationBottom: navigationRect?.bottom ?? Number.POSITIVE_INFINITY,
+        mainTop: mainRect?.top ?? Number.NEGATIVE_INFINITY,
+      };
+    });
+
+    expect(layout.navigationBottom).toBeLessThanOrEqual(layout.mainTop);
+  });
+});
 
 test('desktop navigation and skip link are available', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 1000 });

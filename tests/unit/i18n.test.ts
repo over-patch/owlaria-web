@@ -12,6 +12,9 @@ describe('localePath', () => {
     ['en', '/', '/'],
     ['en', 'support', '/support/'],
     ['en', '/support/purchases/', '/support/purchases/'],
+    ['en', '//support', '/support/'],
+    ['en', '///support///', '/support/'],
+    ['en', '///', '/'],
     ['ja', '/', '/ja/'],
     ['ja', 'support', '/ja/support/'],
     ['ja', '/support/purchases/', '/ja/support/purchases/'],
@@ -39,6 +42,9 @@ describe('locale metadata', () => {
     );
     expect(absoluteLocaleUrl('ja', '/terms/')).toBe(
       'https://owlaria.overpatch.dev/ja/terms/',
+    );
+    expect(absoluteLocaleUrl('en', '//support')).toBe(
+      'https://owlaria.overpatch.dev/support/',
     );
   });
 });
