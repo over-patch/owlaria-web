@@ -1,0 +1,47 @@
+{
+  "name": "owlaria-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ],
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "eslint-plugin-jsx-a11y>eslint": "10"
+      }
+    }
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "lint": "eslint .",
+    "lint:actions": "actionlint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:e2e": "env -u NO_COLOR playwright test"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^24.13.3",
+    "astro": "^7.1.6",
+    "eslint": "^10.0.0",
+    "eslint-plugin-astro": "^3.0.1",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "prettier": "^3.9.6",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.65.0",
+    "vitest": "^4.1.10"
+  }
+}

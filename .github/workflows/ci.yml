@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify website
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up development tools
+        uses: jdx/mise-action@v4
+        with:
+          version: 2026.7.18
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check formatting
+        run: pnpm format:check
+
+      - name: Lint source
+        run: pnpm lint
+
+      - name: Lint workflows
+        run: pnpm lint:actions
+
+      - name: Check Astro and TypeScript
+        run: pnpm check
+
+      - name: Run unit tests
+        run: pnpm test
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Build production site
+        run: pnpm build
+
+      - name: Run browser tests
+        run: pnpm test:e2e
