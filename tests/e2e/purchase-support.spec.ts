@@ -82,3 +82,62 @@ for (const locale of locales) {
     );
   });
 }
+
+test('uses a readable responsive FAQ layout without horizontal overflow', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto('/support/purchases/');
+
+  await expect(page.locator('.support-layout')).toHaveCSS('display', 'grid');
+  await expect(page.locator('.support-contents')).toHaveCSS(
+    'position',
+    'sticky',
+  );
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  const hasHorizontalOverflow = await page.evaluate(
+    () =>
+      document.documentElement.scrollWidth >
+      document.documentElement.clientWidth,
+  );
+
+  expect(hasHorizontalOverflow).toBe(false);
+  await expect(page.locator('.support-contents')).toHaveCSS(
+    'position',
+    'static',
+  );
+});
+
+test.describe('purchase guidance without JavaScript', () => {
+  test.use({ javaScriptEnabled: false });
+
+  test('keeps the contents and every answer available', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/support/purchases/');
+
+    await expect(
+      page.getByRole('navigation', { name: 'On this page' }),
+    ).toBeVisible();
+    await expect(page.locator('[data-purchase-faq]')).toHaveCount(
+      faqIds.length,
+    );
+    for (const answer of await page.locator('[data-purchase-faq]').all()) {
+      await expect(answer).toBeVisible();
+    }
+  });
+});
+
+test('supports keyboard focus and reduced motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/support/purchases/');
+
+  const externalLink = page.locator('a.external-link').first();
+  await externalLink.focus();
+  await expect(externalLink).toBeFocused();
+
+  const reveal = page.locator('[data-reveal]').first();
+  await expect(reveal).toBeVisible();
+  await expect(reveal).toHaveCSS('opacity', '1');
+  await expect(reveal).toHaveCSS('transform', 'none');
+});
