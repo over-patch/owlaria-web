@@ -1,0 +1,109 @@
+---
+import {
+  purchaseSupportCopy,
+  type PurchaseTextPart,
+} from '../../content/purchases';
+import type { Locale } from '../../i18n/config';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const page = purchaseSupportCopy[locale];
+const pathname = '/support/purchases/';
+
+const externalLabel = (part: PurchaseTextPart): string | undefined =>
+  part.kind === 'link' ? `${part.value}. ${page.externalLinkLabel}` : undefined;
+---
+
+<SiteLayout
+  {locale}
+  {pathname}
+  title={page.metadata.title}
+  description={page.metadata.description}
+>
+  <header class="support-hero shell" id="page-top">
+    <div class="support-hero-copy" data-reveal>
+      <p class="eyebrow">{page.eyebrow}</p>
+      <h1>{page.title}</h1>
+      <div class="support-introduction">
+        {page.introduction.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+  </header>
+
+  <div class="support-layout shell">
+    <nav
+      class="support-contents"
+      aria-labelledby="purchase-contents-title"
+      data-reveal
+    >
+      <p class="support-contents-kicker">FAQ</p>
+      <h2 id="purchase-contents-title">{page.contentsLabel}</h2>
+      <p>{page.contentsHint}</p>
+      <ol>
+        {
+          page.faq.map((item, index) => (
+            <li>
+              <a href={`#${item.id}`}>
+                <span aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                {item.question}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <div class="support-answers">
+      {
+        page.faq.map((item, index) => (
+          <article
+            class="support-answer"
+            id={item.id}
+            data-purchase-faq
+            data-reveal
+          >
+            <p class="support-answer-number" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </p>
+            <h2>{item.question}</h2>
+            <div class="support-answer-copy">
+              {item.paragraphs.map((paragraph) => (
+                <p>
+                  {paragraph.map((part) =>
+                    part.kind === 'link' ? (
+                      <a
+                        class="external-link"
+                        href={part.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={externalLabel(part)}
+                      >
+                        {part.value}
+                        <span aria-hidden="true">↗</span>
+                      </a>
+                    ) : (
+                      part.value
+                    ),
+                  )}
+                </p>
+              ))}
+            </div>
+          </article>
+        ))
+      }
+
+      <aside class="support-responsibility" data-reveal>
+        <p class="support-responsibility-label">Owlaria + Apple</p>
+        <h2>{page.responsibility.title}</h2>
+        {page.responsibility.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+        <a href="#purchase-contents-title">{page.backToTop}</a>
+      </aside>
+    </div>
+  </div>
+</SiteLayout>

@@ -4,7 +4,7 @@ Public product website for [Owlaria](https://github.com/over-patch/owlaria), pub
 
 ## Status
 
-The shared Astro foundation is complete. The bilingual product homepage is being implemented in [over-patch/owlaria#1553](https://github.com/over-patch/owlaria/issues/1553), under the Phase 2 product Web epic [#1417](https://github.com/over-patch/owlaria/issues/1417). Independent domain, DNS, and HTTPS setup is tracked in [#1562](https://github.com/over-patch/owlaria/issues/1562).
+The shared Astro foundation and bilingual product homepage are complete. Bilingual purchase, restore, and refund guidance is tracked in [owlaria-web#3](https://github.com/over-patch/owlaria-web/issues/3), under the Phase 2 product Web epic [over-patch/owlaria#1417](https://github.com/over-patch/owlaria/issues/1417). Independent domain, DNS, and HTTPS setup is tracked in [#1562](https://github.com/over-patch/owlaria/issues/1562).
 
 ## Architecture
 
@@ -43,7 +43,7 @@ mise exec -- pnpm exec playwright install chromium
 mise exec -- pnpm test:e2e
 ```
 
-`pnpm test:e2e` starts a production preview automatically. The browser suite covers bilingual routing and metadata, shared navigation, a representative mobile viewport, and reduced-motion behavior.
+`pnpm test:e2e` starts a production preview automatically. The browser suite covers bilingual routing and metadata, shared navigation, purchase-support guidance and links, representative mobile and desktop viewports, no-JavaScript use, and reduced-motion behavior.
 
 ## GitHub Pages deployment
 

@@ -63,17 +63,20 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       },
       support: {
         title: 'Support · Owlaria',
-        description: 'The official Owlaria support area.',
-        eyebrow: 'Support',
-        heading: 'Support resources are being prepared.',
-        body: 'Verified help and contact guidance will be published here.',
+        description:
+          'Find official Owlaria guidance for purchases, restores, and refunds.',
+        eyebrow: 'Owlaria Support',
+        heading: 'How can we help?',
+        body: 'Start with the support topic closest to what you need.',
       },
       purchases: {
-        title: 'Purchases · Owlaria Support',
-        description: 'The official Owlaria purchase support area.',
+        title:
+          'Owlaria Plus purchases, restores, and refunds · Owlaria Support',
+        description:
+          'Learn about Owlaria Plus purchases, Restore Purchases, and Apple refunds.',
         eyebrow: 'Support / Purchases',
-        heading: 'Purchase guidance is being prepared.',
-        body: 'Reviewed purchase, refund, and restore guidance will be published here.',
+        heading: 'Owlaria Plus purchase support',
+        body: 'Guidance for purchases, restores, and refunds.',
       },
       privacy: {
         title: 'Privacy · Owlaria',
@@ -127,17 +130,18 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       },
       support: {
         title: 'サポート · Owlaria',
-        description: 'Owlaria公式サポートページです。',
-        eyebrow: 'サポート',
-        heading: 'サポート情報を準備しています。',
-        body: '確認済みのヘルプとお問い合わせ案内を、こちらで公開します。',
+        description: 'Owlariaの購入・復元・返金に関する公式サポート情報です。',
+        eyebrow: 'Owlariaサポート',
+        heading: 'お困りのことは？',
+        body: '知りたい内容に近いサポート項目からご確認ください。',
       },
       purchases: {
-        title: '購入について · Owlariaサポート',
-        description: 'Owlariaの購入に関する公式サポートページです。',
+        title: 'Owlaria Plusの購入・復元・返金について · Owlariaサポート',
+        description:
+          'Owlaria Plusの購入、購入の復元、Appleへの返金申請をご案内します。',
         eyebrow: 'サポート / 購入について',
-        heading: '購入に関する案内を準備しています。',
-        body: '確認済みの購入・返金・復元に関する案内を、こちらで公開します。',
+        heading: 'Owlaria Plusの購入サポート',
+        body: '購入・復元・返金についてご案内します。',
       },
       privacy: {
         title: 'プライバシー · Owlaria',
