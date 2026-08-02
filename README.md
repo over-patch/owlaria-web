@@ -17,7 +17,55 @@ The website foundation is being implemented in [over-patch/owlaria#1552](https:/
 
 ## Development
 
-The project uses `pnpm`. Setup and commands will be added as part of the Astro foundation implementation.
+The project uses [mise](https://mise.jdx.dev/) to keep Node.js and pnpm consistent.
+
+```sh
+mise trust
+mise install
+mise exec -- pnpm install
+mise exec -- pnpm dev
+```
+
+The development server prints its local URL. It does not redirect based on browser language: `/` is always English, while Japanese pages live below `/ja/`.
+
+## Quality checks
+
+Run the same checks used by pull requests:
+
+```sh
+mise exec -- pnpm format:check
+mise exec -- pnpm lint
+mise exec -- pnpm lint:actions
+mise exec -- pnpm check
+mise exec -- pnpm test
+mise exec -- pnpm build
+mise exec -- pnpm exec playwright install chromium
+mise exec -- pnpm test:e2e
+```
+
+`pnpm test:e2e` starts a production preview automatically. The browser suite covers bilingual routing and metadata, shared navigation, a representative mobile viewport, and reduced-motion behavior.
+
+## GitHub Pages deployment
+
+Pull requests run the full production validation workflow. A merge to `main` starts a separate GitHub Pages workflow that builds `dist/`, uploads the Pages artifact, and deploys it with GitHub's built-in Pages and OIDC permissions. The deployment does not require repository secrets.
+
+`public/CNAME` declares `owlaria.overpatch.dev` as the custom domain. The external DNS owner must add this record before the custom URL and HTTPS certificate can become healthy:
+
+```text
+Type:  CNAME
+Name:  owlaria
+Value: over-patch.github.io
+```
+
+Do not add an A/AAAA record for this subdomain. GitHub repository settings must use GitHub Actions as the Pages source and `owlaria.overpatch.dev` as the custom domain.
+
+## Localization
+
+- English is the source locale and has no URL prefix.
+- Japanese uses `/ja/` and must provide its own translated copy.
+- Canonical URLs have trailing slashes.
+- Every localized route publishes self-canonical, English/Japanese `hreflang`, and English `x-default` metadata.
+- Locale navigation keeps users on the equivalent logical route and never performs browser-language redirects.
 
 Before contributing, read [AGENTS.md](./AGENTS.md).
 

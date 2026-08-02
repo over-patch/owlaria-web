@@ -1,0 +1,165 @@
+import type { Locale } from '../i18n/config';
+
+export type RouteKey =
+  'home' | 'support' | 'purchases' | 'privacy' | 'terms' | 'releases';
+
+type PageCopy = {
+  title: string;
+  description: string;
+  eyebrow: string;
+  heading: string;
+  body: string;
+};
+
+type SiteCopy = {
+  skipToContent: string;
+  navigationLabel: string;
+  menuOpen: string;
+  menuClose: string;
+  support: string;
+  releases: string;
+  comingSoon: string;
+  language: string;
+  languageName: string;
+  footer: {
+    product: string;
+    support: string;
+    legal: string;
+    home: string;
+    purchases: string;
+    privacy: string;
+    terms: string;
+  };
+  pages: Record<RouteKey, PageCopy>;
+};
+
+export const siteCopy: Record<Locale, SiteCopy> = {
+  en: {
+    skipToContent: 'Skip to content',
+    navigationLabel: 'Primary navigation',
+    menuOpen: 'Open menu',
+    menuClose: 'Close menu',
+    support: 'Support',
+    releases: 'Release Notes',
+    comingSoon: 'Coming soon',
+    language: 'Language',
+    languageName: '日本語',
+    footer: {
+      product: 'Product',
+      support: 'Support',
+      legal: 'Legal',
+      home: 'Overview',
+      purchases: 'Purchases',
+      privacy: 'Privacy',
+      terms: 'Terms',
+    },
+    pages: {
+      home: {
+        title: 'Owlaria',
+        description: 'The official Owlaria website is taking shape.',
+        eyebrow: 'Owlaria for the web',
+        heading: 'A new home for Owlaria is taking shape.',
+        body: 'The shared foundation is ready. The complete product story arrives in the next stage.',
+      },
+      support: {
+        title: 'Support · Owlaria',
+        description: 'The official Owlaria support area.',
+        eyebrow: 'Support',
+        heading: 'Support resources are being prepared.',
+        body: 'Verified help and contact guidance will be published here.',
+      },
+      purchases: {
+        title: 'Purchases · Owlaria Support',
+        description: 'The official Owlaria purchase support area.',
+        eyebrow: 'Support / Purchases',
+        heading: 'Purchase guidance is being prepared.',
+        body: 'Reviewed purchase, refund, and restore guidance will be published here.',
+      },
+      privacy: {
+        title: 'Privacy · Owlaria',
+        description: 'The official Owlaria privacy page.',
+        eyebrow: 'Legal',
+        heading: 'Privacy information is being prepared.',
+        body: 'The reviewed public policy will be published here.',
+      },
+      terms: {
+        title: 'Terms · Owlaria',
+        description: 'The official Owlaria terms page.',
+        eyebrow: 'Legal',
+        heading: 'Terms are being prepared.',
+        body: 'The reviewed public terms will be published here.',
+      },
+      releases: {
+        title: 'Release Notes · Owlaria',
+        description: 'Public release notes for Owlaria.',
+        eyebrow: 'Release Notes',
+        heading: 'Release notes are being prepared.',
+        body: 'Reviewed product updates will appear here.',
+      },
+    },
+  },
+  ja: {
+    skipToContent: '本文へ移動',
+    navigationLabel: 'メインナビゲーション',
+    menuOpen: 'メニューを開く',
+    menuClose: 'メニューを閉じる',
+    support: 'サポート',
+    releases: 'リリースノート',
+    comingSoon: '近日公開',
+    language: '言語',
+    languageName: 'English',
+    footer: {
+      product: 'プロダクト',
+      support: 'サポート',
+      legal: '法的情報',
+      home: '概要',
+      purchases: '購入について',
+      privacy: 'プライバシー',
+      terms: '利用規約',
+    },
+    pages: {
+      home: {
+        title: 'Owlaria',
+        description: 'Owlaria公式Webサイトを準備しています。',
+        eyebrow: 'Owlaria for the web',
+        heading: 'Owlariaの新しい場所を、つくっています。',
+        body: '共通基盤が整いました。プロダクトの全体像は次のステージでお届けします。',
+      },
+      support: {
+        title: 'サポート · Owlaria',
+        description: 'Owlaria公式サポートページです。',
+        eyebrow: 'サポート',
+        heading: 'サポート情報を準備しています。',
+        body: '確認済みのヘルプとお問い合わせ案内を、こちらで公開します。',
+      },
+      purchases: {
+        title: '購入について · Owlariaサポート',
+        description: 'Owlariaの購入に関する公式サポートページです。',
+        eyebrow: 'サポート / 購入について',
+        heading: '購入に関する案内を準備しています。',
+        body: '確認済みの購入・返金・復元に関する案内を、こちらで公開します。',
+      },
+      privacy: {
+        title: 'プライバシー · Owlaria',
+        description: 'Owlariaの公式プライバシーページです。',
+        eyebrow: '法的情報',
+        heading: 'プライバシー情報を準備しています。',
+        body: 'レビュー済みの公開ポリシーを、こちらで公開します。',
+      },
+      terms: {
+        title: '利用規約 · Owlaria',
+        description: 'Owlariaの公式利用規約ページです。',
+        eyebrow: '法的情報',
+        heading: '利用規約を準備しています。',
+        body: 'レビュー済みの公開規約を、こちらで公開します。',
+      },
+      releases: {
+        title: 'リリースノート · Owlaria',
+        description: 'Owlariaの公開リリースノートです。',
+        eyebrow: 'リリースノート',
+        heading: 'リリースノートを準備しています。',
+        body: 'レビュー済みのプロダクト更新情報を、こちらで公開します。',
+      },
+    },
+  },
+};

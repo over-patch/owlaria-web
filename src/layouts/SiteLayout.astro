@@ -1,0 +1,51 @@
+---
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { siteCopy } from '../content/site';
+import { absoluteLocaleUrl, type Locale } from '../i18n/config';
+import '../styles/global.css';
+
+interface Props {
+  locale: Locale;
+  pathname: string;
+  title: string;
+  description: string;
+}
+
+const { locale, pathname, title, description } = Astro.props;
+const englishUrl = absoluteLocaleUrl('en', pathname);
+const japaneseUrl = absoluteLocaleUrl('ja', pathname);
+const canonicalUrl = absoluteLocaleUrl(locale, pathname);
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#030611" />
+    <link rel="icon" type="image/png" href="/owlaria-app-icon.png" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="en" href={englishUrl} />
+    <link rel="alternate" hreflang="ja" href={japaneseUrl} />
+    <link rel="alternate" hreflang="x-default" href={englishUrl} />
+    <script is:inline>
+      document.documentElement.classList.add('has-js');
+    </script>
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content"
+      >{siteCopy[locale].skipToContent}</a
+    >
+    <SiteHeader {locale} {pathname} />
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+    <SiteFooter {locale} {pathname} />
+    <script>
+      import '../scripts/motion';
+    </script>
+  </body>
+</html>

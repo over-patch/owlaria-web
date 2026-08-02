@@ -1,0 +1,74 @@
+---
+import { siteCopy } from '../content/site';
+import { alternateLocale, localePath, type Locale } from '../i18n/config';
+
+interface Props {
+  locale: Locale;
+  pathname: string;
+}
+
+const { locale, pathname } = Astro.props;
+const copy = siteCopy[locale];
+const localeHref = localePath(alternateLocale(locale), pathname);
+const currentYear = new Date().getUTCFullYear();
+---
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div class="footer-intro">
+        <a class="brand" href={localePath(locale, '/')}>
+          <img src="/owlaria-app-icon.png" width="32" height="32" alt="" />
+          <span>Owlaria</span>
+        </a>
+        <p>{siteCopy[locale].pages.home.description}</p>
+      </div>
+
+      <section class="footer-group" aria-labelledby="footer-product">
+        <h2 id="footer-product">{copy.footer.product}</h2>
+        <ul>
+          <li><a href={localePath(locale, '/')}>{copy.footer.home}</a></li>
+          <li>
+            <a href={localePath(locale, '/releases/')}>{copy.releases}</a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="footer-group" aria-labelledby="footer-support">
+        <h2 id="footer-support">{copy.footer.support}</h2>
+        <ul>
+          <li><a href={localePath(locale, '/support/')}>{copy.support}</a></li>
+          <li>
+            <a href={localePath(locale, '/support/purchases/')}
+              >{copy.footer.purchases}</a
+            >
+          </li>
+        </ul>
+      </section>
+
+      <section class="footer-group" aria-labelledby="footer-legal">
+        <h2 id="footer-legal">{copy.footer.legal}</h2>
+        <ul>
+          <li>
+            <a href={localePath(locale, '/privacy/')}>{copy.footer.privacy}</a>
+          </li>
+          <li>
+            <a href={localePath(locale, '/terms/')}>{copy.footer.terms}</a>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="footer-base">
+      <span>© {currentYear} Over Patch. All rights reserved.</span>
+      <a
+        class="footer-locale"
+        href={localeHref}
+        hreflang={alternateLocale(locale)}
+        data-testid="footer-locale-switch"
+      >
+        {copy.language}: {copy.languageName}
+      </a>
+    </div>
+  </div>
+</footer>

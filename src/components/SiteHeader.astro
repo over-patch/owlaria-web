@@ -1,0 +1,107 @@
+---
+import { siteCopy } from '../content/site';
+import { alternateLocale, localePath, type Locale } from '../i18n/config';
+
+interface Props {
+  locale: Locale;
+  pathname: string;
+}
+
+const { locale, pathname } = Astro.props;
+const copy = siteCopy[locale];
+const homePath = localePath(locale, '/');
+const languagePath = localePath(alternateLocale(locale), pathname);
+---
+
+<header class="site-header" data-site-header>
+  <div class="header-inner shell">
+    <a
+      class="brand"
+      href={homePath}
+      aria-label={`Owlaria — ${copy.footer.home}`}
+    >
+      <img
+        src="/owlaria-app-icon.png"
+        width="32"
+        height="32"
+        alt="Owlaria app icon"
+      />
+      <span>Owlaria</span>
+    </a>
+
+    <button
+      class="menu-button"
+      type="button"
+      aria-controls="primary-navigation"
+      aria-expanded="false"
+      aria-label={copy.menuOpen}
+      data-menu-toggle
+      data-open-label={copy.menuOpen}
+      data-close-label={copy.menuClose}
+    >
+      <span class="menu-icon" aria-hidden="true"></span>
+    </button>
+
+    <nav
+      id="primary-navigation"
+      class="site-navigation"
+      aria-label={copy.navigationLabel}
+    >
+      <ul class="nav-links">
+        <li>
+          <a class="nav-link" href={localePath(locale, '/support/')}
+            >{copy.support}</a
+          >
+        </li>
+        <li>
+          <a class="nav-link" href={localePath(locale, '/releases/')}
+            >{copy.releases}</a
+          >
+        </li>
+      </ul>
+      <a
+        class="locale-link"
+        href={languagePath}
+        hreflang={alternateLocale(locale)}
+        data-testid="header-locale-switch"
+      >
+        {copy.languageName}
+      </a>
+      <span class="availability">{copy.comingSoon}</span>
+    </nav>
+  </div>
+</header>
+
+<script>
+  for (const header of document.querySelectorAll('[data-site-header]')) {
+    if (!(header instanceof HTMLElement)) continue;
+
+    const button = header.querySelector('[data-menu-toggle]');
+    if (!(button instanceof HTMLButtonElement)) continue;
+
+    const setOpen = (open: boolean) => {
+      header.toggleAttribute('data-menu-open', open);
+      button.setAttribute('aria-expanded', String(open));
+      button.setAttribute(
+        'aria-label',
+        open
+          ? (button.dataset.closeLabel ?? '')
+          : (button.dataset.openLabel ?? ''),
+      );
+    };
+
+    button.addEventListener('click', () => {
+      setOpen(button.getAttribute('aria-expanded') !== 'true');
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (
+        event.key === 'Escape' &&
+        button.getAttribute('aria-expanded') === 'true'
+      ) {
+        setOpen(false);
+        button.focus();
+      }
+    });
+  }
+</script>

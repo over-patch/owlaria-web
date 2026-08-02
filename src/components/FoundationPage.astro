@@ -1,0 +1,31 @@
+---
+import { siteCopy, type RouteKey } from '../content/site';
+import type { Locale } from '../i18n/config';
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+interface Props {
+  locale: Locale;
+  pathname: string;
+  route: RouteKey;
+}
+
+const { locale, pathname, route } = Astro.props;
+const page = siteCopy[locale].pages[route];
+const status = locale === 'en' ? 'Foundation ready' : '共通基盤 ready';
+---
+
+<SiteLayout
+  {locale}
+  {pathname}
+  title={page.title}
+  description={page.description}
+>
+  <section class="foundation-hero shell">
+    <article class="foundation-card" data-reveal>
+      <p class="eyebrow">{page.eyebrow}</p>
+      <h1>{page.heading}</h1>
+      <p class="foundation-body">{page.body}</p>
+      <p class="foundation-signal">{status}</p>
+    </article>
+  </section>
+</SiteLayout>
