@@ -1,0 +1,88 @@
+---
+import { homeCopy, platformHref, platforms } from '../../content/home';
+import type { Locale } from '../../i18n/config';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import PlatformCard from './PlatformCard.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = homeCopy[locale];
+---
+
+<SiteLayout
+  {locale}
+  pathname="/"
+  title={copy.metadata.title}
+  description={copy.metadata.description}
+>
+  <section class="home-hero shell">
+    <div class="hero-copy" data-reveal>
+      <p class="eyebrow">{copy.hero.eyebrow}</p>
+      <h1>{copy.hero.heading}</h1>
+      <p class="hero-body">{copy.hero.body}</p>
+      <div class="hero-availability" aria-label={copy.platforms.body}>
+        <span>macOS</span>
+        <span>iOS</span>
+        <strong>{copy.platforms.comingSoon}</strong>
+      </div>
+    </div>
+
+    <figure class="product-preview" data-reveal>
+      <img
+        src="/screenshots/owlaria-library.png"
+        alt={copy.hero.previewAlt}
+        width="1440"
+        height="960"
+      />
+    </figure>
+  </section>
+
+  <section class="feature-section shell" aria-labelledby="feature-heading">
+    <div class="section-heading" data-reveal>
+      <p class="eyebrow">{copy.features.eyebrow}</p>
+      <h2 id="feature-heading">{copy.features.heading}</h2>
+    </div>
+    <ol class="feature-grid">
+      {
+        copy.features.items.map((feature) => (
+          <li data-reveal>
+            <span>{feature.number}</span>
+            <h3>{feature.title}</h3>
+            <p>{feature.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="platform-section shell" aria-labelledby="platform-heading">
+    <div class="section-heading" data-reveal>
+      <p class="eyebrow">{copy.platforms.eyebrow}</p>
+      <h2 id="platform-heading">{copy.platforms.heading}</h2>
+      <p>{copy.platforms.body}</p>
+    </div>
+    <div class="platform-grid">
+      {
+        platforms.map((platform) => (
+          <PlatformCard
+            platform={platform}
+            label={copy.platforms.labels[platform.id]}
+            comingSoon={copy.platforms.comingSoon}
+            href={platformHref(platform)}
+          />
+        ))
+      }
+    </div>
+    <p class="purchase-note">{copy.platforms.purchaseNote}</p>
+  </section>
+
+  <section class="closing-section shell" data-reveal>
+    <img src="/owlaria-app-icon.png" width="96" height="96" alt="" />
+    <p class="eyebrow">{copy.closing.eyebrow}</p>
+    <h2>{copy.closing.heading}</h2>
+    <p>{copy.closing.body}</p>
+  </section>
+</SiteLayout>

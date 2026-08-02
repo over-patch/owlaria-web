@@ -1,0 +1,34 @@
+---
+import type { Platform } from '../../content/home';
+
+interface Props {
+  platform: Platform;
+  label: {
+    name: string;
+    detail: string;
+  };
+  comingSoon: string;
+  href?: string;
+}
+
+const { platform, label, comingSoon, href } = Astro.props;
+---
+
+<article class="platform-card" data-testid={`platform-${platform.id}`}>
+  <span class="platform-symbol" aria-hidden="true">
+    {platform.id === 'macos' ? 'macOS' : 'iOS'}
+  </span>
+  <div class="platform-copy">
+    <p class="platform-detail">{label.detail}</p>
+    <h3>{label.name}</h3>
+  </div>
+  {
+    href ? (
+      <a class="platform-action" href={href}>
+        {label.detail}
+      </a>
+    ) : (
+      <span class="platform-action platform-action--pending">{comingSoon}</span>
+    )
+  }
+</article>
