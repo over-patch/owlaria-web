@@ -2,6 +2,9 @@ import { expect, test } from '@playwright/test';
 
 const locales = [
   {
+    homePath: '/',
+    supportPath: '/support/',
+    supportHeading: 'How can we help?',
     path: '/support/purchases/',
     alternatePath: '/ja/support/purchases/',
     lang: 'en',
@@ -10,6 +13,10 @@ const locales = [
     description:
       'Learn about Owlaria Plus pricing, separate iOS and macOS purchases, Restore Purchases, Apple refunds, and purchase support.',
     contents: 'On this page',
+    supportLink: 'Support',
+    purchaseLink: 'Purchases, restores, and refunds',
+    contactTitle: 'Contact support',
+    contactStatus: 'Coming soon',
     platformWarning:
       'An iOS purchase cannot be transferred or restored on macOS',
     refundOwner:
@@ -18,6 +25,9 @@ const locales = [
     refundsUrl: 'https://support.apple.com/en-us/118223',
   },
   {
+    homePath: '/ja/',
+    supportPath: '/ja/support/',
+    supportHeading: 'お困りのことは？',
     path: '/ja/support/purchases/',
     alternatePath: '/support/purchases/',
     lang: 'ja',
@@ -26,6 +36,10 @@ const locales = [
     description:
       'Owlaria Plusの価格、iOS版とmacOS版の別購入、購入の復元、Appleへの返金申請、購入サポートをご案内します。',
     contents: 'このページの内容',
+    supportLink: 'サポート',
+    purchaseLink: '購入・復元・返金について',
+    contactTitle: 'お問い合わせ',
+    contactStatus: '準備中',
     platformWarning: '移行・復元することはできません',
     refundOwner: '返金申請の受付、審査、承認、処理、進捗確認はAppleが行います',
     restoreUrl: 'https://support.apple.com/ja-jp/108096',
@@ -92,6 +106,38 @@ for (const locale of locales) {
       locale.alternatePath,
     );
   });
+
+  test(`${locale.path} is discoverable from the header Support path`, async ({
+    page,
+  }) => {
+    await page.goto(locale.homePath);
+
+    await page
+      .getByRole('banner')
+      .getByRole('link', { name: locale.supportLink, exact: true })
+      .click();
+    await expect(page).toHaveURL(locale.supportPath);
+    await expect(
+      page.getByRole('heading', { level: 1, name: locale.supportHeading }),
+    ).toBeVisible();
+    const contactCard = page.locator('[data-support-contact]');
+    await expect(
+      contactCard.getByRole('heading', {
+        level: 2,
+        name: locale.contactTitle,
+      }),
+    ).toBeVisible();
+    await expect(contactCard.getByText(locale.contactStatus)).toBeVisible();
+    await expect(contactCard.getByRole('link')).toHaveCount(0);
+
+    await page
+      .getByRole('link', { name: locale.purchaseLink, exact: true })
+      .click();
+    await expect(page).toHaveURL(locale.path);
+    await expect(
+      page.getByRole('heading', { level: 1, name: locale.heading }),
+    ).toBeVisible();
+  });
 }
 
 test('uses a readable responsive FAQ layout without horizontal overflow', async ({
@@ -118,6 +164,33 @@ test('uses a readable responsive FAQ layout without horizontal overflow', async 
     'position',
     'static',
   );
+});
+
+test('support hub adapts its resource grid without horizontal overflow', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto('/support/');
+
+  const grid = page.locator('.support-hub-grid');
+  await expect(grid).toHaveCSS('display', 'grid');
+  const desktopColumns = await grid.evaluate(
+    (element) => getComputedStyle(element).gridTemplateColumns,
+  );
+  expect(desktopColumns.split(' ')).toHaveLength(2);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  const mobileColumns = await grid.evaluate(
+    (element) => getComputedStyle(element).gridTemplateColumns,
+  );
+  expect(mobileColumns.split(' ')).toHaveLength(1);
+
+  const hasHorizontalOverflow = await page.evaluate(
+    () =>
+      document.documentElement.scrollWidth >
+      document.documentElement.clientWidth,
+  );
+  expect(hasHorizontalOverflow).toBe(false);
 });
 
 test.describe('purchase guidance without JavaScript', () => {

@@ -1,0 +1,53 @@
+---
+import { supportHubCopy } from '../../content/support';
+import { localePath, type Locale } from '../../i18n/config';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const page = supportHubCopy[locale];
+const pathname = '/support/';
+const purchasesPath = localePath(locale, '/support/purchases/');
+---
+
+<SiteLayout
+  {locale}
+  {pathname}
+  title={page.metadata.title}
+  description={page.metadata.description}
+>
+  <header class="support-hub-hero shell" data-reveal>
+    <p class="eyebrow">{page.eyebrow}</p>
+    <h1>{page.title}</h1>
+    <p>{page.introduction}</p>
+  </header>
+
+  <section class="support-hub-resources shell" aria-labelledby="support-topics">
+    <h2 class="support-hub-section-title" id="support-topics">
+      {page.resourcesLabel}
+    </h2>
+
+    <div class="support-hub-grid">
+      <article class="support-hub-card support-hub-card--available" data-reveal>
+        <p class="support-hub-label">{page.purchases.label}</p>
+        <h2>
+          <a href={purchasesPath}>{page.purchases.title}</a>
+        </h2>
+        <p>{page.purchases.description}</p>
+        <span class="support-hub-action" aria-hidden="true">
+          {page.purchases.action}<span>→</span>
+        </span>
+      </article>
+
+      <article class="support-hub-card" data-support-contact data-reveal>
+        <p class="support-hub-label">{page.contact.label}</p>
+        <h2>{page.contact.title}</h2>
+        <p>{page.contact.description}</p>
+        <span class="support-hub-status">{page.contact.status}</span>
+      </article>
+    </div>
+  </section>
+</SiteLayout>

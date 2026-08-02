@@ -194,7 +194,7 @@ Confirm every completion checkbox is supported by code, tests, or visual evidenc
 
 - [ ] **Step 2: Push the feature branch and open the pull request**
 
-Use a Japanese Gitmoji title and include summary, automated verification, desktop/mobile evidence, Apple-link verification, and `Closes #3` in the body.
+Use a Japanese Gitmoji title and include summary, automated verification, desktop/mobile evidence, and Apple-link verification. Keep the pull request in Draft with `Refs #3` while the in-app contact flow from `over-patch/owlaria#1548` remains unimplemented; use `Closes #3` only after that merge dependency is resolved.
 
 - [ ] **Step 3: Record the implementation in Owlaria #1452**
 
@@ -204,8 +204,67 @@ Comment with the owlaria-web Issue and pull-request URLs, noting that the public
 
 Update owlaria-web #3 only after the ready-for-review pull request exists.
 
+### Task 5: Make purchase guidance discoverable from Support
+
+**Files:**
+
+- Create: `src/content/support.ts`
+- Create: `src/components/support/SupportHubPage.astro`
+- Modify: `src/pages/support/index.astro`
+- Modify: `src/pages/ja/support/index.astro`
+- Modify: `src/content/site.ts`
+- Modify: `src/styles/global.css`
+- Modify: `tests/e2e/purchase-support.spec.ts`
+- Create: `docs/screenshots/3-support-desktop.png`
+- Create: `docs/screenshots/3-support-mobile.png`
+
+**Interfaces:**
+
+- Consumes: the shared header Support links, `Locale`, `localePath()`, and the published purchase-support routes.
+- Produces: `SupportHubPage` props `{ locale: Locale }` and a bilingual two-topic hub where purchase guidance is linked and direct contact remains non-interactive until `over-patch/owlaria#1548` is ready.
+
+- [ ] **Step 1: Write and verify a failing user-journey test**
+
+Navigate from the localized homepage header to Support, require a locale-matched purchase-guidance link, click it, and require the purchase FAQ heading. Also require a localized contact card with no link.
+
+Run: `mise exec -- pnpm exec playwright test tests/e2e/purchase-support.spec.ts`
+
+Expected: FAIL because the FoundationPage support placeholder contains no purchase-guidance link.
+
+- [ ] **Step 2: Implement the bilingual Support hub**
+
+Add typed English and Japanese hub copy, render it through one semantic Astro component, replace both support route placeholders, use `localePath()` for the purchase link, and keep contact status as non-link `Coming soon` / `準備中` text.
+
+- [ ] **Step 3: Write and verify a failing responsive layout test**
+
+Require `.support-hub-grid` to use two columns at 1440×1000, one column at 390×844, and no horizontal overflow.
+
+Run: `mise exec -- pnpm exec playwright test tests/e2e/purchase-support.spec.ts --grep 'support hub adapts'`
+
+Expected: FAIL with `.support-hub-grid` using `display: block` before hub styling exists.
+
+- [ ] **Step 4: Add hub styling and visual evidence**
+
+Use existing navy, cyan, blue, glass, radius, focus, and reveal primitives for a two-card desktop layout and a single-column mobile layout. Capture reduced-motion full-page evidence at 1440×1000 and 390×844 as `3-support-desktop.png` and `3-support-mobile.png`.
+
+- [ ] **Step 5: Re-run verification and update Draft PR #4**
+
+Run:
+
+```bash
+mise exec -- pnpm format:check
+mise exec -- pnpm lint
+mise exec -- pnpm lint:actions
+mise exec -- pnpm check
+mise exec -- pnpm test
+mise exec -- pnpm build
+mise exec -- pnpm test:e2e
+```
+
+Expected: every check passes, both localized header-to-FAQ journeys pass, and the Draft PR includes the Support hub evidence.
+
 ## Self-Review
 
-- Spec coverage: Every Issue #3 content, localization, responsibility, metadata, navigation, responsive, testing, Apple-link, and cross-repository record requirement maps to Tasks 1–4.
+- Spec coverage: Every Issue #3 content, localization, responsibility, metadata, navigation, discoverability, responsive, testing, Apple-link, and cross-repository record requirement maps to Tasks 1–5.
 - Placeholder scan: The plan contains no deferred implementation markers; the unconfirmed web contact link is explicitly prohibited.
 - Type consistency: `purchaseSupportCopy`, `PurchaseSupportCopy`, `Locale`, and `PurchaseSupportPage` are introduced once and consumed with the same names.

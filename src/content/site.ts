@@ -63,10 +63,11 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       },
       support: {
         title: 'Support · Owlaria',
-        description: 'The official Owlaria support area.',
-        eyebrow: 'Support',
-        heading: 'Support resources are being prepared.',
-        body: 'Verified help and contact guidance will be published here.',
+        description:
+          'Find official Owlaria guidance for purchases, restores, refunds, and contacting support.',
+        eyebrow: 'Owlaria Support',
+        heading: 'How can we help?',
+        body: 'Start with the support topic closest to what you need.',
       },
       purchases: {
         title:
@@ -129,10 +130,11 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       },
       support: {
         title: 'サポート · Owlaria',
-        description: 'Owlaria公式サポートページです。',
-        eyebrow: 'サポート',
-        heading: 'サポート情報を準備しています。',
-        body: '確認済みのヘルプとお問い合わせ案内を、こちらで公開します。',
+        description:
+          'Owlariaの購入・復元・返金と、お問い合わせに関する公式サポート情報です。',
+        eyebrow: 'Owlariaサポート',
+        heading: 'お困りのことは？',
+        body: '知りたい内容に近いサポート項目からご確認ください。',
       },
       purchases: {
         title: 'Owlaria Plusの購入・復元・返金について · Owlariaサポート',
