@@ -55,8 +55,14 @@ describe('purchase support content', () => {
     expect(localeText('en')).toContain(
       'An iOS purchase cannot be transferred or restored on macOS',
     );
+    expect(localeText('en')).toContain(
+      'the same operating system and the same Apple Account used for the original purchase',
+    );
     expect(localeText('ja')).toContain('別の商品');
     expect(localeText('ja')).toContain('移行・復元することはできません');
+    expect(localeText('ja')).toContain(
+      '購入したときと同じOS、同じApple Accountを使用していること',
+    );
   });
 
   it('assigns refunds to Apple and preserves existing user data', () => {
@@ -66,11 +72,17 @@ describe('purchase support content', () => {
     expect(localeText('en')).toContain(
       'existing libraries and books are not deleted or made unavailable',
     );
+    expect(localeText('en')).toContain(
+      'cannot add more libraries or books until you are within the limit',
+    );
     expect(localeText('ja')).toContain(
       '返金申請の受付、審査、承認、処理、進捗確認はAppleが行います',
     );
     expect(localeText('ja')).toContain(
       '既存のライブラリや本は削除されず、閲覧できなくなることもありません',
+    );
+    expect(localeText('ja')).toContain(
+      '上限内になるまで新しいライブラリや本を追加できません',
     );
   });
 

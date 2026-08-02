@@ -6,6 +6,9 @@ const locales = [
     alternatePath: '/ja/support/purchases/',
     lang: 'en',
     heading: 'Owlaria Plus purchases, restores, and refunds',
+    title: 'Owlaria Plus purchases, restores, and refunds · Owlaria Support',
+    description:
+      'Learn about Owlaria Plus pricing, separate iOS and macOS purchases, Restore Purchases, Apple refunds, and purchase support.',
     contents: 'On this page',
     platformWarning:
       'An iOS purchase cannot be transferred or restored on macOS',
@@ -19,6 +22,9 @@ const locales = [
     alternatePath: '/support/purchases/',
     lang: 'ja',
     heading: 'Owlaria Plusの購入・復元・返金について',
+    title: 'Owlaria Plusの購入・復元・返金について · Owlariaサポート',
+    description:
+      'Owlaria Plusの価格、iOS版とmacOS版の別購入、購入の復元、Appleへの返金申請、購入サポートをご案内します。',
     contents: 'このページの内容',
     platformWarning: '移行・復元することはできません',
     refundOwner: '返金申請の受付、審査、承認、処理、進捗確認はAppleが行います',
@@ -44,6 +50,11 @@ for (const locale of locales) {
 
     expect(response?.status()).toBe(200);
     await expect(page.locator('html')).toHaveAttribute('lang', locale.lang);
+    await expect(page).toHaveTitle(locale.title);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+      'content',
+      locale.description,
+    );
     await expect(
       page.getByRole('heading', { level: 1, name: locale.heading }),
     ).toBeVisible();
