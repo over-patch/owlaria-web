@@ -1,0 +1,35 @@
+---
+import type { Platform, PlatformAction } from '../../content/home';
+
+interface Props {
+  platform: Platform;
+  label: {
+    name: string;
+    detail: string;
+  };
+  action: PlatformAction;
+}
+
+const { platform, label, action } = Astro.props;
+---
+
+<article class="platform-card" data-testid={`platform-${platform.id}`}>
+  <span class="platform-symbol" aria-hidden="true">
+    {platform.symbol}
+  </span>
+  <div class="platform-copy">
+    <p class="platform-detail">{label.detail}</p>
+    <h3>{label.name}</h3>
+  </div>
+  {
+    action.kind === 'link' ? (
+      <a class="platform-action" href={action.href}>
+        {action.label}
+      </a>
+    ) : (
+      <span class="platform-action platform-action--pending">
+        {action.label}
+      </span>
+    )
+  }
+</article>

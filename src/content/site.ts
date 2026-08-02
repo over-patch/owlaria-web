@@ -56,7 +56,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     pages: {
       home: {
         title: 'Owlaria',
-        description: 'The official Owlaria website is taking shape.',
+        description: 'A focused new home for the books that matter to you.',
         eyebrow: 'Owlaria for the web',
         heading: 'A new home for Owlaria is taking shape.',
         body: 'The shared foundation is ready. The complete product story arrives in the next stage.',
@@ -120,7 +120,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     pages: {
       home: {
         title: 'Owlaria',
-        description: 'Owlaria公式Webサイトを準備しています。',
+        description: '大切な本のための、心地よい新しい居場所です。',
         eyebrow: 'Owlaria for the web',
         heading: 'Owlariaの新しい場所を、つくっています。',
         body: '共通基盤が整いました。プロダクトの全体像は次のステージでお届けします。',
