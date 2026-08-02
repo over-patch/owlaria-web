@@ -17,6 +17,7 @@ export type HomeCopy = {
     heading: string;
     body: string;
     previewAlt: string;
+    previewLabel: string;
   };
   features: {
     eyebrow: string;
@@ -58,7 +59,8 @@ export const homeCopy: Record<Locale, HomeCopy> = {
       eyebrow: 'A new perspective on your books',
       heading: 'Your library. Reimagined.',
       body: 'Bring the books you care about into one focused library—designed to feel at home on macOS and iOS.',
-      previewAlt: 'Owlaria displaying a library of books',
+      previewAlt: 'Abstract Owlaria product preview artwork',
+      previewLabel: 'Product preview in progress',
     },
     features: {
       eyebrow: 'Made for your collection',
@@ -109,7 +111,8 @@ export const homeCopy: Record<Locale, HomeCopy> = {
       eyebrow: '本との向き合い方を、新しく',
       heading: '本棚の未来を、ここから。',
       body: '大切な本を、ひとつの心地よいライブラリへ。macOSとiOSのために生まれた、新しい読書の居場所です。',
-      previewAlt: '本のライブラリを表示するOwlariaの画面',
+      previewAlt: 'Owlariaの抽象的な製品プレビュー画像',
+      previewLabel: '製品プレビューを準備中',
     },
     features: {
       eyebrow: 'コレクションのための設計',

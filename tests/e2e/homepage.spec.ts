@@ -6,12 +6,14 @@ for (const locale of [
     heading: 'Your library. Reimagined.',
     platformHeading: 'Owlaria, where your library lives.',
     comingSoon: 'Coming soon',
+    previewLabel: 'Product preview in progress',
   },
   {
     path: '/ja/',
     heading: '本棚の未来を、ここから。',
     platformHeading: 'Owlariaを、あなたの本棚がある場所へ。',
     comingSoon: '近日公開',
+    previewLabel: '製品プレビューを準備中',
   },
 ] as const) {
   test(`${locale.path} presents the localized product story`, async ({
@@ -24,7 +26,13 @@ for (const locale of [
     await expect(
       page.getByRole('heading', { name: locale.platformHeading }),
     ).toBeVisible();
-    await expect(page.locator('.product-preview img')).toBeVisible();
+    const preview = page.locator('.product-preview');
+    await expect(preview).toContainText(locale.previewLabel);
+    await expect(preview.locator('img')).toBeVisible();
+    await expect(preview.locator('img')).toHaveAttribute(
+      'src',
+      '/screenshots/owlaria-library-placeholder.svg',
+    );
 
     for (const id of ['macos', 'ios']) {
       const card = page.getByTestId(`platform-${id}`);

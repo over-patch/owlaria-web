@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Replace the foundation placeholder at `/` and `/ja/` with a bilingual, premium Owlaria product homepage that uses a real application screenshot and presents honest macOS/iOS availability.
+**Goal:** Replace the foundation placeholder at `/` and `/ja/` with a bilingual, premium Owlaria product homepage that presents honest macOS/iOS availability and uses a clearly labeled abstract preview until a reviewed application screenshot is available.
 
 **Architecture:** Keep localized product content in a typed module, render it through Astro-only presentational components, and use the existing shared layout and browser-native reveal primitive. Store availability is modeled as data so confirmed URLs can be enabled without changing component structure; while URLs are unavailable, both platforms render non-link `Coming soon` labels.
 
@@ -14,7 +14,7 @@
 - The English heading is exactly `Your library. Reimagined.`.
 - Store URLs are not yet confirmed, so `Coming soon` / `近日公開` must be non-link text.
 - macOS and iOS are separate products and separate purchases.
-- Use only a screenshot captured from the real Owlaria application; do not create or imply fictional product UI.
+- Until a reviewed application screenshot is available, use only a clearly labeled abstract sample image that does not create or imply fictional product UI.
 - Preserve static rendering, no-JavaScript usability, keyboard access, responsive behavior, and `prefers-reduced-motion` support.
 - Do not introduce a client framework, animation dependency, backend, CMS, database, external preview service, or secret.
 
@@ -235,7 +235,7 @@ git commit -m ":sparkles: Add bilingual homepage content"
 
 **Interfaces:**
 
-- Consumes: `homeCopy`, `platforms`, and `platformHref` from Task 1; `SiteLayout`; `/owlaria-app-icon.png`; `/screenshots/owlaria-library.png` from Task 3.
+- Consumes: `homeCopy`, `platforms`, and `platformHref` from Task 1; `SiteLayout`; `/owlaria-app-icon.png`; `/screenshots/owlaria-library-placeholder.svg` from Task 3.
 - Produces: semantic bilingual homepage sections and `data-testid="platform-macos"` / `data-testid="platform-ios"` cards.
 
 - [ ] **Step 1: Write failing homepage browser tests**
@@ -354,7 +354,7 @@ const icon = platform.id === ('macos' satisfies PlatformId) ? '⌘' : '◉';
     </div>
     <figure class="product-preview" data-reveal>
       <img
-        src="/screenshots/owlaria-library.png"
+        src="/screenshots/owlaria-library-placeholder.svg"
         alt={copy.hero.previewAlt}
         width="1440"
         height="960"
@@ -422,63 +422,68 @@ git add src/components/home src/pages/index.astro src/pages/ja/index.astro tests
 git commit -m ":sparkles: Build bilingual product homepage"
 ```
 
-### Task 3: Real Owlaria application screenshot
+### Task 3: Explicit product-preview placeholder
 
 **Files:**
 
-- Create: `public/screenshots/owlaria-library.png`
-- Create: `docs/screenshots/1553-source-app.png`
+- Create: `public/screenshots/owlaria-library-placeholder.svg`
+- Modify: `src/content/home.ts`
+- Modify: `src/components/home/HomePage.astro`
+- Modify: `tests/e2e/homepage.spec.ts`
 
 **Interfaces:**
 
-- Consumes: the existing local Owlaria debug or release application bundle and non-sensitive sample library data.
-- Produces: a reviewed 3:2 product screenshot used by `HomePage.astro` plus a visual evidence copy for the PR.
+- Consumes: Owlaria design tokens and app icon.
+- Produces: a 3:2 abstract preview that is visibly labeled as in progress and cannot be mistaken for an application screenshot.
 
-- [ ] **Step 1: Launch the real application**
+- [ ] **Step 1: Extend the browser test for honest placeholder labeling**
 
-Run the existing local macOS application bundle at:
-
-```text
-/Users/kiyotaka/ghq/github.com/over-patch/owlaria/src-tauri/target/release/bundle/macos/Owlaria.app
+```ts
+const preview = page.locator('.product-preview');
+await expect(preview).toContainText(locale.previewLabel);
+await expect(preview.locator('img')).toHaveAttribute(
+  'src',
+  '/screenshots/owlaria-library-placeholder.svg',
+);
 ```
 
-Use only the application UI. Do not expose account identifiers, local filesystem paths, debug panels, receipts, tokens, unpublished release notes, or personal library data.
+- [ ] **Step 2: Run the focused browser test and verify RED**
 
-- [ ] **Step 2: Prepare a safe product view**
+Run: `mise exec -- pnpm build && mise exec -- pnpm exec playwright test tests/e2e/homepage.spec.ts`
 
-Open the normal library screen with non-sensitive sample books. Keep normal application chrome visible so the image is unambiguously a real Owlaria screen. Use a 1440×960 capture area and verify that every visible title is acceptable for a public website.
+Expected: FAIL because the preview is not yet labeled and still references the future screenshot path.
 
-- [ ] **Step 3: Capture and review the source screenshot**
+- [ ] **Step 3: Create the abstract SVG**
 
-Save the capture as `docs/screenshots/1553-source-app.png`. Inspect the image at original resolution and confirm:
+Create a 1440×960 SVG containing only a dark navy surface, purple/blue/cyan glow fields, a fine grid, the Owlaria app icon, and the visible English label `Product preview in progress`. Do not draw windows, navigation, book covers, controls, or other fictional interface elements.
 
-```text
-real Owlaria UI: yes
-personal data: none
-secret or debug data: none
-fictional overlay: none
-readable at desktop hero size: yes
+```svg
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 960" role="img" aria-labelledby="title description">
+  <title id="title">Owlaria product preview placeholder</title>
+  <desc id="description">Abstract Owlaria brand artwork labeled Product preview in progress.</desc>
+  <!-- navy background, grid, glow fields, and centered label only -->
+</svg>
 ```
 
-- [ ] **Step 4: Create the public product image without altering UI content**
+- [ ] **Step 4: Label the preview in localized HTML**
 
-Crop only empty outer desktop space if necessary. Do not redraw controls, add fake book data, or composite fictional interface elements. Save the final 1440×960 PNG as `public/screenshots/owlaria-library.png`.
+Add localized `previewLabel` copy (`Product preview in progress` / `製品プレビューを準備中`) and render it visibly in the preview figure. Change the image source to `/screenshots/owlaria-library-placeholder.svg`; keep the descriptive alternative text truthful by describing it as abstract preview artwork.
 
-- [ ] **Step 5: Verify image dimensions and the static build**
-
-Run: `sips -g pixelWidth -g pixelHeight public/screenshots/owlaria-library.png`
-
-Expected: `pixelWidth: 1440` and `pixelHeight: 960`.
+- [ ] **Step 5: Verify the placeholder and static build**
 
 Run: `mise exec -- pnpm build`
 
-Expected: the build completes and copies the screenshot to `dist/screenshots/owlaria-library.png`.
+Expected: the build completes and copies the placeholder to `dist/screenshots/owlaria-library-placeholder.svg`.
 
-- [ ] **Step 6: Commit the reviewed screenshot**
+Run: `mise exec -- pnpm exec playwright test tests/e2e/homepage.spec.ts`
+
+Expected: all homepage tests pass, including localized placeholder labeling.
+
+- [ ] **Step 6: Commit the explicit placeholder**
 
 ```sh
-git add public/screenshots/owlaria-library.png docs/screenshots/1553-source-app.png
-git commit -m ":camera_flash: Add real Owlaria product preview"
+git add public/screenshots/owlaria-library-placeholder.svg src/content/home.ts src/components/home/HomePage.astro tests/e2e/homepage.spec.ts docs/superpowers/plans/2026-08-02-homepage-experience.md
+git commit -m ":art: Add honest product preview placeholder"
 ```
 
 ### Task 4: Premium responsive styling and motion QA
@@ -663,7 +668,7 @@ git push -u origin feature/homepage-experience
 
 - [ ] **Step 3: Open the pull request**
 
-Use title `:sparkles: Owlariaトップページと入手導線を実装する`. The body must summarize the bilingual product story, real screenshot provenance, non-link Store states, separate-purchase explanation, automated verification, desktop/mobile evidence, and `Closes over-patch/owlaria#1553`.
+Use title `:sparkles: Owlariaトップページと入手導線を実装する`. The body must summarize the bilingual product story, explicit abstract-preview placeholder, non-link Store states, separate-purchase explanation, automated verification, desktop/mobile evidence, and `Closes over-patch/owlaria#1553`.
 
 - [ ] **Step 4: Leave the branch ready for one team-member approval**
 
