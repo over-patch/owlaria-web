@@ -163,7 +163,8 @@ export const purchaseSupportCopy: Record<Locale, PurchaseSupportCopy> = {
       },
       {
         id: 'support',
-        question: 'What should I do if my purchase or restore is not reflected?',
+        question:
+          'What should I do if my purchase or restore is not reflected?',
         paragraphs: [
           [
             text(
@@ -239,10 +240,7 @@ export const purchaseSupportCopy: Record<Locale, PurchaseSupportCopy> = {
             text(
               '再インストール後や、同じOSの別の端末でも同じ手順で復元できます。Appleの詳しい案内は',
             ),
-            link(
-              'AppやApp内課金を再ダウンロード・復元する',
-              links.ja.restore,
-            ),
+            link('AppやApp内課金を再ダウンロード・復元する', links.ja.restore),
             text('をご確認ください。'),
           ],
         ],

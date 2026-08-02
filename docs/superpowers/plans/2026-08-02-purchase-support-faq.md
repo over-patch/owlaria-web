@@ -26,10 +26,12 @@
 ### Task 1: Define and verify bilingual purchase-support content
 
 **Files:**
+
 - Create: `src/content/purchases.ts`
 - Create: `tests/unit/purchase-content.test.ts`
 
 **Interfaces:**
+
 - Consumes: `Locale` from `src/i18n/config.ts`.
 - Produces: `purchaseSupportCopy: Record<Locale, PurchaseSupportCopy>`, where each locale provides metadata, hero text, page navigation, six stable FAQ sections, and locale-appropriate Apple links.
 
@@ -65,6 +67,7 @@ git commit -m ":memo: Add bilingual purchase support copy"
 ### Task 2: Render the semantic bilingual FAQ pages
 
 **Files:**
+
 - Create: `src/components/support/PurchaseSupportPage.astro`
 - Modify: `src/pages/support/purchases/index.astro`
 - Modify: `src/pages/ja/support/purchases/index.astro`
@@ -72,6 +75,7 @@ git commit -m ":memo: Add bilingual purchase support copy"
 - Create: `tests/e2e/purchase-support.spec.ts`
 
 **Interfaces:**
+
 - Consumes: `purchaseSupportCopy`, `Locale`, and `SiteLayout`.
 - Produces: `PurchaseSupportPage` props `{ locale: Locale }`, rendering the logical pathname `/support/purchases/` for canonical and locale metadata.
 
@@ -117,6 +121,7 @@ git commit -m ":sparkles: Publish purchase support FAQ"
 ### Task 3: Polish responsive presentation and complete verification
 
 **Files:**
+
 - Modify: `src/styles/global.css`
 - Modify: `tests/e2e/purchase-support.spec.ts`
 - Create: `docs/screenshots/3-purchases-desktop.png`
@@ -124,6 +129,7 @@ git commit -m ":sparkles: Publish purchase support FAQ"
 - Modify: `README.md`
 
 **Interfaces:**
+
 - Consumes: semantic class names emitted by `PurchaseSupportPage.astro`.
 - Produces: responsive premium support styling with no horizontal overflow at 390px and stable wide-screen reading measure at 1440px.
 
@@ -174,9 +180,11 @@ git commit -m ":white_check_mark: Verify purchase support experience"
 ### Task 4: Review and publish the change through a pull request
 
 **Files:**
+
 - Modify only files required by review findings, with a failing regression test before each behavior fix.
 
 **Interfaces:**
+
 - Consumes: the completed branch and verification evidence.
 - Produces: a reviewable GitHub pull request linked to `over-patch/owlaria-web#3` and recorded in `over-patch/owlaria#1452`.
 

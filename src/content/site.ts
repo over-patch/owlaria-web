@@ -69,11 +69,13 @@ export const siteCopy: Record<Locale, SiteCopy> = {
         body: 'Verified help and contact guidance will be published here.',
       },
       purchases: {
-        title: 'Purchases · Owlaria Support',
-        description: 'The official Owlaria purchase support area.',
+        title:
+          'Owlaria Plus purchases, restores, and refunds · Owlaria Support',
+        description:
+          'Learn about Owlaria Plus purchases, Restore Purchases, Apple refunds, and purchase support.',
         eyebrow: 'Support / Purchases',
-        heading: 'Purchase guidance is being prepared.',
-        body: 'Reviewed purchase, refund, and restore guidance will be published here.',
+        heading: 'Owlaria Plus purchase support',
+        body: 'Guidance for purchases, restores, refunds, and app-side support.',
       },
       privacy: {
         title: 'Privacy · Owlaria',
@@ -133,11 +135,12 @@ export const siteCopy: Record<Locale, SiteCopy> = {
         body: '確認済みのヘルプとお問い合わせ案内を、こちらで公開します。',
       },
       purchases: {
-        title: '購入について · Owlariaサポート',
-        description: 'Owlariaの購入に関する公式サポートページです。',
+        title: 'Owlaria Plusの購入・復元・返金について · Owlariaサポート',
+        description:
+          'Owlaria Plusの購入、購入の復元、Appleへの返金申請、購入サポートをご案内します。',
         eyebrow: 'サポート / 購入について',
-        heading: '購入に関する案内を準備しています。',
-        body: '確認済みの購入・返金・復元に関する案内を、こちらで公開します。',
+        heading: 'Owlaria Plusの購入サポート',
+        body: '購入・復元・返金とアプリ側サポートについてご案内します。',
       },
       privacy: {
         title: 'プライバシー · Owlaria',
