@@ -15,12 +15,6 @@ type SupportHubCopy = {
     description: string;
     action: string;
   };
-  contact: {
-    label: string;
-    title: string;
-    description: string;
-    status: string;
-  };
 };
 
 export const supportHubCopy: Record<Locale, SupportHubCopy> = {
@@ -28,7 +22,7 @@ export const supportHubCopy: Record<Locale, SupportHubCopy> = {
     metadata: {
       title: 'Support · Owlaria',
       description:
-        'Find official Owlaria guidance for purchases, restores, refunds, and contacting support.',
+        'Find official Owlaria guidance for purchases, restores, and refunds.',
     },
     eyebrow: 'Owlaria Support',
     title: 'How can we help?',
@@ -39,22 +33,14 @@ export const supportHubCopy: Record<Locale, SupportHubCopy> = {
       label: 'Available now',
       title: 'Purchases, restores, and refunds',
       description:
-        'Learn about Owlaria Plus, separate iOS and macOS purchases, Restore Purchases, Apple refunds, and app-side purchase issues.',
+        'Learn about Owlaria Plus, separate iOS and macOS purchases, Restore Purchases, and Apple refunds.',
       action: 'View purchase guidance',
-    },
-    contact: {
-      label: 'Direct support',
-      title: 'Contact support',
-      description:
-        'A verified contact path will appear here when the in-app support form is ready.',
-      status: 'Coming soon',
     },
   },
   ja: {
     metadata: {
       title: 'サポート · Owlaria',
-      description:
-        'Owlariaの購入・復元・返金と、お問い合わせに関する公式サポート情報です。',
+      description: 'Owlariaの購入・復元・返金に関する公式サポート情報です。',
     },
     eyebrow: 'Owlariaサポート',
     title: 'お困りのことは？',
@@ -65,15 +51,8 @@ export const supportHubCopy: Record<Locale, SupportHubCopy> = {
       label: '公開中',
       title: '購入・復元・返金について',
       description:
-        'Owlaria Plus、iOS版とmacOS版の別購入、購入の復元、Appleへの返金申請、購入状態の問題をご案内します。',
+        'Owlaria Plus、iOS版とmacOS版の別購入、購入の復元、Appleへの返金申請をご案内します。',
       action: '購入について確認する',
-    },
-    contact: {
-      label: '個別サポート',
-      title: 'お問い合わせ',
-      description:
-        'アプリ内問い合わせフォームの準備が整い次第、確認済みの問い合わせ方法をこちらでご案内します。',
-      status: '準備中',
     },
   },
 };

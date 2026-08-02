@@ -15,8 +15,7 @@ const locales = [
     contents: 'On this page',
     supportLink: 'Support',
     purchaseLink: 'Purchases, restores, and refunds',
-    contactTitle: 'Contact support',
-    contactStatus: 'Coming soon',
+    unpublishedGuidance: /in-app Owlaria support form|Support ID/i,
     platformWarning:
       'An iOS purchase cannot be transferred or restored on macOS',
     refundOwner:
@@ -38,8 +37,7 @@ const locales = [
     contents: 'このページの内容',
     supportLink: 'サポート',
     purchaseLink: '購入・復元・返金について',
-    contactTitle: 'お問い合わせ',
-    contactStatus: '準備中',
+    unpublishedGuidance: /アプリ内問い合わせフォーム|Support ID/i,
     platformWarning: '移行・復元することはできません',
     refundOwner: '返金申請の受付、審査、承認、処理、進捗確認はAppleが行います',
     restoreUrl: 'https://support.apple.com/ja-jp/108096',
@@ -53,7 +51,6 @@ const faqIds = [
   'restore',
   'refund',
   'after-refund',
-  'support',
 ] as const;
 
 for (const locale of locales) {
@@ -97,10 +94,9 @@ for (const locale of locales) {
       page.locator('a[href="https://reportaproblem.apple.com/"]'),
     ).toHaveAttribute('rel', 'noreferrer');
 
-    await expect(
-      page.locator('#support a[href*="support"], #support a[href*="contact"]'),
-    ).toHaveCount(0);
-    await expect(page.locator('#support')).toContainText('Support ID');
+    await expect(page.getByRole('main')).not.toContainText(
+      locale.unpublishedGuidance,
+    );
     await expect(page.getByTestId('header-locale-switch')).toHaveAttribute(
       'href',
       locale.alternatePath,
@@ -126,15 +122,7 @@ for (const locale of locales) {
         name: locale.purchaseLink,
       }),
     ).toBeVisible();
-    const contactCard = page.locator('[data-support-contact]');
-    await expect(
-      contactCard.getByRole('heading', {
-        level: 3,
-        name: locale.contactTitle,
-      }),
-    ).toBeVisible();
-    await expect(contactCard.getByText(locale.contactStatus)).toBeVisible();
-    await expect(contactCard.getByRole('link')).toHaveCount(0);
+    await expect(page.locator('[data-support-contact]')).toHaveCount(0);
 
     const purchaseLink = page.getByRole('link', {
       name: locale.purchaseLink,
@@ -188,7 +176,7 @@ test('support hub adapts its resource grid without horizontal overflow', async (
   const desktopColumns = await grid.evaluate(
     (element) => getComputedStyle(element).gridTemplateColumns,
   );
-  expect(desktopColumns.split(' ')).toHaveLength(2);
+  expect(desktopColumns.split(' ')).toHaveLength(1);
 
   await page.setViewportSize({ width: 390, height: 844 });
   const mobileColumns = await grid.evaluate(
@@ -232,12 +220,7 @@ test.describe('purchase guidance without JavaScript', () => {
         exact: true,
       }),
     ).toHaveAttribute('href', '/support/purchases/');
-    await expect(page.locator('[data-support-contact]')).toContainText(
-      'Coming soon',
-    );
-    await expect(
-      page.locator('[data-support-contact]').getByRole('link'),
-    ).toHaveCount(0);
+    await expect(page.locator('[data-support-contact]')).toHaveCount(0);
   });
 });
 

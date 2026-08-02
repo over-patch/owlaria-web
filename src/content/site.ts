@@ -64,7 +64,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       support: {
         title: 'Support · Owlaria',
         description:
-          'Find official Owlaria guidance for purchases, restores, refunds, and contacting support.',
+          'Find official Owlaria guidance for purchases, restores, and refunds.',
         eyebrow: 'Owlaria Support',
         heading: 'How can we help?',
         body: 'Start with the support topic closest to what you need.',
@@ -73,10 +73,10 @@ export const siteCopy: Record<Locale, SiteCopy> = {
         title:
           'Owlaria Plus purchases, restores, and refunds · Owlaria Support',
         description:
-          'Learn about Owlaria Plus purchases, Restore Purchases, Apple refunds, and purchase support.',
+          'Learn about Owlaria Plus purchases, Restore Purchases, and Apple refunds.',
         eyebrow: 'Support / Purchases',
         heading: 'Owlaria Plus purchase support',
-        body: 'Guidance for purchases, restores, refunds, and app-side support.',
+        body: 'Guidance for purchases, restores, and refunds.',
       },
       privacy: {
         title: 'Privacy · Owlaria',
@@ -130,8 +130,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       },
       support: {
         title: 'サポート · Owlaria',
-        description:
-          'Owlariaの購入・復元・返金と、お問い合わせに関する公式サポート情報です。',
+        description: 'Owlariaの購入・復元・返金に関する公式サポート情報です。',
         eyebrow: 'Owlariaサポート',
         heading: 'お困りのことは？',
         body: '知りたい内容に近いサポート項目からご確認ください。',
@@ -139,10 +138,10 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       purchases: {
         title: 'Owlaria Plusの購入・復元・返金について · Owlariaサポート',
         description:
-          'Owlaria Plusの購入、購入の復元、Appleへの返金申請、購入サポートをご案内します。',
+          'Owlaria Plusの購入、購入の復元、Appleへの返金申請をご案内します。',
         eyebrow: 'サポート / 購入について',
         heading: 'Owlaria Plusの購入サポート',
-        body: '購入・復元・返金とアプリ側サポートについてご案内します。',
+        body: '購入・復元・返金についてご案内します。',
       },
       privacy: {
         title: 'プライバシー · Owlaria',

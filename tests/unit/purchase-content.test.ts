@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { purchaseSupportCopy } from '../../src/content/purchases';
+import { supportHubCopy } from '../../src/content/support';
 
 const expectedFaqIds = [
   'price',
@@ -8,7 +9,6 @@ const expectedFaqIds = [
   'restore',
   'refund',
   'after-refund',
-  'support',
 ] as const;
 
 function localeText(locale: 'en' | 'ja'): string {
@@ -99,16 +99,10 @@ describe('purchase support content', () => {
     });
   });
 
-  it('explains automatic, reviewable Support ID diagnostics', () => {
-    expect(localeText('en')).toContain(
-      'automatically includes diagnostic information',
-    );
-    expect(localeText('en')).toContain('review it before sending');
-    expect(localeText('en')).toContain(
-      'do not need to enter the Support ID manually',
-    );
-    expect(localeText('ja')).toContain('診断情報が自動的に添付');
-    expect(localeText('ja')).toContain('送信前に内容を確認');
-    expect(localeText('ja')).toContain('手入力する必要はありません');
+  it('does not publish contact-form or Support ID guidance before the app flow is ready', () => {
+    const publicCopy = JSON.stringify({ purchaseSupportCopy, supportHubCopy });
+
+    expect(publicCopy).not.toMatch(/support form|Support ID/i);
+    expect(publicCopy).not.toMatch(/問い合わせフォーム|診断情報|自動添付/i);
   });
 });

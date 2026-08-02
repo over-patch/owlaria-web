@@ -723,7 +723,7 @@ main:focus {
 .support-hub-grid {
   display: grid;
   gap: var(--space-3);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .support-hub-card {
@@ -794,8 +794,7 @@ main:focus {
   text-wrap: pretty;
 }
 
-.support-hub-action,
-.support-hub-status {
+.support-hub-action {
   display: inline-flex;
   gap: var(--space-2);
   align-items: center;
@@ -816,14 +815,6 @@ main:focus {
 
 .support-hub-card--available:has(a:hover) .support-hub-action span {
   transform: translateX(0.25rem);
-}
-
-.support-hub-status {
-  padding: 0.45rem 0.8rem;
-  border: 1px solid var(--color-surface-border);
-  border-radius: var(--radius-pill);
-  color: var(--color-muted);
-  background: rgb(255 255 255 / 4%);
 }
 
 .support-hero {

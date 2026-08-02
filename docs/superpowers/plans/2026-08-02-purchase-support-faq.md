@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Publish accurate English and Japanese Owlaria Plus purchase, restore, refund, and support guidance at the existing purchase-support URLs.
+**Goal:** Publish accurate English and Japanese Owlaria Plus purchase, restore, and refund guidance at the existing purchase-support URLs.
 
 **Architecture:** Keep all localized support copy in a typed content module and render both locales through one semantic Astro component. Use ordinary headings, links, and article sections so the complete page works without JavaScript; add focused unit and Playwright coverage for content parity, responsibility boundaries, metadata, links, accessibility, and responsive behavior.
 
@@ -17,7 +17,7 @@
 - Do not hard-code prices; direct readers to the localized Store price displayed in Owlaria.
 - Apple receives, reviews, approves, processes, and reports refund requests; Owlaria and overpatch do not.
 - Existing libraries and books remain available after a refund; only additions beyond Free limits are restricted.
-- The in-app support form automatically includes a reviewable Support ID; do not request manual entry as the normal path.
+- Defer the in-app contact path and Support ID guidance until `over-patch/owlaria#1548` is complete and the public copy can be verified against the shipped flow.
 - Use locale-specific Apple support URLs and do not add an unconfirmed web contact link.
 - Preserve no-JavaScript behavior, keyboard access, readable contrast, responsive layout, and reduced-motion behavior.
 
@@ -33,11 +33,11 @@
 **Interfaces:**
 
 - Consumes: `Locale` from `src/i18n/config.ts`.
-- Produces: `purchaseSupportCopy: Record<Locale, PurchaseSupportCopy>`, where each locale provides metadata, hero text, page navigation, six stable FAQ sections, and locale-appropriate Apple links.
+- Produces: `purchaseSupportCopy: Record<Locale, PurchaseSupportCopy>`, where each locale provides metadata, hero text, page navigation, five stable FAQ sections, and locale-appropriate Apple links.
 
 - [ ] **Step 1: Write the failing content contract test**
 
-Create tests that import `purchaseSupportCopy` and require both locales to expose identical FAQ IDs (`price`, `platforms`, `restore`, `refund`, `after-refund`, `support`), prohibit currency-like hard-coded prices and subscription-management topics, require the cross-OS purchase warning, require Apple refund responsibility text, require the Free-limit data behavior, and assert the locale-specific Apple URLs.
+Create tests that import `purchaseSupportCopy` and require both locales to expose identical FAQ IDs (`price`, `platforms`, `restore`, `refund`, `after-refund`), prohibit currency-like hard-coded prices and subscription-management topics, require the cross-OS purchase warning, require Apple refund responsibility text, require the Free-limit data behavior, assert the locale-specific Apple URLs, and prohibit contact-form or Support ID guidance until the app flow is ready.
 
 - [ ] **Step 2: Run the unit test and verify RED**
 
@@ -81,7 +81,7 @@ git commit -m ":memo: Add bilingual purchase support copy"
 
 - [ ] **Step 1: Write failing page-behavior tests**
 
-Add Playwright tests that require a single localized `h1`, six linked FAQ sections with stable fragment IDs, correct English and Japanese Apple Restore and Refund links, `reportaproblem.apple.com`, explicit iOS/macOS separate-purchase and Apple-refund responsibility copy, non-linked in-app support guidance, one `main` landmark, and locale switching between the two routes.
+Add Playwright tests that require a single localized `h1`, five linked FAQ sections with stable fragment IDs, correct English and Japanese Apple Restore and Refund links, `reportaproblem.apple.com`, explicit iOS/macOS separate-purchase and Apple-refund responsibility copy, no unpublished contact-form or Support ID guidance, one `main` landmark, and locale switching between the two routes.
 
 - [ ] **Step 2: Build and run the page test to verify RED**
 
@@ -96,7 +96,7 @@ Expected: FAIL because the existing FoundationPage does not contain the FAQ head
 
 - [ ] **Step 3: Implement the common purchase-support page**
 
-Create `PurchaseSupportPage.astro` with a support hero, short introduction, compact contents navigation, six `<article>` FAQ sections with heading anchors, safe external links using `target="_blank" rel="noreferrer"`, and a final responsibility note. Replace both route entry points with this component and update the existing purchase page metadata copy in `site.ts` to match the published page.
+Create `PurchaseSupportPage.astro` with a support hero, short introduction, compact contents navigation, five `<article>` FAQ sections with heading anchors, safe external links using `target="_blank" rel="noreferrer"`, and a final responsibility note. Replace both route entry points with this component and update the existing purchase page metadata copy in `site.ts` to match the published page.
 
 - [ ] **Step 4: Run the page test and verify GREEN**
 
@@ -125,7 +125,6 @@ git commit -m ":sparkles: Publish purchase support FAQ"
 - Modify: `src/styles/global.css`
 - Modify: `tests/e2e/purchase-support.spec.ts`
 - Create: `docs/screenshots/3-purchases-desktop.png`
-- Create: `docs/screenshots/3-purchases-mobile.png`
 - Modify: `README.md`
 
 **Interfaces:**
@@ -166,14 +165,14 @@ Expected: formatting, lint, Astro checks, unit tests, static build, and Playwrig
 
 - [ ] **Step 5: Perform visual and external-link QA**
 
-Open English and Japanese pages at 1440×1000 and 390×844, inspect the complete pages, capture the two English evidence images, verify the four locale-specific Apple support URLs and `reportaproblem.apple.com` resolve to official Apple pages, and confirm no fictional product UI or private material is present.
+Open English and Japanese pages at desktop and 390×844 mobile sizes, inspect the complete pages, capture current desktop evidence, verify mobile behavior through E2E, verify the four locale-specific Apple support URLs and `reportaproblem.apple.com` resolve to official Apple pages, and confirm no fictional product UI or private material is present.
 
 - [ ] **Step 6: Document and commit verification evidence**
 
 Update README status to identify the published purchase-support FAQ, then run:
 
 ```bash
-git add src/styles/global.css tests/e2e/purchase-support.spec.ts docs/screenshots/3-purchases-desktop.png docs/screenshots/3-purchases-mobile.png README.md
+git add src/styles/global.css tests/e2e/purchase-support.spec.ts docs/screenshots/3-purchases-desktop.png README.md
 git commit -m ":white_check_mark: Verify purchase support experience"
 ```
 
@@ -194,7 +193,7 @@ Confirm every completion checkbox is supported by code, tests, or visual evidenc
 
 - [ ] **Step 2: Push the feature branch and open the pull request**
 
-Use a Japanese Gitmoji title and include summary, automated verification, desktop/mobile evidence, and Apple-link verification. Keep the pull request in Draft with `Refs #3` while the in-app contact flow from `over-patch/owlaria#1548` remains unimplemented; use `Closes #3` only after that merge dependency is resolved.
+Use a Japanese Gitmoji title and include summary, automated verification, desktop evidence, responsive E2E verification, and Apple-link verification. Mark PR #4 ready and merge the publishable FAQ without closing Issue #3. Keep the in-app contact flow and Support ID guidance deferred to a small follow-up after `over-patch/owlaria#1548` is complete.
 
 - [ ] **Step 3: Record the implementation in Owlaria #1452**
 
@@ -202,7 +201,7 @@ Comment with the owlaria-web Issue and pull-request URLs, noting that the public
 
 - [ ] **Step 4: Move Project #5 status to In Review**
 
-Update owlaria-web #3 only after the ready-for-review pull request exists.
+Move owlaria-web #3 to In Review after PR #4 is ready, but keep the Issue open after merge for the deferred follow-up.
 
 ### Task 5: Make purchase guidance discoverable from Support
 
@@ -216,16 +215,15 @@ Update owlaria-web #3 only after the ready-for-review pull request exists.
 - Modify: `src/styles/global.css`
 - Modify: `tests/e2e/purchase-support.spec.ts`
 - Create: `docs/screenshots/3-support-desktop.png`
-- Create: `docs/screenshots/3-support-mobile.png`
 
 **Interfaces:**
 
 - Consumes: the shared header Support links, `Locale`, `localePath()`, and the published purchase-support routes.
-- Produces: `SupportHubPage` props `{ locale: Locale }` and a bilingual two-topic hub where purchase guidance is linked and direct contact remains non-interactive until `over-patch/owlaria#1548` is ready.
+- Produces: `SupportHubPage` props `{ locale: Locale }` and a bilingual hub that links to the currently published purchase guidance.
 
 - [ ] **Step 1: Write and verify a failing user-journey test**
 
-Navigate from the localized homepage header to Support, require a locale-matched purchase-guidance link, click it, and require the purchase FAQ heading. Also require a localized contact card with no link.
+Navigate from the localized homepage header to Support, require a locale-matched purchase-guidance link, click it, and require the purchase FAQ heading. Require the deferred contact card to be absent.
 
 Run: `mise exec -- pnpm exec playwright test tests/e2e/purchase-support.spec.ts`
 
@@ -233,11 +231,11 @@ Expected: FAIL because the FoundationPage support placeholder contains no purcha
 
 - [ ] **Step 2: Implement the bilingual Support hub**
 
-Add typed English and Japanese hub copy, render it through one semantic Astro component, replace both support route placeholders, use `localePath()` for the purchase link, and keep contact status as non-link `Coming soon` / `準備中` text.
+Add typed English and Japanese hub copy, render it through one semantic Astro component, replace both support route placeholders, and use `localePath()` for the purchase link.
 
 - [ ] **Step 3: Write and verify a failing responsive layout test**
 
-Require `.support-hub-grid` to use two columns at 1440×1000, one column at 390×844, and no horizontal overflow.
+Require `.support-hub-grid` to use one column at 1440×1000 and 390×844, with no horizontal overflow.
 
 Run: `mise exec -- pnpm exec playwright test tests/e2e/purchase-support.spec.ts --grep 'support hub adapts'`
 
@@ -245,9 +243,9 @@ Expected: FAIL with `.support-hub-grid` using `display: block` before hub stylin
 
 - [ ] **Step 4: Add hub styling and visual evidence**
 
-Use existing navy, cyan, blue, glass, radius, focus, and reveal primitives for a two-card desktop layout and a single-column mobile layout. Capture reduced-motion full-page evidence at 1440×1000 and 390×844 as `3-support-desktop.png` and `3-support-mobile.png`.
+Use existing navy, cyan, blue, glass, radius, focus, and reveal primitives for the responsive purchase-resource card. Capture current desktop evidence as `3-support-desktop.png`; verify mobile layout through the responsive E2E suite.
 
-- [ ] **Step 5: Re-run verification and update Draft PR #4**
+- [ ] **Step 5: Re-run verification and update PR #4**
 
 Run:
 
@@ -261,10 +259,11 @@ mise exec -- pnpm build
 mise exec -- pnpm test:e2e
 ```
 
-Expected: every check passes, both localized header-to-FAQ journeys pass, and the Draft PR includes the Support hub evidence.
+Expected: every check passes, both localized header-to-FAQ journeys pass, and PR #4 includes current Support hub evidence without deferred inquiry claims.
 
 ## Self-Review
 
 - Spec coverage: Every Issue #3 content, localization, responsibility, metadata, navigation, discoverability, responsive, testing, Apple-link, and cross-repository record requirement maps to Tasks 1–5.
-- Placeholder scan: The plan contains no deferred implementation markers; the unconfirmed web contact link is explicitly prohibited.
+- Publication split: Web Issue #3 and `over-patch/owlaria#1452` remain open after PR #4; once `over-patch/owlaria#1548` is complete, add verified contact and Support ID guidance in a small follow-up PR, then close both issues.
+- Placeholder scan: The unconfirmed web contact link and unshipped app flow are explicitly excluded from this PR.
 - Type consistency: `purchaseSupportCopy`, `PurchaseSupportCopy`, `Locale`, and `PurchaseSupportPage` are introduced once and consumed with the same names.
