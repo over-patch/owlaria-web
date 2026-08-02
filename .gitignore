@@ -28,6 +28,7 @@ yarn-error.log*
 .dev.vars
 
 # Hosting and tool caches
+.serena/
 .vercel/
 .netlify/
 .wrangler/
