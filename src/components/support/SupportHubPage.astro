@@ -33,9 +33,9 @@ const purchasesPath = localePath(locale, '/support/purchases/');
     <div class="support-hub-grid">
       <article class="support-hub-card support-hub-card--available" data-reveal>
         <p class="support-hub-label">{page.purchases.label}</p>
-        <h2>
+        <h3>
           <a href={purchasesPath}>{page.purchases.title}</a>
-        </h2>
+        </h3>
         <p>{page.purchases.description}</p>
         <span class="support-hub-action" aria-hidden="true">
           {page.purchases.action}<span>→</span>
@@ -44,7 +44,7 @@ const purchasesPath = localePath(locale, '/support/purchases/');
 
       <article class="support-hub-card" data-support-contact data-reveal>
         <p class="support-hub-label">{page.contact.label}</p>
-        <h2>{page.contact.title}</h2>
+        <h3>{page.contact.title}</h3>
         <p>{page.contact.description}</p>
         <span class="support-hub-status">{page.contact.status}</span>
       </article>

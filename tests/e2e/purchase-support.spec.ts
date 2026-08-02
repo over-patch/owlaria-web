@@ -120,19 +120,30 @@ for (const locale of locales) {
     await expect(
       page.getByRole('heading', { level: 1, name: locale.supportHeading }),
     ).toBeVisible();
+    await expect(
+      page.getByRole('heading', {
+        level: 3,
+        name: locale.purchaseLink,
+      }),
+    ).toBeVisible();
     const contactCard = page.locator('[data-support-contact]');
     await expect(
       contactCard.getByRole('heading', {
-        level: 2,
+        level: 3,
         name: locale.contactTitle,
       }),
     ).toBeVisible();
     await expect(contactCard.getByText(locale.contactStatus)).toBeVisible();
     await expect(contactCard.getByRole('link')).toHaveCount(0);
 
-    await page
-      .getByRole('link', { name: locale.purchaseLink, exact: true })
-      .click();
+    const purchaseLink = page.getByRole('link', {
+      name: locale.purchaseLink,
+      exact: true,
+    });
+    await expect(purchaseLink).toHaveAttribute('href', locale.path);
+    await purchaseLink.focus();
+    await expect(purchaseLink).toBeFocused();
+    await purchaseLink.click();
     await expect(page).toHaveURL(locale.path);
     await expect(
       page.getByRole('heading', { level: 1, name: locale.heading }),
@@ -210,6 +221,24 @@ test.describe('purchase guidance without JavaScript', () => {
       await expect(answer).toBeVisible();
     }
   });
+
+  test('keeps the Support hub purchase path available', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/support/');
+
+    await expect(
+      page.getByRole('link', {
+        name: 'Purchases, restores, and refunds',
+        exact: true,
+      }),
+    ).toHaveAttribute('href', '/support/purchases/');
+    await expect(page.locator('[data-support-contact]')).toContainText(
+      'Coming soon',
+    );
+    await expect(
+      page.locator('[data-support-contact]').getByRole('link'),
+    ).toHaveCount(0);
+  });
 });
 
 test('supports keyboard focus and reduced motion', async ({ page }) => {
@@ -224,4 +253,10 @@ test('supports keyboard focus and reduced motion', async ({ page }) => {
   await expect(reveal).toBeVisible();
   await expect(reveal).toHaveCSS('opacity', '1');
   await expect(reveal).toHaveCSS('transform', 'none');
+
+  await page.goto('/support/');
+  const hubReveal = page.locator('[data-reveal]').first();
+  await expect(hubReveal).toBeVisible();
+  await expect(hubReveal).toHaveCSS('opacity', '1');
+  await expect(hubReveal).toHaveCSS('transform', 'none');
 });
