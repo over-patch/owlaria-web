@@ -4,7 +4,7 @@ Public product website for [Owlaria](https://github.com/over-patch/owlaria), pub
 
 ## Status
 
-The website foundation is being implemented in [over-patch/owlaria#1552](https://github.com/over-patch/owlaria/issues/1552), under the Phase 2 product Web epic [#1417](https://github.com/over-patch/owlaria/issues/1417).
+The shared Astro foundation is complete. The bilingual product homepage is being implemented in [over-patch/owlaria#1553](https://github.com/over-patch/owlaria/issues/1553), under the Phase 2 product Web epic [#1417](https://github.com/over-patch/owlaria/issues/1417). Independent domain, DNS, and HTTPS setup is tracked in [#1562](https://github.com/over-patch/owlaria/issues/1562).
 
 ## Architecture
 

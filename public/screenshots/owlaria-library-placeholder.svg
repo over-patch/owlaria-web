@@ -18,9 +18,6 @@
     <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
       <path d="M64 0H0V64" fill="none" stroke="#9db4ff" stroke-opacity="0.08" />
     </pattern>
-    <filter id="icon-shadow" x="-80%" y="-80%" width="260%" height="260%">
-      <feDropShadow dx="0" dy="26" stdDeviation="38" flood-color="#557cff" flood-opacity="0.38" />
-    </filter>
   </defs>
 
   <rect width="1440" height="960" rx="48" fill="url(#surface)" />
@@ -28,11 +25,6 @@
   <ellipse cx="1180" cy="740" rx="500" ry="400" fill="url(#cyan-glow)" opacity="0.42" />
   <rect width="1440" height="960" rx="48" fill="url(#grid)" />
   <path d="M120 760C360 550 540 640 720 470C900 300 1100 390 1320 180" fill="none" stroke="#80ecff" stroke-opacity="0.14" stroke-width="2" />
-
-  <g filter="url(#icon-shadow)">
-    <rect x="620" y="292" width="200" height="200" rx="46" fill="#080d1d" fill-opacity="0.76" stroke="#b8ccff" stroke-opacity="0.2" />
-    <image href="/owlaria-app-icon.png" x="638" y="310" width="164" height="164" />
-  </g>
 
   <text x="720" y="580" fill="#f7f9ff" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="42" font-weight="760" text-anchor="middle" letter-spacing="-1">
     Product preview in progress
