@@ -4,8 +4,20 @@ export type PlatformId = 'macos' | 'ios';
 
 export type Platform = {
   id: PlatformId;
+  symbol: string;
   storeUrl?: string;
 };
+
+export type PlatformAction =
+  | {
+      kind: 'link';
+      label: string;
+      href: string;
+    }
+  | {
+      kind: 'pending';
+      label: string;
+    };
 
 export type HomeCopy = {
   metadata: {
@@ -43,10 +55,19 @@ export type HomeCopy = {
   };
 };
 
-export const platforms: Platform[] = [{ id: 'macos' }, { id: 'ios' }];
+export const platforms: Platform[] = [
+  { id: 'macos', symbol: 'macOS' },
+  { id: 'ios', symbol: 'iOS' },
+];
 
-export const platformHref = (platform: Platform): string | undefined =>
-  platform.storeUrl;
+export const platformAction = (
+  platform: Platform,
+  storeLabel: string,
+  pendingLabel: string,
+): PlatformAction =>
+  platform.storeUrl
+    ? { kind: 'link', label: storeLabel, href: platform.storeUrl }
+    : { kind: 'pending', label: pendingLabel };
 
 export const homeCopy: Record<Locale, HomeCopy> = {
   en: {

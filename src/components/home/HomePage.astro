@@ -1,5 +1,5 @@
 ---
-import { homeCopy, platformHref, platforms } from '../../content/home';
+import { homeCopy, platformAction, platforms } from '../../content/home';
 import type { Locale } from '../../i18n/config';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import PlatformCard from './PlatformCard.astro';
@@ -79,8 +79,11 @@ const copy = homeCopy[locale];
           <PlatformCard
             platform={platform}
             label={copy.platforms.labels[platform.id]}
-            comingSoon={copy.platforms.comingSoon}
-            href={platformHref(platform)}
+            action={platformAction(
+              platform,
+              copy.platforms.labels[platform.id].detail,
+              copy.platforms.comingSoon,
+            )}
           />
         ))
       }

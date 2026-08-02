@@ -30,14 +30,14 @@
 **Interfaces:**
 
 - Consumes: `Locale` from `src/i18n/config.ts`.
-- Produces: `homeCopy: Record<Locale, HomeCopy>`, `platforms: Platform[]`, and `platformHref(platform: Platform): string | undefined`.
+- Produces: `homeCopy: Record<Locale, HomeCopy>`, `platforms: Platform[]`, and a typed `platformAction(...)` decision for linked or pending Store states.
 
 - [ ] **Step 1: Write the failing content tests**
 
 ```ts
 import { describe, expect, it } from 'vitest';
 
-import { homeCopy, platforms, platformHref } from '../../src/content/home';
+import { homeCopy, platformAction, platforms } from '../../src/content/home';
 
 describe('homepage content', () => {
   it('publishes the required English hero and a distinct Japanese hero', () => {
@@ -47,8 +47,33 @@ describe('homepage content', () => {
   });
 
   it('keeps unavailable Store destinations as non-link data', () => {
-    expect(platforms.map(platformHref)).toEqual([undefined, undefined]);
     expect(platforms.map((platform) => platform.id)).toEqual(['macos', 'ios']);
+    expect(
+      platforms.map((platform) =>
+        platformAction(platform, 'Store', 'Coming soon'),
+      ),
+    ).toEqual([
+      { kind: 'pending', label: 'Coming soon' },
+      { kind: 'pending', label: 'Coming soon' },
+    ]);
+  });
+
+  it('creates a Store link action only when a confirmed URL exists', () => {
+    expect(
+      platformAction(
+        {
+          id: 'macos',
+          symbol: 'macOS',
+          storeUrl: 'https://apps.apple.com/app/owlaria/id123456789',
+        },
+        'Mac App Store',
+        'Coming soon',
+      ),
+    ).toEqual({
+      kind: 'link',
+      label: 'Mac App Store',
+      href: 'https://apps.apple.com/app/owlaria/id123456789',
+    });
   });
 
   it('states that macOS and iOS are separate purchases in both locales', () => {
@@ -73,8 +98,13 @@ export type PlatformId = 'macos' | 'ios';
 
 export type Platform = {
   id: PlatformId;
+  symbol: string;
   storeUrl?: string;
 };
+
+export type PlatformAction =
+  | { kind: 'link'; label: string; href: string }
+  | { kind: 'pending'; label: string };
 
 export type HomeCopy = {
   metadata: { title: string; description: string };
@@ -95,10 +125,19 @@ export type HomeCopy = {
   closing: { eyebrow: string; heading: string; body: string };
 };
 
-export const platforms: Platform[] = [{ id: 'macos' }, { id: 'ios' }];
+export const platforms: Platform[] = [
+  { id: 'macos', symbol: 'macOS' },
+  { id: 'ios', symbol: 'iOS' },
+];
 
-export const platformHref = (platform: Platform): string | undefined =>
-  platform.storeUrl;
+export const platformAction = (
+  platform: Platform,
+  storeLabel: string,
+  pendingLabel: string,
+): PlatformAction =>
+  platform.storeUrl
+    ? { kind: 'link', label: storeLabel, href: platform.storeUrl }
+    : { kind: 'pending', label: pendingLabel };
 
 export const homeCopy: Record<Locale, HomeCopy> = {
   en: {
@@ -235,7 +274,7 @@ git commit -m ":sparkles: Add bilingual homepage content"
 
 **Interfaces:**
 
-- Consumes: `homeCopy`, `platforms`, and `platformHref` from Task 1; `SiteLayout`; `/owlaria-app-icon.png`; `/screenshots/owlaria-library-placeholder.svg` from Task 3.
+- Consumes: `homeCopy`, `platforms`, and `platformAction` from Task 1; `SiteLayout`; `/owlaria-app-icon.png`; `/screenshots/owlaria-library-placeholder.svg` from Task 3.
 - Produces: semantic bilingual homepage sections and `data-testid="platform-macos"` / `data-testid="platform-ios"` cards.
 
 - [ ] **Step 1: Write failing homepage browser tests**
@@ -299,32 +338,32 @@ Expected: FAIL because the foundation placeholder does not contain the product s
 
 ```astro
 ---
-import type { Platform, PlatformId } from '../../content/home';
+import type { Platform, PlatformAction } from '../../content/home';
 
 interface Props {
   platform: Platform;
   label: { name: string; detail: string };
-  comingSoon: string;
-  href?: string;
+  action: PlatformAction;
 }
 
-const { platform, label, comingSoon, href } = Astro.props;
-const icon = platform.id === ('macos' satisfies PlatformId) ? '⌘' : '◉';
+const { platform, label, action } = Astro.props;
 ---
 
 <article class="platform-card" data-testid={`platform-${platform.id}`}>
-  <span class="platform-symbol" aria-hidden="true">{icon}</span>
+  <span class="platform-symbol" aria-hidden="true">{platform.symbol}</span>
   <div>
     <p class="platform-detail">{label.detail}</p>
     <h3>{label.name}</h3>
   </div>
   {
-    href ? (
-      <a class="platform-action" href={href}>
-        {label.detail}
+    action.kind === 'link' ? (
+      <a class="platform-action" href={action.href}>
+        {action.label}
       </a>
     ) : (
-      <span class="platform-action platform-action--pending">{comingSoon}</span>
+      <span class="platform-action platform-action--pending">
+        {action.label}
+      </span>
     )
   }
 </article>
@@ -390,8 +429,11 @@ const icon = platform.id === ('macos' satisfies PlatformId) ? '⌘' : '◉';
           <PlatformCard
             platform={platform}
             label={copy.platforms.labels[platform.id]}
-            comingSoon={copy.platforms.comingSoon}
-            href={platformHref(platform)}
+            action={platformAction(
+              platform,
+              copy.platforms.labels[platform.id].detail,
+              copy.platforms.comingSoon,
+            )}
           />
         ))
       }
@@ -628,7 +670,7 @@ Expected: every command exits successfully with no warnings introduced by the ho
 
 - [ ] **Step 7: Capture visual evidence**
 
-Use production preview and capture the complete English homepage at 1440×1000 and 390×844 as `docs/screenshots/1553-desktop.png` and `docs/screenshots/1553-mobile.png`. Repeat the visual inspection for `/ja/`, no-JavaScript navigation, keyboard focus, and reduced motion; record those checks in the PR body.
+Use production preview with reduced-motion emulation and capture the complete English homepage at viewport widths 1440 and 390 as `docs/screenshots/1553-desktop.png` and `docs/screenshots/1553-mobile.png`. Repeat the visual inspection for `/ja/`, no-JavaScript navigation, keyboard focus, and reduced motion; record those checks in the PR body.
 
 - [ ] **Step 8: Commit the finished experience**
 
@@ -668,7 +710,7 @@ git push -u origin feature/homepage-experience
 
 - [ ] **Step 3: Open the pull request**
 
-Use title `:sparkles: Owlariaトップページと入手導線を実装する`. The body must summarize the bilingual product story, explicit abstract-preview placeholder, non-link Store states, separate-purchase explanation, automated verification, desktop/mobile evidence, and `Closes over-patch/owlaria#1553`.
+Use title `:sparkles: Owlariaトップページと入手導線を実装する`. The body must summarize the bilingual product story, explicit abstract-preview placeholder, non-link Store states, separate-purchase explanation, automated verification, and full-page desktop/mobile evidence. Link with `Refs over-patch/owlaria#1553`; keep #1553 open until a reviewed real application screenshot replaces the placeholder.
 
 - [ ] **Step 4: Leave the branch ready for one team-member approval**
 

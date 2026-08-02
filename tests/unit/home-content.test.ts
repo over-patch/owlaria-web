@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { homeCopy, platforms, platformHref } from '../../src/content/home';
+import { homeCopy, platformAction, platforms } from '../../src/content/home';
 
 describe('homepage content', () => {
   it('publishes the required English hero and a distinct Japanese hero', () => {
@@ -10,8 +10,33 @@ describe('homepage content', () => {
   });
 
   it('keeps unavailable Store destinations as non-link data', () => {
-    expect(platforms.map(platformHref)).toEqual([undefined, undefined]);
     expect(platforms.map((platform) => platform.id)).toEqual(['macos', 'ios']);
+    expect(
+      platforms.map((platform) =>
+        platformAction(platform, 'Store', 'Coming soon'),
+      ),
+    ).toEqual([
+      { kind: 'pending', label: 'Coming soon' },
+      { kind: 'pending', label: 'Coming soon' },
+    ]);
+  });
+
+  it('creates a Store link action only when a confirmed URL exists', () => {
+    expect(
+      platformAction(
+        {
+          id: 'macos',
+          symbol: 'macOS',
+          storeUrl: 'https://apps.apple.com/app/owlaria/id123456789',
+        },
+        'Mac App Store',
+        'Coming soon',
+      ),
+    ).toEqual({
+      kind: 'link',
+      label: 'Mac App Store',
+      href: 'https://apps.apple.com/app/owlaria/id123456789',
+    });
   });
 
   it('states that macOS and iOS are separate purchases in both locales', () => {
