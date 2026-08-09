@@ -27,7 +27,7 @@ export const supportHubCopy: Record<Locale, SupportHubCopy> = {
     metadata: {
       title: 'Support · Owlaria',
       description:
-        'Find official Owlaria guidance for purchases, restores, and refunds.',
+        'Find official Owlaria guidance for purchases, restores, refunds, and reporting app problems.',
     },
     eyebrow: 'Owlaria Support',
     title: 'How can we help?',
@@ -54,7 +54,8 @@ export const supportHubCopy: Record<Locale, SupportHubCopy> = {
   ja: {
     metadata: {
       title: 'サポート · Owlaria',
-      description: 'Owlariaの購入・復元・返金に関する公式サポート情報です。',
+      description:
+        'Owlariaの購入・復元・返金とアプリ内の問題報告に関する公式サポート情報です。',
     },
     eyebrow: 'Owlariaサポート',
     title: 'お困りのことは？',

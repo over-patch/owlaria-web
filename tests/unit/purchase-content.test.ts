@@ -175,7 +175,16 @@ describe('purchase support content', () => {
     expect(localeText('ja')).toContain(
       '取得できない場合もSupport IDなしで報告できます',
     );
-    expect(localeText('ja')).toContain('受付番号は、送信の確認');
+    expect(localeText('ja')).toContain(
+      '受付番号は、送信の確認と、送信データへのアクセス・削除に関する質問時の参照',
+    );
+  });
+
+  it('includes problem reporting in Support hub metadata', () => {
+    expect(supportHubCopy.en.metadata.description).toContain(
+      'reporting app problems',
+    );
+    expect(supportHubCopy.ja.metadata.description).toContain('問題報告');
   });
 
   it('keeps refund decisions with Apple and limits reports to app-side state', () => {
