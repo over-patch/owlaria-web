@@ -41,6 +41,16 @@ const purchasesPath = localePath(locale, '/support/purchases/');
           {page.purchases.action}<span>→</span>
         </span>
       </article>
+
+      <article
+        class="support-hub-card support-hub-card--available"
+        data-support-problem-report
+        data-reveal
+      >
+        <p class="support-hub-label">{page.problemReport.label}</p>
+        <h3>{page.problemReport.title}</h3>
+        {page.problemReport.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </article>
     </div>
   </section>
 </SiteLayout>

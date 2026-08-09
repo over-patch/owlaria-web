@@ -15,7 +15,12 @@ const locales = [
     contents: 'On this page',
     supportLink: 'Support',
     purchaseLink: 'Purchases, restores, and refunds',
-    unpublishedGuidance: /in-app Owlaria support form|Support ID/i,
+    problemReportLink: 'Report an app problem',
+    problemReportQuestion:
+      'What should I do if a purchase, restore, or completed refund is not reflected in Owlaria?',
+    reportRoute: 'Settings > Information > Report a problem',
+    oneWay: 'a one-way problem report and feedback channel',
+    supportId: 'current RevenueCat App User ID',
     platformWarning:
       'An iOS purchase cannot be transferred or restored on macOS',
     refundOwner:
@@ -37,7 +42,12 @@ const locales = [
     contents: 'このページの内容',
     supportLink: 'サポート',
     purchaseLink: '購入・復元・返金について',
-    unpublishedGuidance: /アプリ内問い合わせフォーム|Support ID/i,
+    problemReportLink: 'アプリの問題を報告する',
+    problemReportQuestion:
+      '購入・復元・Appleで処理済みの返金がOwlariaへ反映されない場合はどうすればよいですか？',
+    reportRoute: 'Settings > Information > Report a problem',
+    oneWay: '一方向の問題報告・フィードバック受付',
+    supportId: '現在のRevenueCat App User ID',
     platformWarning: '移行・復元することはできません',
     refundOwner: '返金申請の受付、審査、承認、処理、進捗確認はAppleが行います',
     restoreUrl: 'https://support.apple.com/ja-jp/108096',
@@ -51,6 +61,7 @@ const faqIds = [
   'restore',
   'refund',
   'after-refund',
+  'problem-report',
 ] as const;
 
 for (const locale of locales) {
@@ -85,6 +96,19 @@ for (const locale of locales) {
     await expect(page.getByText(locale.platformWarning)).toBeVisible();
     await expect(page.getByText(locale.refundOwner)).toBeVisible();
     await expect(
+      page.getByRole('heading', {
+        level: 2,
+        name: locale.problemReportQuestion,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByText(locale.reportRoute, { exact: false }),
+    ).toBeVisible();
+    await expect(page.getByText(locale.oneWay, { exact: false })).toBeVisible();
+    await expect(
+      page.getByText(locale.supportId, { exact: false }),
+    ).toBeVisible();
+    await expect(
       page.locator(`a[href="${locale.restoreUrl}"]`),
     ).toHaveAttribute('target', '_blank');
     await expect(
@@ -94,9 +118,6 @@ for (const locale of locales) {
       page.locator('a[href="https://reportaproblem.apple.com/"]'),
     ).toHaveAttribute('rel', 'noreferrer');
 
-    await expect(page.getByRole('main')).not.toContainText(
-      locale.unpublishedGuidance,
-    );
     await expect(page.getByTestId('header-locale-switch')).toHaveAttribute(
       'href',
       locale.alternatePath,
@@ -123,6 +144,10 @@ for (const locale of locales) {
       }),
     ).toBeVisible();
     await expect(page.locator('[data-support-contact]')).toHaveCount(0);
+    const problemReport = page.locator('[data-support-problem-report]');
+    await expect(problemReport).toContainText(locale.problemReportLink);
+    await expect(problemReport).toContainText(locale.reportRoute);
+    await expect(problemReport.getByRole('link')).toHaveCount(0);
 
     const purchaseLink = page.getByRole('link', {
       name: locale.purchaseLink,
@@ -176,7 +201,7 @@ test('support hub adapts its resource grid without horizontal overflow', async (
   const desktopColumns = await grid.evaluate(
     (element) => getComputedStyle(element).gridTemplateColumns,
   );
-  expect(desktopColumns.split(' ')).toHaveLength(1);
+  expect(desktopColumns.split(' ')).toHaveLength(2);
 
   await page.setViewportSize({ width: 390, height: 844 });
   const mobileColumns = await grid.evaluate(
@@ -221,6 +246,11 @@ test.describe('purchase guidance without JavaScript', () => {
       }),
     ).toHaveAttribute('href', '/support/purchases/');
     await expect(page.locator('[data-support-contact]')).toHaveCount(0);
+    const problemReport = page.locator('[data-support-problem-report]');
+    await expect(problemReport).toContainText(
+      'Settings > Information > Report a problem',
+    );
+    await expect(problemReport.getByRole('link')).toHaveCount(0);
   });
 });
 
