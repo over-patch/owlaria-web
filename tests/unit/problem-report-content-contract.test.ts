@@ -33,8 +33,10 @@ describe('problem-report content contract', () => {
 
   it.each([
     ['en', 'We will reply to every report.'],
+    ['en', 'We can provide individual replies.'],
     ['en', 'You will receive an investigation result.'],
     ['ja', '問題報告へ個別返信します。'],
+    ['ja', '個別返信や調査結果の通知を行います。'],
     ['ja', '調査結果をお知らせします。'],
     ['ja', '修正時期をご案内します。'],
   ] as const)(
@@ -45,7 +47,18 @@ describe('problem-report content contract', () => {
 
       expect(() =>
         assertProblemReportContentContract(purchaseSupportCopy, supportHub),
-      ).toThrow('Problem-report guidance must not promise a response or fix');
+      ).toThrow('Problem-report guidance must preserve the canonical policy');
     },
   );
+
+  it('rejects a contradictory promise in the purchase responsibility section', () => {
+    const purchases = structuredClone(purchaseSupportCopy);
+    purchases.en.responsibility.paragraphs.push(
+      'Owlaria will reply with an investigation result.',
+    );
+
+    expect(() =>
+      assertProblemReportContentContract(purchases, supportHubCopy),
+    ).toThrow('Problem-report guidance must preserve the canonical policy');
+  });
 });
