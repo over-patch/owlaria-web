@@ -164,94 +164,100 @@ for (const locale of locales) {
   });
 }
 
-test('uses a readable responsive FAQ layout without horizontal overflow', async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.goto('/support/purchases/');
+for (const locale of locales) {
+  test(`${locale.path} uses a readable responsive FAQ layout without horizontal overflow`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto(locale.path);
 
-  await expect(page.locator('.support-layout')).toHaveCSS('display', 'grid');
-  await expect(page.locator('.support-contents')).toHaveCSS(
-    'position',
-    'sticky',
-  );
+    await expect(page.locator('.support-layout')).toHaveCSS('display', 'grid');
+    await expect(page.locator('.support-contents')).toHaveCSS(
+      'position',
+      'sticky',
+    );
 
-  await page.setViewportSize({ width: 390, height: 844 });
-  const hasHorizontalOverflow = await page.evaluate(
-    () =>
-      document.documentElement.scrollWidth >
-      document.documentElement.clientWidth,
-  );
+    await page.setViewportSize({ width: 390, height: 844 });
+    const hasHorizontalOverflow = await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth >
+        document.documentElement.clientWidth,
+    );
 
-  expect(hasHorizontalOverflow).toBe(false);
-  await expect(page.locator('.support-contents')).toHaveCSS(
-    'position',
-    'static',
-  );
-});
+    expect(hasHorizontalOverflow).toBe(false);
+    await expect(page.locator('.support-contents')).toHaveCSS(
+      'position',
+      'static',
+    );
+  });
 
-test('support hub adapts its resource grid without horizontal overflow', async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.goto('/support/');
+  test(`${locale.supportPath} adapts its resource grid without horizontal overflow`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto(locale.supportPath);
 
-  const grid = page.locator('.support-hub-grid');
-  await expect(grid).toHaveCSS('display', 'grid');
-  const desktopColumns = await grid.evaluate(
-    (element) => getComputedStyle(element).gridTemplateColumns,
-  );
-  expect(desktopColumns.split(' ')).toHaveLength(2);
+    const grid = page.locator('.support-hub-grid');
+    await expect(grid).toHaveCSS('display', 'grid');
+    const desktopColumns = await grid.evaluate(
+      (element) => getComputedStyle(element).gridTemplateColumns,
+    );
+    expect(desktopColumns.split(' ')).toHaveLength(2);
 
-  await page.setViewportSize({ width: 390, height: 844 });
-  const mobileColumns = await grid.evaluate(
-    (element) => getComputedStyle(element).gridTemplateColumns,
-  );
-  expect(mobileColumns.split(' ')).toHaveLength(1);
+    await page.setViewportSize({ width: 390, height: 844 });
+    const mobileColumns = await grid.evaluate(
+      (element) => getComputedStyle(element).gridTemplateColumns,
+    );
+    expect(mobileColumns.split(' ')).toHaveLength(1);
 
-  const hasHorizontalOverflow = await page.evaluate(
-    () =>
-      document.documentElement.scrollWidth >
-      document.documentElement.clientWidth,
-  );
-  expect(hasHorizontalOverflow).toBe(false);
-});
+    const hasHorizontalOverflow = await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth >
+        document.documentElement.clientWidth,
+    );
+    expect(hasHorizontalOverflow).toBe(false);
+  });
+}
 
 test.describe('purchase guidance without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
 
-  test('keeps the contents and every answer available', async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto('/support/purchases/');
+  for (const locale of locales) {
+    test(`${locale.path} keeps the contents and every answer available`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(locale.path);
 
-    await expect(
-      page.getByRole('navigation', { name: 'On this page' }),
-    ).toBeVisible();
-    await expect(page.locator('[data-purchase-faq]')).toHaveCount(
-      faqIds.length,
-    );
-    for (const answer of await page.locator('[data-purchase-faq]').all()) {
-      await expect(answer).toBeVisible();
-    }
-  });
+      await expect(
+        page.getByRole('navigation', { name: locale.contents }),
+      ).toBeVisible();
+      await expect(page.locator('[data-purchase-faq]')).toHaveCount(
+        faqIds.length,
+      );
+      for (const answer of await page.locator('[data-purchase-faq]').all()) {
+        await expect(answer).toBeVisible();
+      }
+    });
 
-  test('keeps the Support hub purchase path available', async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto('/support/');
+    test(`${locale.supportPath} keeps the Support hub purchase path available`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(locale.supportPath);
 
-    await expect(
-      page.getByRole('link', {
-        name: 'Purchases, restores, and refunds',
-        exact: true,
-      }),
-    ).toHaveAttribute('href', '/support/purchases/');
-    await expect(page.locator('[data-support-contact]')).toHaveCount(0);
-    const problemReport = page.locator('[data-support-problem-report]');
-    await expect(problemReport).toContainText(
-      'Settings > Information > Report a problem',
-    );
-    await expect(problemReport.getByRole('link')).toHaveCount(0);
-  });
+      await expect(
+        page.getByRole('link', {
+          name: locale.purchaseLink,
+          exact: true,
+        }),
+      ).toHaveAttribute('href', locale.path);
+      await expect(page.locator('[data-support-contact]')).toHaveCount(0);
+      const problemReport = page.locator('[data-support-problem-report]');
+      await expect(problemReport).toContainText(locale.reportRoute);
+      await expect(problemReport.getByRole('link')).toHaveCount(0);
+    });
+  }
 });
 
 test('supports keyboard focus and reduced motion', async ({ page }) => {

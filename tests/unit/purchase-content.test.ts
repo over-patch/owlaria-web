@@ -108,6 +108,13 @@ describe('purchase support content', () => {
       expect(localeText(locale)).toContain('Report this problem');
     }
 
+    expect(localeText('en')).toContain(
+      'billing category and diagnostic context already selected',
+    );
+    expect(localeText('ja')).toContain(
+      '課金カテゴリーと診断コンテキストが設定されたフォーム',
+    );
+
     expect(supportHubCopy.en.problemReport.title).toBe('Report an app problem');
     expect(supportHubCopy.ja.problemReport.title).toBe(
       'アプリの問題を報告する',
@@ -142,6 +149,12 @@ describe('purchase support content', () => {
 
   it('makes diagnostics optional per submission and explains Support ID', () => {
     expect(localeText('en')).toContain(
+      'A category and description are required',
+    );
+    expect(localeText('en')).toContain(
+      'Support ID, version, build, platform, OS version, locale, and billing error context',
+    );
+    expect(localeText('en')).toContain(
       'Diagnostics are sent only when you choose to include them for that submission',
     );
     expect(localeText('en')).toContain(
@@ -160,7 +173,14 @@ describe('purchase support content', () => {
     expect(localeText('en')).toContain(
       'reference number can be used to confirm the submission',
     );
+    expect(localeText('en')).toContain(
+      'questions about accessing or deleting the submitted data',
+    );
 
+    expect(localeText('ja')).toContain('カテゴリーと問題の説明は必須です');
+    expect(localeText('ja')).toContain(
+      'Support ID、バージョン、ビルド、プラットフォーム、OSバージョン、ロケール、課金エラーコンテキスト',
+    );
     expect(localeText('ja')).toContain(
       '診断情報は送信前に確認でき、送信ごとに含めることを選んだ場合だけ送信されます',
     );
@@ -185,6 +205,20 @@ describe('purchase support content', () => {
       'reporting app problems',
     );
     expect(supportHubCopy.ja.metadata.description).toContain('問題報告');
+  });
+
+  it('keeps the one-way and diagnostic-consent boundaries in the Support hub', () => {
+    const english = supportHubCopy.en.problemReport.paragraphs.join(' ');
+    const japanese = supportHubCopy.ja.problemReport.paragraphs.join(' ');
+
+    expect(english).toContain('one-way problem report and feedback channel');
+    expect(english).toContain('does not collect contact details');
+    expect(english).toContain('provide individual replies');
+    expect(english).toContain('choose whether to include them each time');
+    expect(japanese).toContain('一方向の問題報告・フィードバック受付');
+    expect(japanese).toContain('連絡先情報を収集せず');
+    expect(japanese).toContain('個別返信や調査結果の通知');
+    expect(japanese).toContain('送信ごとに含めるか選択できます');
   });
 
   it('keeps refund decisions with Apple and limits reports to app-side state', () => {
