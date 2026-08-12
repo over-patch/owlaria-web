@@ -13,7 +13,7 @@
 - English remains the source locale at `/support/`; Japanese is published with equivalent meaning at `/ja/support/`.
 - The only user inputs are category and a required problem description of at most 8,000 characters.
 - The payload always uses `application_id = owlaria`, `consent.diagnostics_approved = false`, and privacy notice version `2026-07-26`.
-- Never send `client`, `support_identity`, `diagnostics`, `subject`, `contact`, or app-only diagnostic metadata from the Web form.
+- Send only `client.consumer_type = web` and `client.platform = web` to identify the Web source; never send other client metadata, `support_identity`, `diagnostics`, `subject`, `contact`, or app-only diagnostic metadata from the Web form.
 - Treat HTTP 201 and idempotent HTTP 200 as success; retain one `client_request_id` for retries of the same logical submission.
 - Never persist the report message; clear it after success and rely on page lifetime only for a failed submission retry.
 - Use only the public overpatch-helpdesk intake API, with one environment-overridable base URL definition.
@@ -46,7 +46,7 @@
 
 - [ ] **Step 3: Implement the minimal payload core**
 
-  Define the six stable categories, validate without trimming user content from the transmitted message, construct exactly `{ application_id, client_request_id, category, message, consent }`, and retain an immutable request ID on the attempt object.
+  Define the six stable categories, validate without trimming user content from the transmitted message, construct exactly `{ application_id, client_request_id, category, message, consent, client }` with only the approved Web source markers in `client`, and retain an immutable request ID on the attempt object.
 
 - [ ] **Step 4: Run test to verify GREEN**
 

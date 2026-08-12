@@ -74,6 +74,10 @@ describe('problem-report payload', () => {
         diagnostics_approved: false,
         confirmed_at: confirmedAt,
       },
+      client: {
+        consumer_type: 'web',
+        platform: 'web',
+      },
     });
     expect(Object.keys(attempt.payload)).toEqual([
       'application_id',
@@ -81,9 +85,9 @@ describe('problem-report payload', () => {
       'category',
       'message',
       'consent',
+      'client',
     ]);
     for (const forbidden of [
-      'client',
       'support_identity',
       'diagnostics',
       'subject',
@@ -91,6 +95,14 @@ describe('problem-report payload', () => {
     ]) {
       expect(attempt.payload).not.toHaveProperty(forbidden);
     }
+    expect(Object.keys(attempt.payload.client)).toEqual([
+      'consumer_type',
+      'platform',
+    ]);
+    expect(attempt.payload.client).not.toHaveProperty('locale');
+    expect(attempt.payload.client).not.toHaveProperty('os_version');
+    expect(attempt.payload.client).not.toHaveProperty('app_version');
+    expect(attempt.payload.client).not.toHaveProperty('is_paid');
   });
 
   it('keeps one request ID when the same logical attempt is retried', async () => {

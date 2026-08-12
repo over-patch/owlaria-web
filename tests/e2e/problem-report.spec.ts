@@ -177,6 +177,10 @@ test('sends only approved fields, retries with the same ID, and copies a 200 rec
       privacy_notice_version: '2026-07-26',
       diagnostics_approved: false,
     },
+    client: {
+      consumer_type: 'web',
+      platform: 'web',
+    },
   });
   expect(Object.keys(requests[1])).toEqual([
     'application_id',
@@ -184,6 +188,7 @@ test('sends only approved fields, retries with the same ID, and copies a 200 rec
     'category',
     'message',
     'consent',
+    'client',
   ]);
 
   await page.getByRole('button', { name: 'Copy reference number' }).click();
