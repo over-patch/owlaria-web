@@ -817,6 +817,272 @@ main:focus {
   transform: translateX(0.25rem);
 }
 
+.problem-report-section {
+  padding-bottom: clamp(6rem, 12vw, 11rem);
+}
+
+.problem-report-heading {
+  max-width: 48rem;
+  margin-bottom: var(--space-6);
+}
+
+.problem-report-heading h2 {
+  max-width: 13ch;
+  margin: 0;
+  font-size: clamp(2.5rem, 1.6rem + 3vw, 5rem);
+  letter-spacing: -0.065em;
+  line-height: 0.96;
+  text-wrap: balance;
+}
+
+.problem-report-heading > p:last-child {
+  max-width: 42rem;
+  margin: var(--space-4) 0 0;
+  color: var(--color-muted);
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.15rem);
+}
+
+.problem-report-layout {
+  display: grid;
+  gap: var(--space-3);
+  align-items: start;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+}
+
+.problem-report-boundaries,
+.problem-report-panel {
+  border: 1px solid var(--color-surface-border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, rgb(17 26 51 / 72%), rgb(7 12 28 / 64%));
+  box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 14%);
+}
+
+.problem-report-boundaries {
+  padding: clamp(1.6rem, 3vw, 2.5rem);
+}
+
+.problem-report-boundaries h3 {
+  margin: 0;
+  font-size: clamp(1.25rem, 1.08rem + 0.55vw, 1.65rem);
+  letter-spacing: -0.035em;
+  line-height: 1.25;
+}
+
+.problem-report-boundaries p {
+  margin: var(--space-4) 0 0;
+  color: var(--color-muted);
+  line-height: 1.72;
+}
+
+.problem-report-boundaries a {
+  color: var(--color-cyan);
+  font-weight: 720;
+}
+
+.problem-report-panel {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.6rem, 4vw, 3.25rem);
+}
+
+.problem-report-panel::before {
+  position: absolute;
+  z-index: 0;
+  top: -12rem;
+  right: -10rem;
+  width: 24rem;
+  height: 24rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-purple), var(--color-cyan));
+  filter: blur(8rem);
+  content: '';
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.problem-report-form,
+.problem-report-success,
+.problem-report-noscript {
+  position: relative;
+  z-index: 1;
+}
+
+.problem-report-field + .problem-report-field {
+  margin-top: var(--space-5);
+}
+
+.problem-report-field label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-weight: 780;
+}
+
+.problem-report-field select,
+.problem-report-field textarea {
+  width: 100%;
+  border: 1px solid rgb(157 180 255 / 28%);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink);
+  background: rgb(3 6 17 / 74%);
+  font: inherit;
+  transition:
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.problem-report-field select {
+  min-height: 3.25rem;
+  padding: 0.7rem 2.6rem 0.7rem 0.9rem;
+}
+
+.problem-report-field textarea {
+  min-height: 14rem;
+  padding: 0.9rem;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.problem-report-field select:hover,
+.problem-report-field textarea:hover {
+  border-color: rgb(77 228 255 / 52%);
+}
+
+.problem-report-field [aria-invalid='true'] {
+  border-color: #ff8ca5;
+  box-shadow: 0 0 0 3px rgb(255 91 127 / 15%);
+}
+
+.problem-report-help,
+.problem-report-field-meta,
+.problem-report-count,
+.problem-report-copy-status {
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+}
+
+.problem-report-help {
+  margin: 0 0 var(--space-2);
+}
+
+.problem-report-field-meta {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-top: var(--space-2);
+}
+
+.problem-report-field-error,
+.problem-report-count {
+  margin: 0;
+}
+
+.problem-report-field-error {
+  color: #ffb0c1;
+  font-weight: 680;
+}
+
+.problem-report-count {
+  flex: none;
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+.problem-report-status {
+  margin: var(--space-4) 0 0;
+  padding: var(--space-3);
+  border: 1px solid rgb(255 140 165 / 36%);
+  border-radius: var(--radius-sm);
+  color: #ffd4dd;
+  background: rgb(92 24 46 / 28%);
+}
+
+.problem-report-submit,
+.problem-report-reference button,
+.problem-report-secondary-action {
+  min-height: 3rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.problem-report-submit {
+  margin-top: var(--space-5);
+  padding-inline: var(--space-5);
+  color: #07101d;
+  background: linear-gradient(110deg, var(--color-cyan), #9dceff 52%, #c6a9ff);
+  box-shadow: 0 0.85rem 2.5rem rgb(77 228 255 / 18%);
+}
+
+.problem-report-submit:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.problem-report-success h3 {
+  margin: var(--space-3) 0 0;
+  font-size: clamp(1.8rem, 1.4rem + 1.2vw, 2.7rem);
+  letter-spacing: -0.05em;
+  line-height: 1.05;
+}
+
+.problem-report-success > p:not(.support-hub-label) {
+  margin: var(--space-3) 0 0;
+  color: var(--color-muted);
+}
+
+.problem-report-reference {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  margin-top: var(--space-5);
+  padding: var(--space-3);
+  border: 1px solid rgb(77 228 255 / 28%);
+  border-radius: var(--radius-sm);
+  background: rgb(3 6 17 / 64%);
+}
+
+.problem-report-reference code {
+  overflow-wrap: anywhere;
+  color: var(--color-cyan);
+  font-size: clamp(1rem, 0.92rem + 0.35vw, 1.25rem);
+  font-weight: 780;
+}
+
+.problem-report-reference button,
+.problem-report-secondary-action {
+  padding-inline: var(--space-4);
+  color: var(--color-ink);
+  background: rgb(255 255 255 / 9%);
+}
+
+.problem-report-reference button {
+  flex: none;
+  margin-left: auto;
+}
+
+.problem-report-secondary-action {
+  margin-top: var(--space-4);
+  border: 1px solid var(--color-surface-border);
+  background: transparent;
+}
+
+.problem-report-copy-status {
+  min-height: 1.5rem;
+}
+
+.problem-report-noscript {
+  margin: 0;
+  padding: var(--space-3);
+  border: 1px solid rgb(255 184 102 / 36%);
+  border-radius: var(--radius-sm);
+  color: #ffe1bd;
+  background: rgb(86 49 14 / 28%);
+}
+
 .support-hero {
   position: relative;
   isolation: isolate;
@@ -1263,6 +1529,19 @@ main:focus {
     border-radius: var(--radius-md);
   }
 
+  .problem-report-heading h2 {
+    letter-spacing: -0.055em;
+  }
+
+  .problem-report-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .problem-report-boundaries,
+  .problem-report-panel {
+    border-radius: var(--radius-md);
+  }
+
   .support-hero {
     padding-block: var(--space-7) var(--space-6);
   }
@@ -1293,6 +1572,17 @@ main:focus {
 }
 
 @media (max-width: 30rem) {
+  .problem-report-field-meta,
+  .problem-report-reference {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .problem-report-reference button {
+    width: 100%;
+    margin-left: 0;
+  }
+
   .support-contents ol {
     grid-template-columns: 1fr;
   }

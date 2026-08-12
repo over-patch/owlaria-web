@@ -1,0 +1,182 @@
+---
+import { HELPDESK_INTAKE_URL } from '../../config/helpdesk';
+import { problemReportCopy } from '../../content/problem-report';
+import { localePath, type Locale } from '../../i18n/config';
+import {
+  MAX_PROBLEM_REPORT_LENGTH,
+  PROBLEM_REPORT_CATEGORIES,
+} from '../../lib/problem-report';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = problemReportCopy[locale];
+const categoryId = `problem-report-category-${locale}`;
+const messageId = `problem-report-message-${locale}`;
+const categoryErrorId = `problem-report-category-error-${locale}`;
+const messageHelpId = `problem-report-message-help-${locale}`;
+const messageErrorId = `problem-report-message-error-${locale}`;
+const boundariesId = `problem-report-boundaries-${locale}`;
+---
+
+<section
+  class="problem-report-section shell"
+  aria-labelledby={`problem-report-title-${locale}`}
+  data-problem-report-root
+  data-error-validation={copy.errors.validation}
+  data-error-suspended={copy.errors.suspended}
+  data-error-payload-too-large={copy.errors.payload_too_large}
+  data-error-rate-limited={copy.errors.rate_limited}
+  data-error-server={copy.errors.server}
+  data-error-timeout={copy.errors.timeout}
+  data-error-offline={copy.errors.offline}
+  data-validation-summary={copy.validationSummary}
+>
+  <div class="problem-report-heading" data-reveal>
+    <p class="eyebrow">{copy.eyebrow}</p>
+    <h2 id={`problem-report-title-${locale}`}>{copy.title}</h2>
+    <p>{copy.introduction}</p>
+  </div>
+
+  <div class="problem-report-layout">
+    <aside class="problem-report-boundaries" id={boundariesId} data-reveal>
+      <h3>{copy.oneWayNotice}</h3>
+      <p>{copy.prohibitedInformation}</p>
+      <p>
+        {copy.privacy.prefix}<a href={localePath(locale, '/privacy/')}>
+          {copy.privacy.linkLabel}
+        </a>{copy.privacy.suffix}
+      </p>
+      <p>{copy.appAlternative}</p>
+    </aside>
+
+    <div class="problem-report-panel" data-reveal>
+      <form
+        class="problem-report-form"
+        data-problem-report-form
+        data-intake-url={HELPDESK_INTAKE_URL}
+        data-timeout-ms="12000"
+        data-submitting-label={copy.submitting}
+        aria-describedby={boundariesId}
+        novalidate
+      >
+        <div class="problem-report-field">
+          <label for={categoryId}>{copy.categoryLabel}</label>
+          <select
+            id={categoryId}
+            name="category"
+            required
+            aria-describedby={categoryErrorId}
+            data-category
+          >
+            <option value="">{copy.categoryPlaceholder}</option>
+            {
+              PROBLEM_REPORT_CATEGORIES.map((category) => (
+                <option value={category}>{copy.categories[category]}</option>
+              ))
+            }
+          </select>
+          <p
+            class="problem-report-field-error"
+            id={categoryErrorId}
+            data-category-error
+            data-required={copy.fieldErrors.categoryRequired}
+            data-invalid={copy.fieldErrors.categoryInvalid}
+            hidden
+          >
+          </p>
+        </div>
+
+        <div class="problem-report-field">
+          <label for={messageId}>{copy.messageLabel}</label>
+          <p class="problem-report-help" id={messageHelpId}>
+            {copy.messageHelp}
+          </p>
+          <textarea
+            id={messageId}
+            name="message"
+            rows="10"
+            required
+            maxlength={MAX_PROBLEM_REPORT_LENGTH}
+            aria-describedby={`${messageHelpId} ${messageErrorId}`}
+            data-message></textarea>
+          <div class="problem-report-field-meta">
+            <p
+              class="problem-report-field-error"
+              id={messageErrorId}
+              data-message-error
+              data-required={copy.fieldErrors.messageRequired}
+              data-too-long={copy.fieldErrors.messageTooLong}
+              hidden
+            >
+            </p>
+            <p
+              class="problem-report-count"
+              aria-label={copy.characterCountLabel}
+              aria-live="polite"
+              data-character-count
+            >
+              0 / {MAX_PROBLEM_REPORT_LENGTH.toLocaleString(locale)}
+            </p>
+          </div>
+        </div>
+
+        <p
+          class="problem-report-status"
+          role="alert"
+          tabindex="-1"
+          data-report-status
+          hidden
+        >
+        </p>
+
+        <button
+          class="problem-report-submit"
+          type="submit"
+          data-submit
+          data-label={copy.submit}
+          disabled
+        >
+          {copy.submit}
+        </button>
+      </form>
+
+      <section class="problem-report-success" data-report-success hidden>
+        <p class="support-hub-label">{copy.success.referenceLabel}</p>
+        <h3 tabindex="-1" data-success-heading>{copy.success.title}</h3>
+        <p>{copy.success.description}</p>
+        <div class="problem-report-reference">
+          <code data-reference-number></code>
+          <button type="button" data-copy-reference>
+            {copy.success.copy}
+          </button>
+        </div>
+        <p
+          class="problem-report-copy-status"
+          aria-live="polite"
+          data-copy-status
+        >
+        </p>
+        <button
+          class="problem-report-secondary-action"
+          type="button"
+          data-send-another
+        >
+          {copy.success.sendAnother}
+        </button>
+        <span data-copied-message={copy.success.copied} hidden></span>
+        <span data-copy-failed-message={copy.success.copyFailed} hidden></span>
+      </section>
+
+      <noscript>
+        <p class="problem-report-noscript">{copy.noScript}</p>
+      </noscript>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../../scripts/problem-report-form';
+</script>
