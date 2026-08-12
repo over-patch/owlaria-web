@@ -34,6 +34,10 @@ export type ProblemReportPayload = {
     diagnostics_approved: false;
     confirmed_at: string;
   };
+  client: {
+    consumer_type: 'web';
+    platform: 'web';
+  };
 };
 
 export type ProblemReportAttempt = Readonly<{
@@ -116,6 +120,10 @@ export function createProblemReportAttempt(
         privacy_notice_version: PRIVACY_NOTICE_VERSION,
         diagnostics_approved: false,
         confirmed_at: now().toISOString(),
+      },
+      client: {
+        consumer_type: 'web',
+        platform: 'web',
       },
     },
   };
