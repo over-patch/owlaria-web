@@ -1,0 +1,64 @@
+---
+import type { LegalDocumentCopy } from '../../content/legal';
+import type { Locale } from '../../i18n/config';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import LegalBlock from './LegalBlock.astro';
+
+interface Props {
+  copy: LegalDocumentCopy;
+  locale: Locale;
+  pathname: string;
+}
+
+const { copy, locale, pathname } = Astro.props;
+---
+
+<SiteLayout
+  {locale}
+  {pathname}
+  title={copy.metadata.title}
+  description={copy.metadata.description}
+>
+  <header class="legal-hero shell" data-reveal>
+    <p class="eyebrow">{copy.eyebrow}</p>
+    <h1>{copy.title}</h1>
+    <dl class="legal-dates">
+      <div>
+        <dt>{copy.effectiveLabel}</dt>
+        <dd>{copy.effectiveDate}</dd>
+      </div>
+      <div>
+        <dt>{copy.updatedLabel}</dt>
+        <dd>{copy.updatedDate}</dd>
+      </div>
+    </dl>
+  </header>
+
+  <div class="legal-layout shell">
+    <nav class="legal-contents" aria-label={copy.contentsLabel} data-reveal>
+      <p>{copy.contentsLabel}</p>
+      <ol>
+        {
+          copy.sections.map((section) => (
+            <li>
+              <a href={`#${section.id}`}>{section.title}</a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <article class="legal-document">
+      {
+        copy.sections.map((section) => (
+          <section id={section.id} data-legal-section data-reveal>
+            <h2>{section.title}</h2>
+            {section.blocks.map((block) => (
+              <LegalBlock block={block} />
+            ))}
+          </section>
+        ))
+      }
+    </article>
+  </div>
+</SiteLayout>

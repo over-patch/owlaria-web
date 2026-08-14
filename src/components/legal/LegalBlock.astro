@@ -1,0 +1,59 @@
+---
+import type { LegalBlock as LegalBlockType } from '../../content/legal';
+
+interface Props {
+  block: LegalBlockType;
+}
+
+const { block } = Astro.props;
+---
+
+{block.kind === 'paragraph' && <p>{block.text}</p>}
+{
+  block.kind === 'list' && (
+    <ul>
+      {block.items.map((item) => (
+        <li>{item}</li>
+      ))}
+    </ul>
+  )
+}
+{
+  block.kind === 'links' && (
+    <ul class="legal-links">
+      {block.items.map((item) => (
+        <li>
+          <a href={item.href}>{item.label}</a>
+        </li>
+      ))}
+    </ul>
+  )
+}
+{
+  block.kind === 'subsection' && (
+    <div class="legal-subsection">
+      <h3>{block.title}</h3>
+      {block.blocks.map((child) => (
+        <>
+          {child.kind === 'paragraph' && <p>{child.text}</p>}
+          {child.kind === 'list' && (
+            <ul>
+              {child.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          )}
+          {child.kind === 'links' && (
+            <ul class="legal-links">
+              {child.items.map((item) => (
+                <li>
+                  <a href={item.href}>{item.label}</a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      ))}
+    </div>
+  )
+}

@@ -174,7 +174,7 @@ test('sends only approved fields, retries with the same ID, and copies a 200 rec
     category: 'viewer',
     message: 'Pages do not advance.',
     consent: {
-      privacy_notice_version: '2026-07-26',
+      privacy_notice_version: '2026-08-15',
       diagnostics_approved: false,
     },
     client: {
