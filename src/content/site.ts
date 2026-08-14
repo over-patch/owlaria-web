@@ -1,7 +1,6 @@
 import type { Locale } from '../i18n/config';
 
-export type RouteKey =
-  'home' | 'support' | 'purchases' | 'privacy' | 'terms' | 'releases';
+export type RouteKey = 'home' | 'support' | 'purchases' | 'releases';
 
 type PageCopy = {
   title: string;
@@ -78,20 +77,6 @@ export const siteCopy: Record<Locale, SiteCopy> = {
         heading: 'Owlaria Plus purchase support',
         body: 'Guidance for purchases, restores, and refunds.',
       },
-      privacy: {
-        title: 'Privacy · Owlaria',
-        description: 'The official Owlaria privacy page.',
-        eyebrow: 'Legal',
-        heading: 'Privacy information is being prepared.',
-        body: 'The reviewed public policy will be published here.',
-      },
-      terms: {
-        title: 'Terms · Owlaria',
-        description: 'The official Owlaria terms page.',
-        eyebrow: 'Legal',
-        heading: 'Terms are being prepared.',
-        body: 'The reviewed public terms will be published here.',
-      },
       releases: {
         title: 'Release Notes · Owlaria',
         description: 'Public release notes for Owlaria.',
@@ -142,20 +127,6 @@ export const siteCopy: Record<Locale, SiteCopy> = {
         eyebrow: 'サポート / 購入について',
         heading: 'Owlaria Plusの購入サポート',
         body: '購入・復元・返金についてご案内します。',
-      },
-      privacy: {
-        title: 'プライバシー · Owlaria',
-        description: 'Owlariaの公式プライバシーページです。',
-        eyebrow: '法的情報',
-        heading: 'プライバシー情報を準備しています。',
-        body: 'レビュー済みの公開ポリシーを、こちらで公開します。',
-      },
-      terms: {
-        title: '利用規約 · Owlaria',
-        description: 'Owlariaの公式利用規約ページです。',
-        eyebrow: '法的情報',
-        heading: '利用規約を準備しています。',
-        body: 'レビュー済みの公開規約を、こちらで公開します。',
       },
       releases: {
         title: 'リリースノート · Owlaria',

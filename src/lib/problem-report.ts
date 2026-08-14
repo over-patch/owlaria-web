@@ -10,7 +10,7 @@ export const PROBLEM_REPORT_CATEGORIES = [
 ] as const;
 
 export const MAX_PROBLEM_REPORT_LENGTH = 8_000;
-export const PRIVACY_NOTICE_VERSION = '2026-07-26';
+export const PRIVACY_NOTICE_VERSION = '2026-08-15';
 
 export type ProblemReportCategory = (typeof PROBLEM_REPORT_CATEGORIES)[number];
 

@@ -1,5 +1,6 @@
 ---
-import FoundationPage from '../../../components/FoundationPage.astro';
+import LegalDocumentPage from '../../../components/legal/LegalDocumentPage.astro';
+import { termsCopy } from '../../../content/legal';
 ---
 
-<FoundationPage locale="ja" pathname="/terms/" route="terms" />
+<LegalDocumentPage copy={termsCopy.ja} locale="ja" pathname="/terms/" />

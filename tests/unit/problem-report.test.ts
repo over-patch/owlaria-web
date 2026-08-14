@@ -70,7 +70,7 @@ describe('problem-report payload', () => {
       category: 'viewer',
       message: 'Pages do not advance.',
       consent: {
-        privacy_notice_version: '2026-07-26',
+        privacy_notice_version: '2026-08-15',
         diagnostics_approved: false,
         confirmed_at: confirmedAt,
       },

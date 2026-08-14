@@ -1,5 +1,10 @@
 ---
-import FoundationPage from '../../components/FoundationPage.astro';
+import LegalDocumentPage from '../../components/legal/LegalDocumentPage.astro';
+import { privacyPolicyCopy } from '../../content/legal';
 ---
 
-<FoundationPage locale="en" pathname="/privacy/" route="privacy" />
+<LegalDocumentPage
+  copy={privacyPolicyCopy.en}
+  locale="en"
+  pathname="/privacy/"
+/>
