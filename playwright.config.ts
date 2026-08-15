@@ -17,7 +17,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'pnpm preview --host 127.0.0.1 --port 4322',
+    command:
+      'pnpm build && env OWLARIA_RELEASE_NOTES_FIXTURES=1 pnpm build && env OWLARIA_RELEASE_NOTES_FIXTURES=1 pnpm preview --host 127.0.0.1 --port 4322',
     port: 4322,
     reuseExistingServer: false,
   },

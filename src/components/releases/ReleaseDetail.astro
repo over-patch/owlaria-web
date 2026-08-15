@@ -1,0 +1,64 @@
+---
+import { releasePageCopy } from '../../content/site';
+import { localePath, type Locale } from '../../i18n/config';
+import { formatReleaseDate, type ReleaseFrontmatter } from '../../lib/releases';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+interface Props {
+  locale: Locale;
+  release: ReleaseFrontmatter;
+}
+
+const { locale, release } = Astro.props;
+const copy = releasePageCopy[locale];
+const pagePath = `/releases/${release.version}/`;
+const title = copy.detailTitle.replace('{version}', release.version);
+const platformNames = release.platforms.map(
+  (platform) => copy.platforms[platform],
+);
+const platformDescription =
+  locale === 'en'
+    ? new Intl.ListFormat('en', { type: 'conjunction' }).format(platformNames)
+    : platformNames.join('・');
+const description = copy.detailDescription
+  .replace('{version}', release.version)
+  .replace('{platforms}', platformDescription);
+---
+
+<SiteLayout {locale} pathname={pagePath} {title} {description}>
+  <article class="release-detail shell">
+    <header class="release-detail-header">
+      <a class="release-back" href={localePath(locale, '/releases/')}
+        >← {copy.backToIndex}</a
+      >
+      <p class="eyebrow">{copy.eyebrow}</p>
+      <h1>Owlaria {release.version}</h1>
+      <dl class="release-detail-meta">
+        <div>
+          <dt>{copy.publishedLabel}</dt>
+          <dd>
+            <time datetime={release.publishedAt}>
+              {formatReleaseDate(release.publishedAt, locale)}
+            </time>
+          </dd>
+        </div>
+        <div>
+          <dt>{copy.platformsLabel}</dt>
+          <dd>
+            <ul>
+              {
+                release.platforms.map((platform) => (
+                  <li>{copy.platforms[platform]}</li>
+                ))
+              }
+            </ul>
+          </dd>
+        </div>
+      </dl>
+    </header>
+
+    <div class="release-markdown">
+      <slot />
+    </div>
+  </article>
+</SiteLayout>

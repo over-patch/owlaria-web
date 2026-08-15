@@ -138,3 +138,61 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
   },
 };
+
+type ReleasePageCopy = {
+  indexTitle: string;
+  description: string;
+  detailTitle: string;
+  detailDescription: string;
+  eyebrow: string;
+  indexHeading: string;
+  indexBody: string;
+  listLabel: string;
+  versionLabel: string;
+  publishedLabel: string;
+  platformsLabel: string;
+  platforms: Record<'macos' | 'ios', string>;
+  emptyHeading: string;
+  emptyBody: string;
+  backToIndex: string;
+};
+
+export const releasePageCopy: Record<Locale, ReleasePageCopy> = {
+  en: {
+    indexTitle: 'Release Notes · Owlaria',
+    description: 'Reviewed public release notes for Owlaria on macOS and iOS.',
+    detailTitle: 'Owlaria {version} Release Notes',
+    detailDescription: 'What changed in Owlaria {version} for {platforms}.',
+    eyebrow: 'Release Notes',
+    indexHeading: 'Owlaria release notes',
+    indexBody:
+      'Follow the latest reviewed improvements across Owlaria for macOS and iOS.',
+    listLabel: 'Published releases',
+    versionLabel: 'Version',
+    publishedLabel: 'Published',
+    platformsLabel: 'Platforms',
+    platforms: { macos: 'macOS', ios: 'iOS' },
+    emptyHeading: 'No release notes yet',
+    emptyBody:
+      'Reviewed updates will appear here after they are published for Owlaria.',
+    backToIndex: 'All release notes',
+  },
+  ja: {
+    indexTitle: 'リリースノート · Owlaria',
+    description: 'macOS・iOS版Owlariaのレビュー済み公開リリースノートです。',
+    detailTitle: 'Owlaria {version} リリースノート',
+    detailDescription: '{platforms}版Owlaria {version}の変更内容です。',
+    eyebrow: 'リリースノート',
+    indexHeading: 'Owlaria リリースノート',
+    indexBody: 'macOS・iOS版Owlariaのレビュー済みの改善内容をお知らせします。',
+    listLabel: '公開済みリリース',
+    versionLabel: 'バージョン',
+    publishedLabel: '公開日',
+    platformsLabel: '対応プラットフォーム',
+    platforms: { macos: 'macOS', ios: 'iOS' },
+    emptyHeading: '公開済みのリリースはまだありません',
+    emptyBody:
+      'レビュー済みの更新情報をこちらで公開します。公開までしばらくお待ちください。',
+    backToIndex: 'リリースノート一覧',
+  },
+};
