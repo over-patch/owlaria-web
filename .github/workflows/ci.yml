@@ -48,5 +48,8 @@ jobs:
       - name: Build production site
         run: pnpm build
 
+      - name: Check built links and assets
+        run: pnpm test:links
+
       - name: Run browser tests
         run: pnpm test:e2e

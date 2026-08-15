@@ -4,7 +4,15 @@ Public product website for [Owlaria](https://github.com/over-patch/owlaria), pub
 
 ## Status
 
-The shared Astro foundation and bilingual product homepage are complete. Bilingual purchase, restore, and refund guidance is tracked in [owlaria-web#3](https://github.com/over-patch/owlaria-web/issues/3), under the Phase 2 product Web epic [over-patch/owlaria#1417](https://github.com/over-patch/owlaria/issues/1417). Independent domain, DNS, and HTTPS setup is tracked in [#1562](https://github.com/over-patch/owlaria/issues/1562).
+The deployed site provides a bilingual product homepage, Support and purchase,
+restore, and refund guidance, legal pages, release-note routes, and a
+Helpdesk-backed problem-report form. GitHub Pages serves the custom domain
+declared by `public/CNAME`; DNS and HTTPS are part of the deployed hosting
+baseline. The product screenshot work is tracked in
+[#1563](https://github.com/over-patch/owlaria/issues/1563). Store URL activation
+is a separate deferred task: macOS and iOS acquisition actions must remain
+non-link `Coming soon` states until both canonical URLs are supplied and
+verified.
 
 ## Architecture
 
@@ -39,6 +47,7 @@ mise exec -- pnpm lint:actions
 mise exec -- pnpm check
 mise exec -- pnpm test
 mise exec -- pnpm build
+mise exec -- pnpm test:links
 mise exec -- pnpm exec playwright install chromium
 mise exec -- pnpm test:e2e
 ```
@@ -49,7 +58,8 @@ mise exec -- pnpm test:e2e
 
 Pull requests run the full production validation workflow. A merge to `main` starts a separate GitHub Pages workflow that builds `dist/`, uploads the Pages artifact, and deploys it with GitHub's built-in Pages and OIDC permissions. The deployment does not require repository secrets.
 
-`public/CNAME` declares `owlaria.overpatch.dev` as the custom domain. The external DNS owner must add this record before the custom URL and HTTPS certificate can become healthy:
+`public/CNAME` declares `owlaria.overpatch.dev` as the custom domain. The custom
+domain uses this record, which the DNS owner must keep in place:
 
 ```text
 Type:  CNAME
@@ -57,7 +67,17 @@ Name:  owlaria
 Value: over-patch.github.io
 ```
 
-Do not add an A/AAAA record for this subdomain. GitHub repository settings must use GitHub Actions as the Pages source and `owlaria.overpatch.dev` as the custom domain.
+Do not add an A/AAAA record for this subdomain. GitHub repository settings use
+GitHub Actions as the Pages source and `owlaria.overpatch.dev` as the custom
+domain. Check the current Pages, DNS, and HTTPS state during every production
+preflight.
+
+## Operations
+
+- [Publishing runbook](./docs/ops/publishing.md): reviewed publication,
+  release-note export, smoke test, and rollback procedure.
+- [Preflight checklist](./docs/ops/preflight-checklist.md): route,
+  accessibility, metadata, support, Store-link, and deployment evidence.
 
 ## Localization
 
