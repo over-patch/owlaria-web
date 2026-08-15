@@ -8,8 +8,9 @@ a deferred follow-up below.
 ## Change and review
 
 - [ ] Branch uses a repository-standard prefix and targets `main`.
-- [ ] Pull request diff contains only reviewed public website content.
-- [ ] One team-member approval is recorded.
+- [ ] Pull request diff contains only the intended public website content.
+- [ ] All review conversations, if any, are resolved. An approving review is
+      optional and is not a merge requirement.
 - [ ] `Verify website` is passing for the latest commit.
 - [ ] Local quality gate results are recorded: `format:check`, `lint`,
       `lint:actions`, `check`, `test`, build, `test:links`, and `test:e2e`.
@@ -83,7 +84,7 @@ a deferred follow-up below.
 - [ ] **Pre-release state:** until that gate passes, macOS and iOS acquisition
       actions remain non-links (`Coming soon` / `近日公開`).
 - [ ] **Post-release state:** when the gate passes, enable both canonical links
-      together in one reviewed pull request and verify both locales.
+      together in one pull request and verify both locales.
 - [ ] Never publish a mixed state with one Store link active and the other still
       pending.
 
@@ -101,9 +102,9 @@ state until the follow-up evidence exists.
       (`owlaria.overpatch.dev` → `over-patch.github.io`).
 - [ ] HTTPS is healthy for `https://owlaria.overpatch.dev/` and redirects or
       mixed-content errors are absent.
-- [ ] Merge commit, CI run URL, deploy run URL, reviewer, and production smoke
-      test timestamp are recorded.
-- [ ] A rollback owner is named and can open the reviewed revert PR if needed.
+- [ ] Merge commit, CI run URL, deploy run URL, reviewer (if any), and
+      production smoke test timestamp are recorded.
+- [ ] A rollback owner is named and can open the revert PR if needed.
 - [ ] If a rollback occurred, the revert PR, its CI/deploy runs, and the repeat
       smoke test are linked here.
 
@@ -114,6 +115,6 @@ state until the follow-up evidence exists.
 - `Verify website` run:
 - `Deploy to GitHub Pages` run:
 - Production smoke-test timestamp and browser/device:
-- Reviewer:
+- Reviewer (if any):
 - Rollback owner:
 - Notes or follow-up issue:

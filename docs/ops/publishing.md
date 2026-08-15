@@ -1,8 +1,8 @@
 # Owlaria Web publishing runbook
 
 This runbook is for publishing the public site at
-`https://owlaria.overpatch.dev/`. All production changes go through a reviewed
-pull request. The site is a static Astro build deployed by GitHub Actions to
+`https://owlaria.overpatch.dev/`. All production changes go through a pull
+request. The site is a static Astro build deployed by GitHub Actions to
 GitHub Pages; there is no production server to update manually.
 
 ## 1. Create a branch and pull request
@@ -55,13 +55,14 @@ content, assets, and horizontal overflow. Stop the preview with `Ctrl-C` after
 recording the result in the pull request. This manual preview is separate from
 the temporary server that Playwright starts and stops automatically.
 
-## 3. Obtain review and CI approval
+## 3. Resolve feedback and obtain CI approval
 
 Before merging, confirm all of the following in the pull request:
 
-- At least one team member has approved the pull request.
 - The required `Verify website` check is passing for the latest commit.
-- The diff contains only reviewed public content and the intended generated
+- Every review conversation, if any, is resolved. An approving review is
+  optional and is not required to merge.
+- The diff contains only intended public content and the intended generated
   release-note files, if any.
 - The preflight checklist has an owner and evidence for each applicable item.
 
@@ -70,7 +71,7 @@ rerun the checks rather than bypassing branch protection.
 
 ## 4. Merge and wait for Pages deployment
 
-Merge the approved pull request to `main` according to repository policy. A push
+Merge the verified pull request to `main` according to repository policy. A push
 to `main` starts the `Deploy to GitHub Pages` workflow in
 `.github/workflows/deploy.yml`. Wait for both `Build Pages artifact` and the
 deployment step `Deploy to GitHub Pages` to succeed. Do not treat a successful
@@ -78,7 +79,7 @@ CI run by itself as a production deployment.
 
 Record the merge commit, CI run, deploy run, Pages URL, and timestamp in the
 preflight evidence. If the deploy workflow fails, investigate the workflow log
-and fix it through a reviewed pull request; do not upload an artifact by hand.
+and fix it through a pull request; do not upload an artifact by hand.
 
 ## 5. Smoke-test production
 
@@ -142,9 +143,9 @@ release directory or `internal.md` manually.
 4. Run the Web quality gate and review the built release pages. Before Store
    publication, keep the Web pull request unmerged. After Store publication,
    re-export with the confirmed publication date if it changed, update the
-   reviewed pull request, and rerun the gate before merge.
+   pull request, and rerun the gate before merge.
 
-## 7. Roll back with a reviewed revert
+## 7. Roll back with a revert pull request
 
 If a production smoke test finds a faulty change:
 
@@ -152,11 +153,12 @@ If a production smoke test finds a faulty change:
    deploy run and smoke-test evidence.
 2. Create a new branch from current `main` and revert the faulty pull request
    with Git's normal revert operation. Do not rewrite history or force-push.
-3. Open a new reviewed pull request for the revert. Run the full quality gate,
-   obtain one team-member approval, and wait for `Verify website` to pass.
+3. Open a new pull request for the revert. Run the full quality gate, resolve
+   any review conversations, and wait for `Verify website` to pass. An
+   approving review remains optional.
 4. Merge the revert to `main`, wait for `Deploy to GitHub Pages` to succeed,
    and repeat the production smoke test and checklist evidence.
 
 Never force-push `main` and never manually replace or delete the GitHub Pages
 artifact. If the underlying content needs a follow-up fix, make it in another
-reviewed pull request after the rollback is confirmed.
+pull request after the rollback is confirmed.
