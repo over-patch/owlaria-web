@@ -4,4 +4,6 @@ dist/
 node_modules/
 playwright-report/
 test-results/
+# Preserve byte-compatible exporter frontmatter fixtures (including double-quoted dates).
+tests/fixtures/releases/**/*.md
 pnpm-lock.yaml

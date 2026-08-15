@@ -1,0 +1,26 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+
+import ReleaseDetail from '../../../components/releases/ReleaseDetail.astro';
+import { hasReleaseMarkdown } from '../../../lib/release-source';
+import { selectLocalizedReleases } from '../../../lib/releases';
+
+export async function getStaticPaths() {
+  const entries = hasReleaseMarkdown ? await getCollection('releases') : [];
+  return selectLocalizedReleases(entries, 'ja').map((release) => ({
+    params: { version: release.data.version },
+    props: { release },
+  }));
+}
+
+interface Props {
+  release: CollectionEntry<'releases'>;
+}
+
+const { release } = Astro.props;
+const { Content } = await render(release);
+---
+
+<ReleaseDetail locale="ja" release={release.data}>
+  <Content />
+</ReleaseDetail>

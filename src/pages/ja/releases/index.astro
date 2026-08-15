@@ -1,5 +1,14 @@
 ---
-import FoundationPage from '../../../components/FoundationPage.astro';
+import { getCollection } from 'astro:content';
+
+import ReleaseIndex from '../../../components/releases/ReleaseIndex.astro';
+import { hasReleaseMarkdown } from '../../../lib/release-source';
+import { selectLocalizedReleases } from '../../../lib/releases';
+
+const releases = selectLocalizedReleases(
+  hasReleaseMarkdown ? await getCollection('releases') : [],
+  'ja',
+);
 ---
 
-<FoundationPage locale="ja" pathname="/releases/" route="releases" />
+<ReleaseIndex locale="ja" {releases} />

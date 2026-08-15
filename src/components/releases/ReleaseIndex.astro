@@ -1,0 +1,79 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+import { releasePageCopy } from '../../content/site';
+import { localePath, type Locale } from '../../i18n/config';
+import { formatReleaseDate } from '../../lib/releases';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+interface Props {
+  locale: Locale;
+  releases: CollectionEntry<'releases'>[];
+}
+
+const { locale, releases } = Astro.props;
+const copy = releasePageCopy[locale];
+---
+
+<SiteLayout
+  {locale}
+  pathname="/releases/"
+  title={copy.indexTitle}
+  description={copy.description}
+>
+  <section class="release-hero shell">
+    <p class="eyebrow">{copy.eyebrow}</p>
+    <h1>{copy.indexHeading}</h1>
+    <p>{copy.indexBody}</p>
+  </section>
+
+  <section class="release-index shell" aria-labelledby="release-index-heading">
+    <h2 id="release-index-heading" class="visually-hidden">
+      {copy.listLabel}
+    </h2>
+    {
+      releases.length > 0 ? (
+        <ol class="release-list" aria-label={copy.listLabel}>
+          {releases.map((release) => (
+            <li>
+              <article class="release-card">
+                <div>
+                  <p class="release-card-label">{copy.versionLabel}</p>
+                  <h2>
+                    <a
+                      href={localePath(
+                        locale,
+                        `/releases/${release.data.version}/`,
+                      )}
+                      aria-label={`${copy.versionLabel} ${release.data.version}`}
+                    >
+                      {release.data.version}
+                    </a>
+                  </h2>
+                </div>
+                <div class="release-card-meta">
+                  <time datetime={release.data.publishedAt}>
+                    {formatReleaseDate(release.data.publishedAt, locale)}
+                  </time>
+                  <ul aria-label={copy.platformsLabel}>
+                    {release.data.platforms.map((platform) => (
+                      <li>{copy.platforms[platform]}</li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <article class="release-empty" data-reveal>
+          <span aria-hidden="true">01</span>
+          <div>
+            <h2>{copy.emptyHeading}</h2>
+            <p>{copy.emptyBody}</p>
+          </div>
+        </article>
+      )
+    }
+  </section>
+</SiteLayout>
