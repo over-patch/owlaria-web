@@ -11,6 +11,36 @@ const routePairs = [
 
 const origin = 'https://owlaria.overpatch.dev';
 
+async function expectSocialMetadata(
+  page: import('@playwright/test').Page,
+  expectedCanonical: string,
+) {
+  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+    'content',
+    await page.title(),
+  );
+  await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
+    'content',
+    /\S+/,
+  );
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+    'content',
+    expectedCanonical,
+  );
+  await expect(page.locator('meta[property="og:type"]')).toHaveAttribute(
+    'content',
+    'website',
+  );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    'https://owlaria.overpatch.dev/social/owlaria-social.png',
+  );
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
+    'content',
+    'summary_large_image',
+  );
+}
+
 for (const [englishPath, japanesePath] of routePairs) {
   test(`${englishPath} renders the English localized shell`, async ({
     page,
@@ -25,6 +55,7 @@ for (const [englishPath, japanesePath] of routePairs) {
       'href',
       `${origin}${englishPath}`,
     );
+    await expectSocialMetadata(page, `${origin}${englishPath}`);
     await expect(
       page.locator('link[rel="alternate"][hreflang="en"]'),
     ).toHaveAttribute('href', `${origin}${englishPath}`);
@@ -57,6 +88,7 @@ for (const [englishPath, japanesePath] of routePairs) {
       'href',
       `${origin}${japanesePath}`,
     );
+    await expectSocialMetadata(page, `${origin}${japanesePath}`);
     await expect(
       page.locator('link[rel="alternate"][hreflang="en"]'),
     ).toHaveAttribute('href', `${origin}${englishPath}`);

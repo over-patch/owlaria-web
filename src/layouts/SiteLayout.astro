@@ -30,6 +30,16 @@ const canonicalUrl = absoluteLocaleUrl(locale, pathname);
     <link rel="alternate" hreflang="en" href={englishUrl} />
     <link rel="alternate" hreflang="ja" href={japaneseUrl} />
     <link rel="alternate" hreflang="x-default" href={englishUrl} />
+    <meta property="og:site_name" content="Owlaria" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta
+      property="og:image"
+      content="https://owlaria.overpatch.dev/social/owlaria-social.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
     <script is:inline>
       document.documentElement.classList.add('has-js');
     </script>
