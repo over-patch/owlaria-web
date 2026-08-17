@@ -1,0 +1,114 @@
+---
+import { featurePageCopy } from '../../content/features';
+import { localePath, type Locale } from '../../i18n/config';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = featurePageCopy[locale];
+---
+
+<SiteLayout
+  {locale}
+  pathname="/features/"
+  title={copy.metadata.title}
+  description={copy.metadata.description}
+>
+  <header class="features-hero shell" data-reveal>
+    <p class="eyebrow">{copy.hero.eyebrow}</p>
+    <h1>{copy.hero.heading}</h1>
+    <p>{copy.hero.body}</p>
+  </header>
+
+  <nav
+    class="feature-jump-nav shell"
+    aria-label={copy.navigationLabel}
+    data-reveal
+  >
+    <ol>
+      {
+        copy.categories.map((category) => (
+          <li>
+            <a href={`#${category.id}`}>
+              <span>{category.number}</span>
+              {category.label}
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+
+  <div class="feature-catalog shell">
+    {
+      copy.categories.map((category) => (
+        <section
+          id={category.id}
+          class="feature-category"
+          aria-labelledby={`${category.id}-heading`}
+          data-reveal
+        >
+          <header class="feature-category-heading">
+            <p>
+              <span>{category.number}</span>
+              {category.label}
+            </p>
+            <h2 id={`${category.id}-heading`}>{category.heading}</h2>
+            <p>{category.body}</p>
+          </header>
+          <ul class="feature-category-grid">
+            {category.items.map((item) => (
+              <li>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
+
+  <section
+    class="formats-section shell"
+    aria-labelledby="formats-heading"
+    data-reveal
+  >
+    <header class="section-heading">
+      <p class="eyebrow">{copy.formats.eyebrow}</p>
+      <h2 id="formats-heading">{copy.formats.heading}</h2>
+      <p>{copy.formats.body}</p>
+    </header>
+    <div class="format-groups">
+      <section>
+        <h3>{copy.formats.archiveLabel}</h3>
+        <ul>
+          {copy.formats.archive.map((format) => <li>{format}</li>)}
+        </ul>
+      </section>
+      <section>
+        <h3>{copy.formats.imageLabel}</h3>
+        <ul>
+          {copy.formats.image.map((format) => <li>{format}</li>)}
+        </ul>
+      </section>
+    </div>
+    <aside class="feature-availability">
+      <h3>{copy.availability.heading}</h3>
+      <p>{copy.availability.body}</p>
+    </aside>
+  </section>
+
+  <section class="closing-section shell" data-reveal>
+    <img src="/owlaria-app-icon.png" width="96" height="96" alt="" />
+    <p class="eyebrow">{copy.closing.eyebrow}</p>
+    <h2>{copy.closing.heading}</h2>
+    <p>{copy.closing.body}</p>
+    <a class="primary-link" href={localePath(locale, '/')}
+      >{copy.closing.action}<span aria-hidden="true">→</span></a
+    >
+  </section>
+</SiteLayout>

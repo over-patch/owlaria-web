@@ -1,6 +1,6 @@
 ---
 import { homeCopy, platformAction, platforms } from '../../content/home';
-import type { Locale } from '../../i18n/config';
+import { localePath, type Locale } from '../../i18n/config';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import PlatformCard from './PlatformCard.astro';
 
@@ -23,6 +23,9 @@ const copy = homeCopy[locale];
       <p class="eyebrow">{copy.hero.eyebrow}</p>
       <h1>{copy.hero.heading}</h1>
       <p class="hero-body">{copy.hero.body}</p>
+      <ul class="hero-proof-points" aria-label={copy.hero.eyebrow}>
+        {copy.hero.proofPoints.map((point) => <li>{point}</li>)}
+      </ul>
       <div class="hero-availability" aria-label={copy.platforms.body}>
         <span>macOS</span>
         <span>iOS</span>
@@ -30,23 +33,52 @@ const copy = homeCopy[locale];
       </div>
     </div>
 
-    <figure class="product-preview" data-reveal>
-      <img
-        class="preview-artwork"
-        src="/screenshots/owlaria-library-placeholder.svg"
-        alt={copy.hero.previewAlt}
-        width="1440"
-        height="960"
-      />
-      <img
-        class="preview-icon"
-        src="/owlaria-app-icon.png"
-        width="164"
-        height="164"
-        alt=""
-      />
-      <figcaption class="preview-label">{copy.hero.previewLabel}</figcaption>
-    </figure>
+    <div class="product-story" data-reveal>
+      <div class="story-node story-source">
+        <span class="story-symbol" aria-hidden="true">NAS</span>
+        <strong>{copy.hero.sourceLabel}</strong>
+      </div>
+      <span class="story-connector" aria-hidden="true"></span>
+      <div class="story-node story-guardian">
+        <img
+          class="story-icon"
+          src="/owlaria-app-icon.png"
+          width="96"
+          height="96"
+          alt=""
+        />
+        <strong>{copy.hero.protectionLabel}</strong>
+      </div>
+      <span class="story-connector" aria-hidden="true"></span>
+      <div class="story-node story-devices">
+        <span class="story-symbol" aria-hidden="true">macOS · iOS</span>
+        <strong>{copy.hero.deviceLabel}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="capability-section shell"
+    aria-labelledby="capability-heading"
+  >
+    <div class="section-heading" data-reveal>
+      <p class="eyebrow">{copy.capabilities.eyebrow}</p>
+      <h2 id="capability-heading">{copy.capabilities.heading}</h2>
+      <p>{copy.capabilities.body}</p>
+    </div>
+    <ul class="capability-grid">
+      {
+        copy.capabilities.items.map((item) => (
+          <li data-reveal>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+    <a class="primary-link" href={localePath(locale, '/features/')}
+      >{copy.capabilities.action}<span aria-hidden="true">→</span></a
+    >
   </section>
 
   <section class="feature-section shell" aria-labelledby="feature-heading">

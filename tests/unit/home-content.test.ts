@@ -3,10 +3,36 @@ import { describe, expect, it } from 'vitest';
 import { homeCopy, platformAction, platforms } from '../../src/content/home';
 
 describe('homepage content', () => {
-  it('publishes the required English hero and a distinct Japanese hero', () => {
-    expect(homeCopy.en.hero.heading).toBe('Your library. Reimagined.');
-    expect(homeCopy.ja.hero.heading).toBe('本棚の未来を、ここから。');
+  it('identifies NAS comic readers in both localized heroes', () => {
+    expect(homeCopy.en.hero.heading).toContain('NAS');
+    expect(homeCopy.ja.hero.heading).toContain('NAS');
     expect(homeCopy.ja.hero.heading).not.toBe(homeCopy.en.hero.heading);
+  });
+
+  it('leads with the three concrete Owlaria advantages', () => {
+    expect(homeCopy.en.features.items.map(({ title }) => title)).toEqual([
+      'Read-Only by design',
+      'Start reading without the wait',
+      'Read comics your way',
+    ]);
+    expect(homeCopy.ja.features.items.map(({ title }) => title)).toEqual([
+      '原本を守るRead-Only設計',
+      '待たずに読み始める',
+      '読み方を妥協しない',
+    ]);
+  });
+
+  it('uses the established design claim instead of an absolute guarantee', () => {
+    expect(JSON.stringify(homeCopy)).not.toMatch(
+      /never rewrites|never modifies|一切変更|絶対に変更/i,
+    );
+  });
+
+  it('links the broader capability teaser to the localized feature catalog', () => {
+    expect(homeCopy.en.capabilities.action).toBe('Explore every feature');
+    expect(homeCopy.ja.capabilities.action).toBe('すべての機能を見る');
+    expect(homeCopy.en.capabilities.items).toHaveLength(4);
+    expect(homeCopy.ja.capabilities.items).toHaveLength(4);
   });
 
   it('keeps unavailable Store destinations as non-link data', () => {

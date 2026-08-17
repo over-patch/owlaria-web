@@ -3,17 +3,21 @@ import { expect, test } from '@playwright/test';
 for (const locale of [
   {
     path: '/',
-    heading: 'Your library. Reimagined.',
+    heading: 'Your comics on NAS. Ready when you are.',
+    principle: 'Read-Only by design',
+    featureAction: 'Explore every feature',
+    featureHref: '/features/',
     platformHeading: 'Owlaria, where your library lives.',
     comingSoon: 'Coming soon',
-    previewLabel: 'Product preview in progress',
   },
   {
     path: '/ja/',
-    heading: '本棚の未来を、ここから。',
+    heading: 'NASに置いた漫画を、そのまま、すぐ読む。',
+    principle: '原本を守るRead-Only設計',
+    featureAction: 'すべての機能を見る',
+    featureHref: '/ja/features/',
     platformHeading: 'Owlariaを、あなたの本棚がある場所へ。',
     comingSoon: '近日公開',
-    previewLabel: '製品プレビューを準備中',
   },
 ] as const) {
   test(`${locale.path} presents the localized product story`, async ({
@@ -26,18 +30,20 @@ for (const locale of [
     await expect(
       page.getByRole('heading', { name: locale.platformHeading }),
     ).toBeVisible();
-    const preview = page.locator('.product-preview');
-    await expect(preview).toContainText(locale.previewLabel);
-    await expect(preview.locator('.preview-artwork')).toBeVisible();
-    await expect(preview.locator('.preview-artwork')).toHaveAttribute(
-      'src',
-      '/screenshots/owlaria-library-placeholder.svg',
-    );
-    await expect(preview.locator('.preview-icon')).toBeVisible();
-    await expect(preview.locator('.preview-icon')).toHaveAttribute(
+    await expect(
+      page.getByRole('heading', { name: locale.principle }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: locale.featureAction }),
+    ).toHaveAttribute('href', locale.featureHref);
+
+    const productStory = page.locator('.product-story');
+    await expect(productStory).toBeVisible();
+    await expect(productStory.locator('.story-icon')).toHaveAttribute(
       'src',
       '/owlaria-app-icon.png',
     );
+    await expect(page.locator('.preview-artwork')).toHaveCount(0);
 
     for (const id of ['macos', 'ios']) {
       const card = page.getByTestId(`platform-${id}`);
@@ -52,9 +58,13 @@ test('homepage remains usable without JavaScript', async ({ browser }) => {
   const page = await context.newPage();
   await page.goto('/');
   await expect(
-    page.getByRole('heading', { name: 'Your library. Reimagined.' }),
+    page.getByRole('heading', {
+      name: 'Your comics on NAS. Ready when you are.',
+    }),
   ).toBeVisible();
-  await expect(page.getByText('One calm library')).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Read-Only by design', exact: true }),
+  ).toBeVisible();
   await context.close();
 });
 
@@ -62,8 +72,20 @@ test('homepage uses responsive feature and platform grids', async ({
   page,
 }) => {
   for (const viewport of [
-    { width: 390, height: 844, featureColumns: 1, platformColumns: 1 },
-    { width: 1440, height: 1000, featureColumns: 3, platformColumns: 2 },
+    {
+      width: 390,
+      height: 844,
+      featureColumns: 1,
+      capabilityColumns: 1,
+      platformColumns: 1,
+    },
+    {
+      width: 1440,
+      height: 1000,
+      featureColumns: 3,
+      capabilityColumns: 4,
+      platformColumns: 2,
+    },
   ]) {
     await page.setViewportSize(viewport);
     await page.goto('/');
@@ -78,6 +100,7 @@ test('homepage uses responsive feature and platform grids', async ({
 
     for (const [selector, expectedColumns] of [
       ['.feature-grid', viewport.featureColumns],
+      ['.capability-grid', viewport.capabilityColumns],
       ['.platform-grid', viewport.platformColumns],
     ] as const) {
       const columns = await page
@@ -90,7 +113,7 @@ test('homepage uses responsive feature and platform grids', async ({
       expect(columns).toHaveLength(expectedColumns);
     }
 
-    await expect(page.locator('.product-preview')).toBeVisible();
+    await expect(page.locator('.product-story')).toBeVisible();
     await expect(page.getByTestId('platform-macos')).toBeVisible();
   }
 });

@@ -49,6 +49,11 @@ const languagePath = localePath(alternateLocale(locale), pathname);
     >
       <ul class="nav-links">
         <li>
+          <a class="nav-link" href={localePath(locale, '/features/')}
+            >{copy.features}</a
+          >
+        </li>
+        <li>
           <a class="nav-link" href={localePath(locale, '/support/')}
             >{copy.support}</a
           >

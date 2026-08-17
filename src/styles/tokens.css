@@ -38,9 +38,6 @@
   --radius-lg: 2rem;
   --radius-pill: 999px;
   --shadow-glow: 0 0 5rem rgb(85 124 255 / 20%);
-  --shadow-product:
-    0 2rem 8rem rgb(0 0 0 / 48%), 0 0 7rem rgb(85 124 255 / 24%);
-
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-fast: 160ms;
   --duration-medium: 620ms;
