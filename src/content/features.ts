@@ -13,6 +13,8 @@ type FeatureCategory = {
   number: string;
   label: string;
   heading: string;
+  desktopLines?: string[];
+  mobileLines?: string[];
   body: string;
   items: FeatureItem[];
 };
@@ -25,6 +27,8 @@ export type FeaturePageCopy = {
   hero: {
     eyebrow: string;
     heading: string;
+    desktopLines: string[];
+    mobileLines: string[];
     body: string;
   };
   navigationLabel: string;
@@ -60,6 +64,8 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
     hero: {
       eyebrow: 'Owlaria features',
       heading: 'Everything your comic library needs.',
+      desktopLines: ['Everything your', 'comic library needs.'],
+      mobileLines: ['Everything', 'your comic', 'library needs.'],
       body: 'From remote storage to the final page, Owlaria keeps your originals safe while giving you precise control over organization, reading, privacy, and history.',
     },
     navigationLabel: 'Feature categories',
@@ -223,11 +229,13 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
     metadata: {
       title: '機能 · Owlaria',
       description:
-        'macOSとiOSでNAS・ローカルストレージの漫画を整理・閲覧するためのOwlariaの機能をご紹介します。',
+        'macOSとiOSでNAS・ローカルストレージのマンガを整理・閲覧するためのOwlariaの機能をご紹介します。',
     },
     hero: {
       eyebrow: 'Owlariaの機能',
       heading: 'コミックライブラリに必要なものを、ひとつに。',
+      desktopLines: ['コミックライブラリに', '必要なものを、ひとつに。'],
+      mobileLines: ['コミック', 'ライブラリに', '必要なものを、', 'ひとつに。'],
       body: 'ストレージから最後のページまで。原本を守りながら、整理・閲覧・プライバシー・履歴を細かくコントロールできます。',
     },
     navigationLabel: '機能カテゴリー',
@@ -237,6 +245,8 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         number: '01',
         label: 'ストレージ・NAS',
         heading: 'コレクションは、いまある場所のまま。',
+        desktopLines: ['コレクションは、', 'いまある場所のまま。'],
+        mobileLines: ['コレクションは、', 'いまある場所の', 'まま。'],
         body: 'アプリに合わせて書庫を作り直さず、使い慣れたストレージへ接続できます。',
         items: [
           {
@@ -258,6 +268,8 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         number: '02',
         label: 'ライブラリ整理',
         heading: '何千冊の中から、一冊を見つける。',
+        desktopLines: ['何千冊の中から、', '一冊を見つける。'],
+        mobileLines: ['何千冊の中から、', '一冊を見つける。'],
         body: '表紙を眺めるライブラリとしても、使い慣れたフォルダ構成からも探せます。',
         items: [
           {
@@ -283,6 +295,8 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         number: '03',
         label: 'メタデータ',
         heading: '自由に整理する。原本は書き換えない。',
+        desktopLines: ['自由に整理する。', '原本は書き換えない。'],
+        mobileLines: ['自由に整理する。', '原本は', '書き換えない。'],
         body: 'ファイル名を変更したり、原本の隣にサイドカーファイルを作ったりせず、理想の本棚を作れます。',
         items: [
           {
@@ -304,6 +318,8 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         number: '04',
         label: 'コミックビューア',
         heading: '操作ではなく、ページを主役に。',
+        desktopLines: ['操作ではなく、', 'ページを主役に。'],
+        mobileLines: ['操作ではなく、', 'ページを主役に。'],
         body: '作品、画面、好みに合わせて、読み進め方を選べます。',
         items: [
           {
@@ -329,6 +345,8 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         number: '05',
         label: 'プライバシー',
         heading: 'ライブラリを中心に考えた保護。',
+        desktopLines: ['ライブラリを中心に', '考えた保護。'],
+        mobileLines: ['ライブラリを', '中心に考えた', '保護。'],
         body: '原本は変更せず、選んだコレクションは解除するまで表示しないよう保護できます。',
         items: [
           {
@@ -350,6 +368,8 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         number: '06',
         label: '履歴・統計',
         heading: '物語へ戻る。読書の全体も見渡す。',
+        desktopLines: ['物語へ戻る。', '読書の全体も見渡す。'],
+        mobileLines: ['物語へ戻る。', '読書の全体も', '見渡す。'],
         body: 'すぐに続きを開き、日・週・月ごとの読書の変化を振り返れます。',
         items: [
           {

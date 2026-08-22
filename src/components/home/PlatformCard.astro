@@ -1,5 +1,6 @@
 ---
 import type { Platform, PlatformAction } from '../../content/home';
+import PlatformIcon from './PlatformIcon.astro';
 
 interface Props {
   platform: Platform;
@@ -11,11 +12,15 @@ interface Props {
 }
 
 const { platform, label, action } = Astro.props;
+
+// TODO(marketing): Once an App Store product or pre-order URL is confirmed,
+// replace the temporary device icon and pending action with Apple's official
+// localized App Store / Mac App Store badge. Use only Apple-provided artwork.
 ---
 
 <article class="platform-card" data-testid={`platform-${platform.id}`}>
   <span class="platform-symbol" aria-hidden="true">
-    {platform.symbol}
+    <PlatformIcon platform={platform.id} />
   </span>
   <div class="platform-copy">
     <p class="platform-detail">{label.detail}</p>

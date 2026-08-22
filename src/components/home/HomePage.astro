@@ -2,6 +2,7 @@
 import { homeCopy, platformAction, platforms } from '../../content/home';
 import { localePath, type Locale } from '../../i18n/config';
 import SiteLayout from '../../layouts/SiteLayout.astro';
+import HeadlineLines from '../HeadlineLines.astro';
 import PlatformCard from './PlatformCard.astro';
 
 interface Props {
@@ -21,38 +22,192 @@ const copy = homeCopy[locale];
   <section class="home-hero shell">
     <div class="hero-copy" data-reveal>
       <p class="eyebrow">{copy.hero.eyebrow}</p>
-      <h1>{copy.hero.heading}</h1>
-      <p class="hero-body">{copy.hero.body}</p>
-      <ul class="hero-proof-points" aria-label={copy.hero.eyebrow}>
-        {copy.hero.proofPoints.map((point) => <li>{point}</li>)}
+      <h1 aria-label={copy.hero.heading}>
+        <span
+          class="headline-lines"
+          data-headline-variant="desktop"
+          aria-hidden="true"
+        >
+          {copy.hero.desktopLines.map((line) => <span>{line}</span>)}
+        </span>
+        <span
+          class="headline-lines"
+          data-headline-variant="mobile"
+          aria-hidden="true"
+        >
+          {copy.hero.mobileLines.map((line) => <span>{line}</span>)}
+        </span>
+      </h1>
+      <ul class="hero-benefits" aria-label={copy.hero.eyebrow}>
+        {
+          copy.hero.benefits.map((benefit) => (
+            <li>
+              <h2>{benefit.title}</h2>
+              <p>{benefit.body}</p>
+            </li>
+          ))
+        }
       </ul>
       <div class="hero-availability" aria-label={copy.platforms.body}>
-        <span>macOS</span>
-        <span>iOS</span>
-        <strong>{copy.platforms.comingSoon}</strong>
+        <span>Mac</span>
+        <span>iPhone</span>
+        <strong class="hero-free-note">{copy.platforms.heroFreeNote}</strong>
+        <em class="hero-coming-soon">{copy.platforms.comingSoon}</em>
       </div>
     </div>
 
-    <div class="product-story" data-reveal>
-      <div class="story-node story-source">
-        <span class="story-symbol" aria-hidden="true">NAS</span>
-        <strong>{copy.hero.sourceLabel}</strong>
+    <section
+      class="product-story-section"
+      aria-labelledby="product-story-heading"
+      data-reveal
+    >
+      <div class="story-heading">
+        <p class="eyebrow">{copy.productStory.eyebrow}</p>
+        <h2 id="product-story-heading">{copy.productStory.heading}</h2>
       </div>
-      <span class="story-connector" aria-hidden="true"></span>
-      <div class="story-node story-guardian">
-        <img
-          class="story-icon"
-          src="/owlaria-app-icon.png"
-          width="96"
-          height="96"
-          alt=""
+      <div class="product-story">
+        <article class="story-node story-source">
+          <h3>{copy.productStory.source.title}</h3>
+          <p>{copy.productStory.source.body}</p>
+          <ul
+            class="story-source-list"
+            aria-label={copy.productStory.source.title}
+          >
+            {
+              copy.productStory.source.locations.map((location) => (
+                <li>{location}</li>
+              ))
+            }
+          </ul>
+        </article>
+        <div class="story-connector" aria-hidden="true">
+          <span class="story-connector-label">
+            {copy.productStory.connectorLabels[0]}
+          </span>
+        </div>
+        <article class="story-node story-guardian">
+          <img
+            class="story-icon"
+            src="/owlaria-app-icon.png"
+            width="96"
+            height="96"
+            alt=""
+          />
+          <h3>{copy.productStory.organization.title}</h3>
+          <p class="story-body">
+            {
+              copy.productStory.organization.body.map((sentence) => (
+                <span>{sentence}</span>
+              ))
+            }
+          </p>
+        </article>
+      </div>
+    </section>
+  </section>
+
+  <section class="feature-section shell" aria-labelledby="feature-heading">
+    <div class="section-heading" data-reveal>
+      <p class="eyebrow">{copy.features.eyebrow}</p>
+      <h2 id="feature-heading" aria-label={copy.features.heading}>
+        <HeadlineLines
+          desktopLines={copy.features.desktopLines}
+          mobileLines={copy.features.mobileLines}
         />
-        <strong>{copy.hero.protectionLabel}</strong>
+      </h2>
+    </div>
+    <ol class="feature-grid">
+      {
+        copy.features.items.map((feature) => (
+          <li data-reveal>
+            <span class="feature-number">{feature.number}</span>
+            <h3>{feature.title}</h3>
+            <p>{feature.body}</p>
+          </li>
+        ))
+      }
+      <li class="reader-feature-card" data-reveal>
+        <div class="reader-feature-header">
+          <span class="feature-number">{copy.features.reader.number}</span>
+          <div class="reader-feature-copy">
+            <h3>{copy.features.reader.title}</h3>
+            <p>{copy.features.reader.body}</p>
+          </div>
+        </div>
+        <div class="reader-mode-grid">
+          {
+            copy.features.reader.modes.map((mode) => (
+              <section class="reader-mode-group">
+                <div class="reader-mode-heading">
+                  <h4>{mode.title}</h4>
+                </div>
+                <ul>
+                  {mode.options.map((option) => (
+                    <li>{option}</li>
+                  ))}
+                </ul>
+              </section>
+            ))
+          }
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section
+    class="app-preview-section shell"
+    aria-labelledby="app-preview-heading"
+  >
+    <div class="section-heading" data-reveal>
+      <p class="eyebrow">{copy.screenshotShowcase.eyebrow}</p>
+      <h2 id="app-preview-heading">{copy.screenshotShowcase.heading}</h2>
+      <p>{copy.screenshotShowcase.body}</p>
+    </div>
+    <figure
+      class="app-preview-frame"
+      data-testid="app-screenshot-slot"
+      data-reveal
+    >
+      <div class="app-preview-chrome" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <strong>Owlaria for macOS</strong>
       </div>
-      <span class="story-connector" aria-hidden="true"></span>
-      <div class="story-node story-devices">
-        <span class="story-symbol" aria-hidden="true">macOS · iOS</span>
-        <strong>{copy.hero.deviceLabel}</strong>
+      <div class="app-preview-placeholder">
+        <span aria-hidden="true">16:10</span>
+        <figcaption>{copy.screenshotShowcase.placeholderLabel}</figcaption>
+      </div>
+    </figure>
+  </section>
+
+  <section
+    class="compatibility-section shell"
+    aria-labelledby="compatibility-heading"
+  >
+    <div class="section-heading compatibility-copy" data-reveal>
+      <p class="eyebrow">{copy.compatibility.eyebrow}</p>
+      <h2 id="compatibility-heading">{copy.compatibility.heading}</h2>
+      <div class="compatibility-body">
+        {copy.compatibility.body.map((sentence) => <p>{sentence}</p>)}
+      </div>
+    </div>
+    <div class="compatibility-panel" data-reveal>
+      <ul class="format-list" data-testid="format-list">
+        {copy.compatibility.formats.map((format) => <li>{format}</li>)}
+      </ul>
+      <div class="password-support">
+        <span class="password-symbol" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="5" y="10" width="14" height="10" rx="2"></rect>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+            <path d="M12 14v2"></path>
+          </svg>
+        </span>
+        <div>
+          <strong>{copy.compatibility.passwordLabel}</strong>
+          <span>{copy.compatibility.passwordFormats}</span>
+        </div>
       </div>
     </div>
   </section>
@@ -63,8 +218,15 @@ const copy = homeCopy[locale];
   >
     <div class="section-heading" data-reveal>
       <p class="eyebrow">{copy.capabilities.eyebrow}</p>
-      <h2 id="capability-heading">{copy.capabilities.heading}</h2>
-      <p>{copy.capabilities.body}</p>
+      <h2 id="capability-heading" aria-label={copy.capabilities.heading}>
+        <HeadlineLines
+          desktopLines={copy.capabilities.desktopLines}
+          mobileLines={copy.capabilities.mobileLines}
+        />
+      </h2>
+      <div class="capability-body">
+        {copy.capabilities.body.map((sentence) => <p>{sentence}</p>)}
+      </div>
     </div>
     <ul class="capability-grid">
       {
@@ -81,28 +243,15 @@ const copy = homeCopy[locale];
     >
   </section>
 
-  <section class="feature-section shell" aria-labelledby="feature-heading">
-    <div class="section-heading" data-reveal>
-      <p class="eyebrow">{copy.features.eyebrow}</p>
-      <h2 id="feature-heading">{copy.features.heading}</h2>
-    </div>
-    <ol class="feature-grid">
-      {
-        copy.features.items.map((feature) => (
-          <li data-reveal>
-            <span>{feature.number}</span>
-            <h3>{feature.title}</h3>
-            <p>{feature.body}</p>
-          </li>
-        ))
-      }
-    </ol>
-  </section>
-
   <section class="platform-section shell" aria-labelledby="platform-heading">
     <div class="section-heading" data-reveal>
       <p class="eyebrow">{copy.platforms.eyebrow}</p>
-      <h2 id="platform-heading">{copy.platforms.heading}</h2>
+      <h2 id="platform-heading" aria-label={copy.platforms.heading}>
+        <HeadlineLines
+          desktopLines={copy.platforms.desktopLines}
+          mobileLines={copy.platforms.mobileLines}
+        />
+      </h2>
       <p>{copy.platforms.body}</p>
     </div>
     <div class="platform-grid">
@@ -120,13 +269,15 @@ const copy = homeCopy[locale];
         ))
       }
     </div>
-    <p class="purchase-note">{copy.platforms.purchaseNote}</p>
-  </section>
-
-  <section class="closing-section shell" data-reveal>
-    <img src="/owlaria-app-icon.png" width="96" height="96" alt="" />
-    <p class="eyebrow">{copy.closing.eyebrow}</p>
-    <h2>{copy.closing.heading}</h2>
-    <p>{copy.closing.body}</p>
+    <div class="platform-roadmap" data-reveal>
+      <span>{copy.platforms.futureLabel}</span>
+      <ul>
+        {copy.platforms.futurePlatforms.map((platform) => <li>{platform}</li>)}
+      </ul>
+    </div>
+    <p class="purchase-note">
+      <strong>{copy.platforms.freeNote}</strong>
+      <span>{copy.platforms.purchaseNote}</span>
+    </p>
   </section>
 </SiteLayout>

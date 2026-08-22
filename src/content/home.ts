@@ -4,7 +4,6 @@ export type PlatformId = 'macos' | 'ios';
 
 export type Platform = {
   id: PlatformId;
-  symbol: string;
   storeUrl?: string;
 };
 
@@ -27,16 +26,33 @@ export type HomeCopy = {
   hero: {
     eyebrow: string;
     heading: string;
-    body: string;
-    proofPoints: string[];
-    sourceLabel: string;
-    protectionLabel: string;
-    deviceLabel: string;
+    desktopLines: string[];
+    mobileLines: string[];
+    benefits: Array<{
+      title: string;
+      body: string;
+    }>;
+  };
+  productStory: {
+    eyebrow: string;
+    heading: string;
+    source: {
+      locations: string[];
+      title: string;
+      body: string;
+    };
+    organization: {
+      title: string;
+      body: string[];
+    };
+    connectorLabels: [string];
   };
   capabilities: {
     eyebrow: string;
     heading: string;
-    body: string;
+    desktopLines: string[];
+    mobileLines: string[];
+    body: string[];
     action: string;
     items: Array<{
       title: string;
@@ -46,31 +62,54 @@ export type HomeCopy = {
   features: {
     eyebrow: string;
     heading: string;
+    desktopLines: string[];
+    mobileLines: string[];
     items: Array<{
       number: string;
       title: string;
       body: string;
     }>;
+    reader: {
+      number: string;
+      title: string;
+      body: string;
+      modes: Array<{
+        title: string;
+        options: string[];
+      }>;
+    };
+  };
+  screenshotShowcase: {
+    eyebrow: string;
+    heading: string;
+    body: string;
+    placeholderLabel: string;
+  };
+  compatibility: {
+    eyebrow: string;
+    heading: string;
+    body: string[];
+    formats: string[];
+    passwordLabel: string;
+    passwordFormats: string;
   };
   platforms: {
     eyebrow: string;
     heading: string;
+    desktopLines: string[];
+    mobileLines: string[];
     body: string;
+    heroFreeNote: string;
+    freeNote: string;
     purchaseNote: string;
     comingSoon: string;
+    futureLabel: string;
+    futurePlatforms: string[];
     labels: Record<PlatformId, { name: string; detail: string }>;
-  };
-  closing: {
-    eyebrow: string;
-    heading: string;
-    body: string;
   };
 };
 
-export const platforms: Platform[] = [
-  { id: 'macos', symbol: 'macOS' },
-  { id: 'ios', symbol: 'iOS' },
-];
+export const platforms: Platform[] = [{ id: 'macos' }, { id: 'ios' }];
 
 export const platformAction = (
   platform: Platform,
@@ -84,44 +123,119 @@ export const platformAction = (
 export const homeCopy: Record<Locale, HomeCopy> = {
   en: {
     metadata: {
-      title: 'Owlaria — Read comics from your NAS',
+      title: 'Owlaria — Turn your comic folders into a library',
       description:
-        'Read and organize comics from your NAS with a viewer designed not to modify the original files. Built for macOS and iOS.',
+        'Turn the comic folders you already have on NAS or local storage into an organized library without rebuilding your archive.',
     },
     hero: {
-      eyebrow: 'A Read-Only comic viewer for your collection',
-      heading: 'Your comics on NAS. Ready when you are.',
-      body: 'Owlaria connects to the collection you already have, keeps organization separate from your original files, and gives you a comic-first reading experience on macOS and iOS.',
-      proofPoints: ['SMB NAS', 'Read-Only by design', 'ZIP / CBZ / PDF'],
-      sourceLabel: 'Your NAS or local folders',
-      protectionLabel: 'Read-Only by design.',
-      deviceLabel: 'Read on macOS and iOS',
-    },
-    features: {
-      eyebrow: 'Why Owlaria',
-      heading: 'Your collection stays yours.',
-      items: [
+      eyebrow: 'A comic library that does not clutter your storage',
+      heading: 'Keep your folders. Build the comic library you want.',
+      desktopLines: [
+        'Keep your folders.',
+        'Build the comic library',
+        'you want.',
+      ],
+      mobileLines: [
+        'Keep your',
+        'folders.',
+        'Build the',
+        'comic library',
+        'you want.',
+      ],
+      benefits: [
         {
-          number: '01',
-          title: 'Read-Only by design',
-          body: 'Owlaria is designed without operations that rename, move, delete, or write sidecar files beside your comics. Titles, tags, series, ratings, and custom covers live only inside the app.',
+          title: 'Add your folders as they are',
+          body: 'Add NAS and local folders to Owlaria without changing their structure.',
         },
         {
-          number: '02',
-          title: 'Start reading without the wait',
-          body: 'Open supported remote ZIP, CBZ, and PDF books from the parts you need first, while Owlaria prepares nearby pages in the background.',
+          title: 'Organize inside Owlaria',
+          body: 'Manage tags, series, ratings, covers, and more separately from your storage.',
         },
         {
-          number: '03',
-          title: 'Read comics your way',
-          body: 'Choose right-to-left, left-to-right, or vertical reading, then switch between single pages, spreads, and continuous scrolling.',
+          title: 'Keep your storage uncluttered',
+          body: 'Your files and folder structure stay unchanged, with no extra management files written alongside them.',
         },
       ],
     },
+    productStory: {
+      eyebrow: 'How Owlaria works',
+      heading: 'Keep your folders. Add the organization they deserve.',
+      source: {
+        locations: ['NAS 1', 'NAS 2', 'LOCAL'],
+        title: 'Your existing folders',
+        body: 'Files and folder structure stay unchanged',
+      },
+      organization: {
+        title: 'Organize in Owlaria',
+        body: [
+          'Manage tags, series, ratings, and covers in the app.',
+          'Browse, search, and read across every source as one library.',
+        ],
+      },
+      connectorLabels: ['Reference as-is'],
+    },
+    features: {
+      eyebrow: 'From folders to reading',
+      heading: 'Keep your folders. Organize and read your way.',
+      desktopLines: ['Keep your folders.', 'Organize and read', 'your way.'],
+      mobileLines: ['Keep your', 'folders.', 'Organize and', 'read your way.'],
+      items: [
+        {
+          number: '01',
+          title: 'Add folders as they are',
+          body: 'Bring multiple SMB NAS locations and local folders into one library without moving or renaming your books.',
+        },
+        {
+          number: '02',
+          title: 'Organize without touching files',
+          body: 'Titles, tags, series, ratings, and custom covers stay inside Owlaria. Your source files and folders keep their existing structure.',
+        },
+      ],
+      reader: {
+        number: '03',
+        title: 'Choose how every comic reads.',
+        body: 'Switch viewing styles at any time to match the comic and how you want to read.',
+        modes: [
+          {
+            title: 'Reading direction',
+            options: ['Right-to-left', 'Left-to-right', 'Vertical'],
+          },
+          {
+            title: 'Page display',
+            options: ['Single page', 'Spread'],
+          },
+          {
+            title: 'Keep scrolling',
+            options: ['Continuous scroll'],
+          },
+        ],
+      },
+    },
+    screenshotShowcase: {
+      eyebrow: 'See Owlaria in action',
+      heading: 'Keep your storage. Transform how you browse.',
+      body: 'This space will show the macOS library where tags, series, and covers make your collection easier to explore.',
+      placeholderLabel: 'macOS library screenshot',
+    },
+    compatibility: {
+      eyebrow: 'Compatibility',
+      heading: 'Open the files you already have.',
+      body: [
+        'Add archives to your library and start reading without converting files or extracting them into folders first.',
+      ],
+      formats: ['ZIP', 'CBZ', 'RAR', 'CBR', '7Z', 'CB7', 'LZH', 'PDF'],
+      passwordLabel: 'Password-protected archives',
+      passwordFormats: 'ZIP · CBZ · RAR · CBR · 7Z · CB7',
+    },
     capabilities: {
-      eyebrow: 'Beyond the reader',
-      heading: 'Built for a comic library that keeps growing.',
-      body: 'Find a title in thousands, keep series together, protect private libraries, and see how your reading changes over time.',
+      eyebrow: 'Built for collections that keep growing',
+      heading: 'More than a folder browser.',
+      desktopLines: ['More than', 'a folder browser.'],
+      mobileLines: ['More than', 'a folder', 'browser.'],
+      body: [
+        'Find what you want, even among thousands of books.',
+        'Keep series together, protect private libraries, and see how your reading changes over time.',
+      ],
       action: 'Explore every feature',
       items: [
         {
@@ -144,62 +258,145 @@ export const homeCopy: Record<Locale, HomeCopy> = {
     },
     platforms: {
       eyebrow: 'Choose your platform',
-      heading: 'Owlaria, where your library lives.',
-      body: 'Owlaria is coming to macOS and iOS.',
-      purchaseNote:
-        'The macOS and iOS editions are separate products and require a separate purchase.',
+      heading: 'Owlaria for Mac. Owlaria for iPhone.',
+      desktopLines: ['Owlaria for Mac.', 'Owlaria for iPhone.'],
+      mobileLines: ['Owlaria for', 'Mac.', 'Owlaria for', 'iPhone.'],
+      body: 'On Mac and iPhone, starting free.',
+      heroFreeNote: 'Free to start at launch',
+      freeNote: 'Core features are free to use.',
+      purchaseNote: 'Paid features are purchased separately on Mac and iPhone.',
       comingSoon: 'Coming soon',
+      futureLabel: 'Also planned',
+      futurePlatforms: ['Windows', 'Android'],
       labels: {
-        macos: { name: 'Owlaria for macOS', detail: 'Mac App Store' },
-        ios: { name: 'Owlaria for iOS', detail: 'App Store' },
+        macos: { name: 'Owlaria for Mac', detail: 'Mac App Store' },
+        ios: { name: 'Owlaria for iPhone', detail: 'App Store' },
       },
-    },
-    closing: {
-      eyebrow: 'Your collection, protected',
-      heading: 'Keep the archive. Change the experience.',
-      body: 'Owlaria is being prepared for its first release on macOS and iOS.',
     },
   },
   ja: {
     metadata: {
-      title: 'Owlaria — NASの漫画を、そのまま読む',
+      title: 'Owlaria — フォルダはそのまま、理想のコミックライブラリへ',
       description:
-        'NASにあるコミックを、原本を変更しないよう設計されたビューアで整理・閲覧。macOSとiOSに対応します。',
+        'NASやローカルストレージにあるコミックフォルダを作り直さず、そのまま整理されたライブラリとして管理できます。',
     },
     hero: {
-      eyebrow: 'コレクションを守るRead-Onlyコミックビューア',
-      heading: 'NASに置いた漫画を、そのまま、すぐ読む。',
-      body: 'Owlariaは、いまあるコレクションへ直接つながり、整理情報を原本とは別に保存し、macOSとiOSに漫画のための読書体験を届けます。',
-      proofPoints: ['SMB NAS対応', 'Read-Only設計', 'ZIP / CBZ / PDF'],
-      sourceLabel: 'NAS・ローカルフォルダ',
-      protectionLabel: '原本を守るRead-Only設計',
-      deviceLabel: 'macOS・iOSで読む',
-    },
-    features: {
-      eyebrow: 'Owlariaを選ぶ理由',
-      heading: 'コレクションは、あなたのもののまま。',
-      items: [
+      eyebrow: '保存先を汚さないコミックライブラリ',
+      heading: 'フォルダはそのまま。理想のコミックライブラリへ。',
+      desktopLines: [
+        'フォルダはそのまま。',
+        '理想のコミック',
+        'ライブラリへ。',
+      ],
+      mobileLines: [
+        'フォルダは',
+        'そのまま。',
+        '理想のコミック',
+        'ライブラリへ。',
+      ],
+      benefits: [
         {
-          number: '01',
-          title: '原本を守るRead-Only設計',
-          body: '原本に対する名前変更・移動・削除や、サイドカーファイルの書き込み操作を持たない設計です。タイトル、タグ、シリーズ、評価、表紙の編集はOwlariaの中だけに保存します。',
+          title: '今のフォルダをそのまま登録',
+          body: 'NASやローカルフォルダを、構成を変えずにOwlariaへ登録できます。',
         },
         {
-          number: '02',
-          title: '待たずに読み始める',
-          body: '対応するリモートのZIP・CBZ・PDFは、必要な部分から取得。近くのページをバックグラウンドで準備します。',
+          title: '整理はOwlariaの中だけで',
+          body: 'タグ・シリーズ・評価・表紙などを、保存先とは切り離して管理できます。',
         },
         {
-          number: '03',
-          title: '読み方を妥協しない',
-          body: '右開き・左開き・縦読みを選び、単ページ・見開き・連続スクロールをいつでも切り替えられます。',
+          title: '保存先を汚さない',
+          body: 'ファイルやフォルダ構成を変えず、余計な管理ファイルも書き込みません。',
         },
       ],
     },
+    productStory: {
+      eyebrow: 'Owlariaの仕組み',
+      heading: 'フォルダはそのまま。整理はOwlariaの中で。',
+      source: {
+        locations: ['NAS 1', 'NAS 2', 'LOCAL'],
+        title: '複数の保存先',
+        body: 'ファイルもフォルダ構成もそのまま',
+      },
+      organization: {
+        title: 'Owlariaで統合整理',
+        body: [
+          'タグ・シリーズ・評価・表紙をアプリ内で管理。',
+          '保存場所をまたいだひとつの本棚として、一覧・検索・閲覧できます。',
+        ],
+      },
+      connectorLabels: ['登録'],
+    },
+    features: {
+      eyebrow: 'フォルダから読書まで',
+      heading: 'フォルダはそのまま。整理も、読み方も、思いどおりに。',
+      desktopLines: [
+        'フォルダはそのまま。',
+        '整理も、読み方も、',
+        '思いどおりに。',
+      ],
+      mobileLines: [
+        'フォルダは',
+        'そのまま。',
+        '整理も、読み方も、',
+        '思いどおりに。',
+      ],
+      items: [
+        {
+          number: '01',
+          title: 'フォルダをそのまま登録',
+          body: '複数のSMB NASやローカルフォルダを、ファイルの移動や名前変更なしでひとつのライブラリにまとめられます。',
+        },
+        {
+          number: '02',
+          title: '原本に触れずに整理',
+          body: 'タイトル、タグ、シリーズ、評価、表紙などの整理情報はOwlariaの中だけに保存。元のファイルとフォルダ構成を保てます。',
+        },
+      ],
+      reader: {
+        number: '03',
+        title: 'マンガに合わせて読み方を選択',
+        body: '作品やその日の読み方に合わせて、表示スタイルをいつでも切り替えられます。',
+        modes: [
+          {
+            title: '作品に合わせた読み方向',
+            options: ['右開き', '左開き', '縦読み'],
+          },
+          {
+            title: 'ページの表示方法',
+            options: ['単ページ', '見開き'],
+          },
+          {
+            title: '連続スクロール表示',
+            options: ['連続スクロール'],
+          },
+        ],
+      },
+    },
+    screenshotShowcase: {
+      eyebrow: '実際のアプリ画面',
+      heading: '保存先はそのまま。見え方は、ここまで変わる。',
+      body: 'タグやシリーズで整理し、表紙から探せるmacOSのライブラリ画面をここで紹介します。',
+      placeholderLabel: 'macOSライブラリ画面のスクリーンショット',
+    },
+    compatibility: {
+      eyebrow: '対応形式',
+      heading: 'いつものファイルを、そのまま開ける。',
+      body: [
+        'ファイルを変換したり、アーカイブを展開したりせず、ライブラリに登録してそのまま閲覧できます。',
+      ],
+      formats: ['ZIP', 'CBZ', 'RAR', 'CBR', '7Z', 'CB7', 'LZH', 'PDF'],
+      passwordLabel: 'パスワード付きアーカイブ対応',
+      passwordFormats: 'ZIP · CBZ · RAR · CBR · 7Z · CB7',
+    },
     capabilities: {
-      eyebrow: 'ビューアの、その先へ',
-      heading: '増え続けるコレクションのために。',
-      body: '何千冊からでも見つけやすく。シリーズをまとめ、プライベートな本棚を守り、読書の変化を振り返れます。',
+      eyebrow: '増え続ける蔵書のために',
+      heading: 'フォルダを超えて、見つかる本棚へ。',
+      desktopLines: ['フォルダを超えて、', '見つかる本棚へ。'],
+      mobileLines: ['フォルダを超えて、', '見つかる本棚へ。'],
+      body: [
+        '何千冊の中からでも、読みたい一冊をすぐに見つけられます。',
+        'シリーズをまとめ、プライベートな本棚を守り、読書の変化を振り返れます。',
+      ],
       action: 'すべての機能を見る',
       items: [
         {
@@ -222,19 +419,20 @@ export const homeCopy: Record<Locale, HomeCopy> = {
     },
     platforms: {
       eyebrow: 'プラットフォームを選ぶ',
-      heading: 'Owlariaを、あなたの本棚がある場所へ。',
-      body: 'OwlariaはmacOSとiOSに登場します。',
-      purchaseNote: 'macOS版とiOS版は別商品で、それぞれ別々の購入が必要です。',
+      heading: 'Macにも、iPhoneにも。Owlariaを。',
+      desktopLines: ['Macにも、iPhoneにも。', 'Owlariaを。'],
+      mobileLines: ['Macにも、', 'iPhoneにも。', 'Owlariaを。'],
+      body: 'MacとiPhoneで、基本無料から。',
+      heroFreeNote: '基本無料で提供予定',
+      freeNote: '基本機能は無料で利用できます。',
+      purchaseNote: '有料機能はMac版とiPhone版でそれぞれ別に購入できます。',
       comingSoon: '近日公開',
+      futureLabel: '今後登場予定',
+      futurePlatforms: ['Windows', 'Android'],
       labels: {
-        macos: { name: 'Owlaria for macOS', detail: 'Mac App Store' },
-        ios: { name: 'Owlaria for iOS', detail: 'App Store' },
+        macos: { name: 'Owlaria for Mac', detail: 'Mac App Store' },
+        ios: { name: 'Owlaria for iPhone', detail: 'App Store' },
       },
-    },
-    closing: {
-      eyebrow: 'コレクションを守る',
-      heading: '原本はそのまま。読書体験だけを変える。',
-      body: 'OwlariaはmacOSとiOSでの初回リリースに向けて準備中です。',
     },
   },
 };

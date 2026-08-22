@@ -1,0 +1,17 @@
+---
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+const phrases = text.match(/.*?[、。！？]|.+$/gu) ?? [text];
+---
+
+{
+  phrases.map((phrase, index) => (
+    <>
+      {phrase}
+      {index < phrases.length - 1 && <wbr />}
+    </>
+  ))
+}

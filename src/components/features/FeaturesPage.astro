@@ -2,6 +2,8 @@
 import { featurePageCopy } from '../../content/features';
 import { localePath, type Locale } from '../../i18n/config';
 import SiteLayout from '../../layouts/SiteLayout.astro';
+import HeadlineLines from '../HeadlineLines.astro';
+import PhraseText from '../PhraseText.astro';
 
 interface Props {
   locale: Locale;
@@ -19,7 +21,22 @@ const copy = featurePageCopy[locale];
 >
   <header class="features-hero shell" data-reveal>
     <p class="eyebrow">{copy.hero.eyebrow}</p>
-    <h1>{copy.hero.heading}</h1>
+    <h1 aria-label={copy.hero.heading}>
+      <span
+        class="headline-lines"
+        data-headline-variant="desktop"
+        aria-hidden="true"
+      >
+        {copy.hero.desktopLines.map((line) => <span>{line}</span>)}
+      </span>
+      <span
+        class="headline-lines"
+        data-headline-variant="mobile"
+        aria-hidden="true"
+      >
+        {copy.hero.mobileLines.map((line) => <span>{line}</span>)}
+      </span>
+    </h1>
     <p>{copy.hero.body}</p>
   </header>
 
@@ -56,7 +73,19 @@ const copy = featurePageCopy[locale];
               <span>{category.number}</span>
               {category.label}
             </p>
-            <h2 id={`${category.id}-heading`}>{category.heading}</h2>
+            <h2
+              id={`${category.id}-heading`}
+              aria-label={category.desktopLines ? category.heading : undefined}
+            >
+              {category.desktopLines && category.mobileLines ? (
+                <HeadlineLines
+                  desktopLines={category.desktopLines}
+                  mobileLines={category.mobileLines}
+                />
+              ) : (
+                <PhraseText text={category.heading} />
+              )}
+            </h2>
             <p>{category.body}</p>
           </header>
           <ul class="feature-category-grid">
@@ -79,7 +108,9 @@ const copy = featurePageCopy[locale];
   >
     <header class="section-heading">
       <p class="eyebrow">{copy.formats.eyebrow}</p>
-      <h2 id="formats-heading">{copy.formats.heading}</h2>
+      <h2 id="formats-heading">
+        <PhraseText text={copy.formats.heading} />
+      </h2>
       <p>{copy.formats.body}</p>
     </header>
     <div class="format-groups">
@@ -105,7 +136,7 @@ const copy = featurePageCopy[locale];
   <section class="closing-section shell" data-reveal>
     <img src="/owlaria-app-icon.png" width="96" height="96" alt="" />
     <p class="eyebrow">{copy.closing.eyebrow}</p>
-    <h2>{copy.closing.heading}</h2>
+    <h2><PhraseText text={copy.closing.heading} /></h2>
     <p>{copy.closing.body}</p>
     <a class="primary-link" href={localePath(locale, '/')}
       >{copy.closing.action}<span aria-hidden="true">→</span></a
