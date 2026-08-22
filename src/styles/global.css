@@ -2467,6 +2467,13 @@ html[lang='ja'] .features-hero h1 {
     width: min(calc(100% - 1.5rem), var(--container));
   }
 
+  .hero-copy h1,
+  .features-hero h1,
+  html[lang='ja'] .hero-copy h1,
+  html[lang='ja'] .features-hero h1 {
+    font-size: clamp(2.75rem, 12vw, 4.5rem);
+  }
+
   .header-inner {
     position: relative;
     flex-wrap: wrap;
