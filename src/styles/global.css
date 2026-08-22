@@ -2467,7 +2467,7 @@ html[lang='ja'] .features-hero h1 {
   .features-hero h1,
   html[lang='ja'] .hero-copy h1,
   html[lang='ja'] .features-hero h1 {
-    font-size: clamp(3.5rem, 9.5vw, 6rem);
+    font-size: clamp(4.5rem, 8.5vw, 6rem);
   }
 }
 
