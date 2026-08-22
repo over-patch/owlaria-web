@@ -15,6 +15,7 @@ type SiteCopy = {
   navigationLabel: string;
   menuOpen: string;
   menuClose: string;
+  features: string;
   support: string;
   releases: string;
   comingSoon: string;
@@ -25,6 +26,7 @@ type SiteCopy = {
     support: string;
     legal: string;
     home: string;
+    features: string;
     purchases: string;
     privacy: string;
     terms: string;
@@ -38,6 +40,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     navigationLabel: 'Primary navigation',
     menuOpen: 'Open menu',
     menuClose: 'Close menu',
+    features: 'Features',
     support: 'Support',
     releases: 'Release Notes',
     comingSoon: 'Coming soon',
@@ -48,6 +51,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       support: 'Support',
       legal: 'Legal',
       home: 'Overview',
+      features: 'Features',
       purchases: 'Purchases',
       privacy: 'Privacy',
       terms: 'Terms',
@@ -91,6 +95,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     navigationLabel: 'メインナビゲーション',
     menuOpen: 'メニューを開く',
     menuClose: 'メニューを閉じる',
+    features: '機能',
     support: 'サポート',
     releases: 'リリースノート',
     comingSoon: '近日公開',
@@ -101,6 +106,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       support: 'サポート',
       legal: '法的情報',
       home: '概要',
+      features: '機能',
       purchases: '購入について',
       privacy: 'プライバシー',
       terms: '利用規約',

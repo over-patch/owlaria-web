@@ -1,0 +1,15 @@
+---
+interface Props {
+  desktopLines: string[];
+  mobileLines: string[];
+}
+
+const { desktopLines, mobileLines } = Astro.props;
+---
+
+<span class="headline-lines" data-headline-variant="desktop" aria-hidden="true">
+  {desktopLines.map((line) => <span>{line}</span>)}
+</span>
+<span class="headline-lines" data-headline-variant="mobile" aria-hidden="true">
+  {mobileLines.map((line) => <span>{line}</span>)}
+</span>

@@ -12,12 +12,14 @@ describe('localePath', () => {
     ['en', '/', '/'],
     ['en', 'support', '/support/'],
     ['en', '/support/purchases/', '/support/purchases/'],
+    ['en', '/features/', '/features/'],
     ['en', '//support', '/support/'],
     ['en', '///support///', '/support/'],
     ['en', '///', '/'],
     ['ja', '/', '/ja/'],
     ['ja', 'support', '/ja/support/'],
     ['ja', '/support/purchases/', '/ja/support/purchases/'],
+    ['ja', '/features/', '/ja/features/'],
   ] as const)('maps %s %s to %s', (locale, pathname, expected) => {
     expect(localePath(locale, pathname)).toBe(expected);
   });

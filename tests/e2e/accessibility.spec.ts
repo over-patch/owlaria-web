@@ -4,6 +4,8 @@ import { expect, test } from '@playwright/test';
 const routes = [
   '/',
   '/ja/',
+  '/features/',
+  '/ja/features/',
   '/support/',
   '/ja/support/',
   '/privacy/',
@@ -25,6 +27,7 @@ for (const { name, viewport } of viewports) {
       test(`${route} has no serious or critical axe violations`, async ({
         page,
       }) => {
+        await page.emulateMedia({ reducedMotion: 'reduce' });
         await page.goto(route);
 
         const results = await new AxeBuilder({ page })
