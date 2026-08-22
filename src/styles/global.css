@@ -541,6 +541,10 @@ html[lang='ja'] .hero-copy h1 {
   line-height: 0.98;
 }
 
+html[lang='en'] .hero-copy h1 {
+  font-size: clamp(3.5rem, 6.5vw, 6rem);
+}
+
 .headline-lines,
 .headline-lines > span {
   display: block;
@@ -1428,6 +1432,10 @@ html[lang='ja'] .features-hero h1 {
   font-size: clamp(3.2rem, 1.85rem + 5.8vw, 6.75rem);
   letter-spacing: -0.05em;
   line-height: 1;
+}
+
+html[lang='en'] .features-hero h1 {
+  font-size: clamp(3.5rem, 6.5vw, 6rem);
 }
 
 .features-hero > p:last-child {
