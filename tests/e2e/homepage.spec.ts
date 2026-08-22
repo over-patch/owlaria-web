@@ -415,13 +415,37 @@ test('homepage uses responsive content grids', async ({ page }) => {
     await page.setViewportSize(viewport);
     await page.goto('/');
 
+    const overflow = await page.evaluate(() => {
+      const viewportWidth = document.documentElement.clientWidth;
+      const elements = Array.from(document.querySelectorAll('body *'))
+        .map((element) => {
+          const rect = element.getBoundingClientRect();
+          return {
+            selector: [
+              element.tagName.toLowerCase(),
+              ...Array.from(element.classList).map((name) => `.${name}`),
+            ].join(''),
+            left: Math.round(rect.left * 100) / 100,
+            right: Math.round(rect.right * 100) / 100,
+            scrollWidth: element.scrollWidth,
+            clientWidth: element.clientWidth,
+          };
+        })
+        .filter(
+          ({ left, right }) => left < -0.5 || right > viewportWidth + 0.5,
+        );
+
+      return {
+        viewportWidth,
+        pageScrollWidth: document.documentElement.scrollWidth,
+        elements,
+      };
+    });
+
     expect(
-      await page.evaluate(
-        () =>
-          document.documentElement.scrollWidth <=
-          document.documentElement.clientWidth,
-      ),
-    ).toBe(true);
+      overflow.pageScrollWidth,
+      `Horizontal overflow at ${viewport.width}px: ${JSON.stringify(overflow)}`,
+    ).toBeLessThanOrEqual(overflow.viewportWidth);
 
     for (const [selector, expectedColumns] of [
       ['.feature-grid', viewport.featureColumns],
