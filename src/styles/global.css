@@ -2462,6 +2462,15 @@ html[lang='ja'] .features-hero h1 {
   }
 }
 
+@media (max-width: 64rem) {
+  .hero-copy h1,
+  .features-hero h1,
+  html[lang='ja'] .hero-copy h1,
+  html[lang='ja'] .features-hero h1 {
+    font-size: clamp(3.5rem, 9.5vw, 6rem);
+  }
+}
+
 @media (max-width: 48rem) {
   .shell {
     width: min(calc(100% - 1.5rem), var(--container));
