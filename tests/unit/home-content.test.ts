@@ -131,6 +131,21 @@ describe('homepage content', () => {
     });
   });
 
+  it('reserves localized product screenshots in the hero', () => {
+    expect(homeCopy.en.hero.preview).toEqual({
+      label: 'Owlaria product preview',
+      desktopLabel: 'Mac library screenshot',
+      mobileLabel: 'iPhone reader screenshot',
+      replacementNote: 'Product screenshots coming soon',
+    });
+    expect(homeCopy.ja.hero.preview).toEqual({
+      label: 'Owlariaのアプリ画面',
+      desktopLabel: 'Mac版ライブラリ画面',
+      mobileLabel: 'iPhone版ビューア画面',
+      replacementNote: '正式なアプリ画面に差し替え予定',
+    });
+  });
+
   it('states the supported formats and password-protected archive formats', () => {
     expect(homeCopy.en.compatibility).toEqual({
       eyebrow: 'Compatibility',
