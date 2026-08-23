@@ -3,35 +3,82 @@ import { describe, expect, it } from 'vitest';
 import { featurePageCopy } from '../../src/content/features';
 
 describe('feature page content', () => {
-  it('keeps the English and Japanese category structure aligned', () => {
-    expect(featurePageCopy.en.categories.map(({ id }) => id)).toEqual([
-      'storage',
-      'organization',
-      'metadata',
+  it('organizes both locales around the same four product stories', () => {
+    expect(featurePageCopy.en.sections.map(({ id }) => id)).toEqual([
+      'sources',
+      'library',
       'viewer',
-      'privacy',
-      'insights',
+      'everyday',
     ]);
-    expect(featurePageCopy.ja.categories.map(({ id }) => id)).toEqual(
-      featurePageCopy.en.categories.map(({ id }) => id),
+    expect(featurePageCopy.ja.sections.map(({ id }) => id)).toEqual(
+      featurePageCopy.en.sections.map(({ id }) => id),
     );
   });
 
-  it('publishes only the supported archive and document formats', () => {
+  it('leads with the product value established on the landing page', () => {
+    expect(featurePageCopy.ja.hero.heading).toBe(
+      'フォルダはそのまま。整理も、読み方も、思いどおりに。',
+    );
+    expect(featurePageCopy.ja.hero.mobileLines).toEqual([
+      'フォルダはそのまま。',
+      '整理も、読み方も、',
+      '思いどおりに。',
+    ]);
+    expect(featurePageCopy.ja.hero.highlights).toEqual([
+      '複数のNAS・ローカルを統合',
+      '保存先に管理ファイルを書き込まない',
+      '基本機能は無料',
+    ]);
+  });
+
+  it('publishes archive formats as individual extensions', () => {
     expect(featurePageCopy.en.formats.archive).toEqual([
-      'ZIP / CBZ',
-      'RAR / CBR',
-      '7Z / CB7',
+      'ZIP',
+      'CBZ',
+      'RAR',
+      'CBR',
+      '7Z',
+      'CB7',
       'LZH',
       'PDF',
     ]);
+    expect(featurePageCopy.ja.formats.archive).toEqual(
+      featurePageCopy.en.formats.archive,
+    );
     expect(JSON.stringify(featurePageCopy)).not.toMatch(/EPUB/i);
   });
 
-  it('does not present future work as a current feature', () => {
-    expect(JSON.stringify(featurePageCopy)).not.toMatch(
-      /cloud sync|OCR|margin removal|Windows|Android/i,
+  it('lists exactly the password-protected archive formats that can be opened', () => {
+    expect(featurePageCopy.en.formats.passwordArchive).toEqual([
+      'ZIP',
+      'CBZ',
+      'RAR',
+      'CBR',
+      '7Z',
+      'CB7',
+    ]);
+    expect(featurePageCopy.ja.formats.passwordArchive).toEqual(
+      featurePageCopy.en.formats.passwordArchive,
     );
+  });
+
+  it('marks future platforms as planned and explains the free tier', () => {
+    expect(featurePageCopy.en.availability.currentPlatforms).toEqual([
+      'Mac',
+      'iPhone',
+    ]);
+    expect(featurePageCopy.en.availability.futurePlatforms).toEqual([
+      'Windows',
+      'Android',
+    ]);
+    expect(featurePageCopy.ja.availability.freeNote).toContain(
+      '基本機能は無料',
+    );
+    expect(featurePageCopy.ja.availability.futureLabel).toBe('登場予定');
+  });
+
+  it('uses マンガ consistently in Japanese product copy', () => {
+    expect(JSON.stringify(featurePageCopy.ja)).not.toMatch(/漫画|コミック/);
   });
 
   it('describes Read-Only as a design property instead of an absolute guarantee', () => {
@@ -41,11 +88,14 @@ describe('feature page content', () => {
   });
 
   it('limits partial remote retrieval claims to ZIP, CBZ, and PDF', () => {
-    expect(featurePageCopy.en.categories[0]?.items[0]?.body).toMatch(
-      /ZIP, CBZ, and PDF/,
+    const englishSources = featurePageCopy.en.sections.find(
+      ({ id }) => id === 'sources',
     );
-    expect(featurePageCopy.ja.categories[0]?.items[0]?.body).toMatch(
-      /ZIP・CBZ・PDF/,
+    const japaneseSources = featurePageCopy.ja.sections.find(
+      ({ id }) => id === 'sources',
     );
+
+    expect(englishSources?.items[2]?.body).toMatch(/ZIP, CBZ, and PDF/);
+    expect(japaneseSources?.items[2]?.body).toMatch(/ZIP・CBZ・PDF/);
   });
 });
