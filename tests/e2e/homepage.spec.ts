@@ -358,6 +358,24 @@ test('English hero typography leaves room for descenders', async ({ page }) => {
   expect(metrics.overflow).toBe('visible');
 });
 
+test('mobile product preview stays below the hero heading', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 429, height: 862 });
+  await page.goto('/ja/');
+
+  const headingBox = await page.locator('.hero-copy h1').boundingBox();
+  const mobilePreviewBox = await page
+    .locator('.hero-preview-mobile')
+    .boundingBox();
+
+  expect(headingBox).not.toBeNull();
+  expect(mobilePreviewBox).not.toBeNull();
+  expect(mobilePreviewBox!.y).toBeGreaterThanOrEqual(
+    headingBox!.y + headingBox!.height + 24,
+  );
+});
+
 test('Japanese marketing headings wrap on phrase boundaries', async ({
   page,
 }) => {

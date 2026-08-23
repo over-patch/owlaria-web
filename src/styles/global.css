@@ -3110,6 +3110,16 @@ html[lang='en'] .features-hero h1 {
 }
 
 @media (max-width: 30rem) {
+  .hero-preview-mobile {
+    top: var(--space-4);
+    bottom: auto;
+    width: 6rem;
+  }
+
+  .hero-product-preview figcaption {
+    margin-top: 5rem;
+  }
+
   .release-card-meta {
     align-items: flex-start;
     flex-direction: column;
