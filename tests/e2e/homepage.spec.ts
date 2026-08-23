@@ -28,6 +28,7 @@ for (const locale of [
     featureHref: '/features/',
     platformHeading: 'Owlaria for Mac. Owlaria for iPhone.',
     heroFreeNote: 'Free to start at launch',
+    heroPreviewLabels: ['Mac library screenshot', 'iPhone reader screenshot'],
     freeNote: 'Core features are free to use.',
     purchaseNote: 'Paid features are purchased separately on Mac and iPhone.',
     platformNames: ['Owlaria for Mac', 'Owlaria for iPhone'],
@@ -57,6 +58,7 @@ for (const locale of [
     featureHref: '/ja/features/',
     platformHeading: 'Macにも、iPhoneにも。Owlariaを。',
     heroFreeNote: '基本無料で提供予定',
+    heroPreviewLabels: ['Mac版ライブラリ画面', 'iPhone版ビューア画面'],
     freeNote: '基本機能は無料で利用できます。',
     purchaseNote: '有料機能はMac版とiPhone版でそれぞれ別に購入できます。',
     platformNames: ['Owlaria for Mac', 'Owlaria for iPhone'],
@@ -78,6 +80,25 @@ for (const locale of [
       heading.locator('[data-headline-variant="mobile"] > span'),
     ).toHaveText(locale.mobileLines);
     await expect(page.locator('.hero-benefits > li')).toHaveCount(3);
+    const heroPreview = page.getByTestId('hero-product-preview');
+    await expect(heroPreview).toBeVisible();
+    await expect(heroPreview.getByTestId('hero-preview-label')).toHaveText(
+      locale.heroPreviewLabels,
+    );
+    const desktopPreviewBox = await heroPreview
+      .locator('.hero-preview-desktop')
+      .boundingBox();
+    const mobilePreviewBox = await heroPreview
+      .locator('.hero-preview-mobile')
+      .boundingBox();
+    expect(desktopPreviewBox).not.toBeNull();
+    expect(mobilePreviewBox).not.toBeNull();
+    expect(desktopPreviewBox!.width).toBeGreaterThan(
+      mobilePreviewBox!.width * 2,
+    );
+    expect(mobilePreviewBox!.x).toBeLessThan(
+      desktopPreviewBox!.x + desktopPreviewBox!.width,
+    );
     const firstBenefit = page.locator('.hero-benefits > li').nth(0);
     const secondBenefit = page.locator('.hero-benefits > li').nth(1);
     await expect(firstBenefit).toHaveCSS('border-radius', '20px');
@@ -335,6 +356,24 @@ test('English hero typography leaves room for descenders', async ({ page }) => {
   expect(metrics.lineHeightRatio).toBeGreaterThanOrEqual(0.96);
   expect(metrics.paddingBottom).toBeGreaterThan(0);
   expect(metrics.overflow).toBe('visible');
+});
+
+test('mobile product preview stays below the hero heading', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 429, height: 862 });
+  await page.goto('/ja/');
+
+  const headingBox = await page.locator('.hero-copy h1').boundingBox();
+  const mobilePreviewBox = await page
+    .locator('.hero-preview-mobile')
+    .boundingBox();
+
+  expect(headingBox).not.toBeNull();
+  expect(mobilePreviewBox).not.toBeNull();
+  expect(mobilePreviewBox!.y).toBeGreaterThanOrEqual(
+    headingBox!.y + headingBox!.height + 24,
+  );
 });
 
 test('Japanese marketing headings wrap on phrase boundaries', async ({

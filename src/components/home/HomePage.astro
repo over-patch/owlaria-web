@@ -38,6 +38,30 @@ const copy = homeCopy[locale];
           {copy.hero.mobileLines.map((line) => <span>{line}</span>)}
         </span>
       </h1>
+      <!-- Replace both frames with approved product screenshots before launch. -->
+      <figure
+        class="hero-product-preview"
+        aria-label={copy.hero.preview.label}
+        data-testid="hero-product-preview"
+      >
+        <div class="hero-preview-stage">
+          <div class="hero-preview-frame hero-preview-desktop">
+            <span class="hero-preview-device">Mac</span>
+            <img src="/owlaria-app-icon.png" width="72" height="72" alt="" />
+            <strong data-testid="hero-preview-label">
+              {copy.hero.preview.desktopLabel}
+            </strong>
+          </div>
+          <div class="hero-preview-frame hero-preview-mobile">
+            <span class="hero-preview-device">iPhone</span>
+            <img src="/owlaria-app-icon.png" width="48" height="48" alt="" />
+            <strong data-testid="hero-preview-label">
+              {copy.hero.preview.mobileLabel}
+            </strong>
+          </div>
+        </div>
+        <figcaption>{copy.hero.preview.replacementNote}</figcaption>
+      </figure>
       <ul class="hero-benefits" aria-label={copy.hero.eyebrow}>
         {
           copy.hero.benefits.map((benefit) => (

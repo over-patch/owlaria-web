@@ -32,6 +32,12 @@ export type HomeCopy = {
       title: string;
       body: string;
     }>;
+    preview: {
+      label: string;
+      desktopLabel: string;
+      mobileLabel: string;
+      replacementNote: string;
+    };
   };
   productStory: {
     eyebrow: string;
@@ -156,6 +162,12 @@ export const homeCopy: Record<Locale, HomeCopy> = {
           body: 'Your files and folder structure stay unchanged, with no extra management files written alongside them.',
         },
       ],
+      preview: {
+        label: 'Owlaria product preview',
+        desktopLabel: 'Mac library screenshot',
+        mobileLabel: 'iPhone reader screenshot',
+        replacementNote: 'Product screenshots coming soon',
+      },
     },
     productStory: {
       eyebrow: 'How Owlaria works',
@@ -308,6 +320,12 @@ export const homeCopy: Record<Locale, HomeCopy> = {
           body: 'ファイルやフォルダ構成を変えず、余計な管理ファイルも書き込みません。',
         },
       ],
+      preview: {
+        label: 'Owlariaのアプリ画面',
+        desktopLabel: 'Mac版ライブラリ画面',
+        mobileLabel: 'iPhone版ビューア画面',
+        replacementNote: '正式なアプリ画面に差し替え予定',
+      },
     },
     productStory: {
       eyebrow: 'Owlariaの仕組み',
