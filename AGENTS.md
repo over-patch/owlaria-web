@@ -88,5 +88,6 @@ This repository contains the public product website for Owlaria. These rules app
 - Commit messages use English imperative mood and GitHub Gitmoji shortcodes, for example `:sparkles: Add locale navigation`.
 - Pull request titles use a GitHub Gitmoji shortcode and Japanese summary.
 - Pull request bodies must summarize the change, verification performed, visual evidence when relevant, and related issues.
-- All changes go through a pull request and require one team member's approval before merge.
+- All changes go through a pull request.
+- Reviewer approval is optional and is not required for merge. Merge only after required CI checks pass and the pull request is free of conflicts.
 - Merge using a merge commit unless the team explicitly changes the repository policy.
