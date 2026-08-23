@@ -3,28 +3,36 @@ import { expect, test } from '@playwright/test';
 for (const locale of [
   {
     path: '/features/',
-    heading: 'Everything your comic library needs.',
-    desktopLines: ['Everything your', 'comic library needs.'],
-    mobileLines: ['Everything', 'your comic', 'library needs.'],
-    storageHeading: 'Keep the collection where it belongs.',
+    heading: 'Keep your folders. Organize and read your way.',
+    desktopLines: ['Keep your folders.', 'Organize and read your way.'],
+    mobileLines: ['Keep your folders.', 'Organize and read', 'your way.'],
+    sourcesHeading: 'Connect your folders. Keep your storage clean.',
+    viewerLabel: 'Comic viewer',
     language: '日本語',
     languageHref: '/ja/features/',
     back: 'Back to overview',
     homeHref: '/',
+    freeNote: 'Core features are free to use.',
   },
   {
     path: '/ja/features/',
-    heading: 'コミックライブラリに必要なものを、ひとつに。',
-    desktopLines: ['コミックライブラリに', '必要なものを、ひとつに。'],
-    mobileLines: ['コミック', 'ライブラリに', '必要なものを、', 'ひとつに。'],
-    storageHeading: 'コレクションは、いまある場所のまま。',
+    heading: 'フォルダはそのまま。整理も、読み方も、思いどおりに。',
+    desktopLines: ['フォルダはそのまま。', '整理も、読み方も、思いどおりに。'],
+    mobileLines: [
+      'フォルダはそのまま。',
+      '整理も、読み方も、',
+      '思いどおりに。',
+    ],
+    sourcesHeading: 'フォルダをつなぐ。保存先は汚さない。',
+    viewerLabel: 'マンガビューア',
     language: 'English',
     languageHref: '/features/',
     back: '概要へ戻る',
     homeHref: '/ja/',
+    freeNote: 'Owlariaの基本機能は無料で利用できます。',
   },
 ] as const) {
-  test(`${locale.path} presents the complete localized feature catalog`, async ({
+  test(`${locale.path} presents value-led feature stories`, async ({
     page,
   }) => {
     await page.goto(locale.path);
@@ -38,10 +46,26 @@ for (const locale of [
       heading.locator('[data-headline-variant="mobile"] > span'),
     ).toHaveText(locale.mobileLines);
     await expect(
-      page.getByRole('heading', { name: locale.storageHeading }),
+      page.getByRole('heading', { name: locale.sourcesHeading }),
     ).toBeVisible();
-    await expect(page.locator('.feature-category')).toHaveCount(6);
-    await expect(page.getByText('ZIP / CBZ', { exact: true })).toBeVisible();
+    await expect(page.locator('.feature-story')).toHaveCount(4);
+    await expect(page.locator('.feature-source-node')).toHaveCount(3);
+    await expect(page.getByTestId('feature-product-preview')).toHaveCount(2);
+    await expect(page.locator('.feature-reader-mode-group')).toHaveCount(3);
+    const archiveFormats = page
+      .locator('.feature-format-panel > section')
+      .first();
+    await expect(
+      archiveFormats.getByText('ZIP', { exact: true }),
+    ).toBeVisible();
+    await expect(
+      archiveFormats.getByText('CBZ', { exact: true }),
+    ).toBeVisible();
+    await expect(page.getByText('Windows', { exact: true })).toBeVisible();
+    await expect(page.getByText('Android', { exact: true })).toBeVisible();
+    await expect(
+      page.getByText(locale.freeNote, { exact: true }),
+    ).toBeVisible();
     await expect(page.getByTestId('header-locale-switch')).toHaveAttribute(
       'href',
       locale.languageHref,
@@ -72,7 +96,7 @@ for (const locale of [
   });
 }
 
-test('feature catalog remains usable without JavaScript', async ({
+test('feature stories remain usable without JavaScript', async ({
   browser,
 }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
@@ -80,7 +104,9 @@ test('feature catalog remains usable without JavaScript', async ({
   await page.goto('/features/');
 
   await expect(
-    page.getByRole('heading', { name: 'Everything your comic library needs.' }),
+    page.getByRole('heading', {
+      name: 'Keep your folders. Organize and read your way.',
+    }),
   ).toBeVisible();
   await expect(
     page.getByRole('link', { name: 'Comic viewer' }),
@@ -96,28 +122,20 @@ test('Japanese feature headings use intentional phrase breaks', async ({
 
   for (const { name, lines } of [
     {
-      name: 'コレクションは、いまある場所のまま。',
-      lines: ['コレクションは、', 'いまある場所のまま。'],
+      name: 'フォルダをつなぐ。保存先は汚さない。',
+      lines: ['フォルダをつなぐ。', '保存先は汚さない。'],
     },
     {
-      name: '何千冊の中から、一冊を見つける。',
-      lines: ['何千冊の中から、', '一冊を見つける。'],
+      name: '何千冊の中から、読みたい一冊へ。',
+      lines: ['何千冊の中から、', '読みたい一冊へ。'],
     },
     {
-      name: '自由に整理する。原本は書き換えない。',
-      lines: ['自由に整理する。', '原本は書き換えない。'],
+      name: 'マンガに合わせて読み方を選択',
+      lines: ['マンガに合わせて', '読み方を選択'],
     },
     {
-      name: '操作ではなく、ページを主役に。',
-      lines: ['操作ではなく、', 'ページを主役に。'],
-    },
-    {
-      name: 'ライブラリを中心に考えた保護。',
-      lines: ['ライブラリを中心に', '考えた保護。'],
-    },
-    {
-      name: '物語へ戻る。読書の全体も見渡す。',
-      lines: ['物語へ戻る。', '読書の全体も見渡す。'],
+      name: '続きから読む。読書の傾向もわかる。',
+      lines: ['続きから読む。', '読書の傾向もわかる。'],
     },
   ]) {
     await expect(
@@ -129,48 +147,77 @@ test('Japanese feature headings use intentional phrase breaks', async ({
 
   await page.setViewportSize({ width: 390, height: 844 });
   const mobileLines = page.locator(
-    '.feature-category-heading [data-headline-variant="mobile"] > span',
+    '.feature-story-heading [data-headline-variant="mobile"] > span',
   );
   expect(
     await mobileLines.evaluateAll((lines) =>
       lines.every((line) => line.scrollWidth <= line.clientWidth),
     ),
   ).toBe(true);
-  expect(
-    await page.evaluate(
-      () =>
-        document.documentElement.scrollWidth <=
-        document.documentElement.clientWidth,
-    ),
-  ).toBe(true);
 });
 
-test('feature catalog is responsive without horizontal overflow', async ({
+test('feature page is responsive without overlap or horizontal overflow', async ({
   page,
 }) => {
-  for (const viewport of [
-    { width: 390, height: 844, columns: 1 },
-    { width: 1440, height: 1000, columns: 2 },
-  ]) {
-    await page.setViewportSize(viewport);
-    await page.goto('/features/');
+  for (const pathname of ['/features/', '/ja/features/']) {
+    for (const viewport of [
+      { width: 390, height: 844, columns: 1 },
+      { width: 768, height: 1024, columns: 1 },
+      { width: 1024, height: 900, columns: 2 },
+      { width: 1440, height: 1000, columns: 2 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await page.goto(pathname);
 
-    expect(
-      await page.evaluate(
-        () =>
-          document.documentElement.scrollWidth <=
-          document.documentElement.clientWidth,
-      ),
-    ).toBe(true);
+      expect(
+        await page.evaluate(
+          () =>
+            document.documentElement.scrollWidth <=
+            document.documentElement.clientWidth,
+        ),
+      ).toBe(true);
 
-    const columns = await page
-      .locator('.feature-category-grid')
-      .first()
-      .evaluate((element) =>
-        getComputedStyle(element)
-          .gridTemplateColumns.split(' ')
-          .filter(Boolean),
+      const storyColumns = await page
+        .locator('.feature-story-layout')
+        .evaluateAll((layouts) =>
+          layouts.map(
+            (layout) =>
+              getComputedStyle(layout)
+                .gridTemplateColumns.split(' ')
+                .filter(Boolean).length,
+          ),
+        );
+      expect(storyColumns.every((count) => count === viewport.columns)).toBe(
+        true,
       );
-    expect(columns).toHaveLength(viewport.columns);
+
+      if (viewport.columns === 1) {
+        for (const story of await page
+          .locator(
+            '.feature-story:has([data-testid="feature-product-preview"])',
+          )
+          .all()) {
+          const headingBox = await story
+            .locator('.feature-story-heading')
+            .boundingBox();
+          const previewBox = await story
+            .getByTestId('feature-product-preview')
+            .boundingBox();
+
+          expect(headingBox).not.toBeNull();
+          expect(previewBox).not.toBeNull();
+          expect(previewBox!.y).toBeGreaterThanOrEqual(
+            headingBox!.y + headingBox!.height,
+          );
+        }
+      } else {
+        const previewRatios = await page
+          .getByTestId('feature-product-preview')
+          .evaluateAll((previews) =>
+            previews.map((preview) => getComputedStyle(preview).aspectRatio),
+          );
+        expect(previewRatios.every((ratio) => ratio === '16 / 10')).toBe(true);
+      }
+    }
   }
 });

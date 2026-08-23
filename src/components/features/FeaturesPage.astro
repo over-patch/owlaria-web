@@ -11,6 +11,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const copy = featurePageCopy[locale];
+// Product preview frames are placeholders and must be replaced with approved Owlaria screenshots.
 ---
 
 <SiteLayout
@@ -22,22 +23,15 @@ const copy = featurePageCopy[locale];
   <header class="features-hero shell" data-reveal>
     <p class="eyebrow">{copy.hero.eyebrow}</p>
     <h1 aria-label={copy.hero.heading}>
-      <span
-        class="headline-lines"
-        data-headline-variant="desktop"
-        aria-hidden="true"
-      >
-        {copy.hero.desktopLines.map((line) => <span>{line}</span>)}
-      </span>
-      <span
-        class="headline-lines"
-        data-headline-variant="mobile"
-        aria-hidden="true"
-      >
-        {copy.hero.mobileLines.map((line) => <span>{line}</span>)}
-      </span>
+      <HeadlineLines
+        desktopLines={copy.hero.desktopLines}
+        mobileLines={copy.hero.mobileLines}
+      />
     </h1>
-    <p>{copy.hero.body}</p>
+    <p class="feature-hero-body">{copy.hero.body}</p>
+    <ul class="feature-hero-highlights">
+      {copy.hero.highlights.map((highlight) => <li>{highlight}</li>)}
+    </ul>
   </header>
 
   <nav
@@ -47,11 +41,11 @@ const copy = featurePageCopy[locale];
   >
     <ol>
       {
-        copy.categories.map((category) => (
+        copy.sections.map((section) => (
           <li>
-            <a href={`#${category.id}`}>
-              <span>{category.number}</span>
-              {category.label}
+            <a href={`#${section.id}`}>
+              <span>{section.number}</span>
+              {section.label}
             </a>
           </li>
         ))
@@ -59,37 +53,107 @@ const copy = featurePageCopy[locale];
     </ol>
   </nav>
 
-  <div class="feature-catalog shell">
+  <div class="feature-stories shell">
     {
-      copy.categories.map((category) => (
+      copy.sections.map((section) => (
         <section
-          id={category.id}
-          class="feature-category"
-          aria-labelledby={`${category.id}-heading`}
+          id={section.id}
+          class:list={['feature-story', `feature-story-${section.visual}`]}
+          aria-labelledby={`${section.id}-heading`}
           data-reveal
         >
-          <header class="feature-category-heading">
-            <p>
-              <span>{category.number}</span>
-              {category.label}
-            </p>
-            <h2
-              id={`${category.id}-heading`}
-              aria-label={category.desktopLines ? category.heading : undefined}
-            >
-              {category.desktopLines && category.mobileLines ? (
+          <div class="feature-story-layout">
+            <header class="feature-story-heading">
+              <p>
+                <span>{section.number}</span>
+                {section.label}
+              </p>
+              <h2 id={`${section.id}-heading`} aria-label={section.heading}>
                 <HeadlineLines
-                  desktopLines={category.desktopLines}
-                  mobileLines={category.mobileLines}
+                  desktopLines={section.desktopLines}
+                  mobileLines={section.mobileLines}
                 />
-              ) : (
-                <PhraseText text={category.heading} />
-              )}
-            </h2>
-            <p>{category.body}</p>
-          </header>
-          <ul class="feature-category-grid">
-            {category.items.map((item) => (
+              </h2>
+              <p>{section.body}</p>
+            </header>
+
+            {section.visual === 'sources' && (
+              <div
+                class="feature-source-diagram"
+                aria-label={copy.sourceDiagram.heading}
+              >
+                <header>
+                  <h3>{copy.sourceDiagram.heading}</h3>
+                  <p>{copy.sourceDiagram.body}</p>
+                </header>
+                <ul>
+                  {copy.sourceDiagram.sources.map((source) => (
+                    <li class="feature-source-node">{source}</li>
+                  ))}
+                </ul>
+                <div class="feature-source-connector">
+                  <span>{copy.sourceDiagram.connector}</span>
+                </div>
+                <article class="feature-source-output">
+                  <img
+                    src="/owlaria-app-icon.png"
+                    width="72"
+                    height="72"
+                    alt=""
+                  />
+                  <div>
+                    <h3>{copy.sourceDiagram.outputHeading}</h3>
+                    <p>{copy.sourceDiagram.outputBody}</p>
+                  </div>
+                </article>
+              </div>
+            )}
+
+            {section.preview && (
+              <figure
+                class:list={[
+                  'feature-product-preview',
+                  `feature-product-preview-${section.visual}`,
+                ]}
+                data-testid="feature-product-preview"
+              >
+                <div class="feature-preview-toolbar" aria-hidden="true">
+                  <span />
+                  <span />
+                  <span />
+                </div>
+                <div class="feature-preview-stage">
+                  <span>{section.preview.platform}</span>
+                  <img
+                    src="/owlaria-app-icon.png"
+                    width="88"
+                    height="88"
+                    alt=""
+                  />
+                  <strong>{section.preview.title}</strong>
+                </div>
+                <figcaption>{section.preview.note}</figcaption>
+              </figure>
+            )}
+          </div>
+
+          {section.modeGroups && (
+            <div class="feature-reader-modes">
+              {section.modeGroups.map((group) => (
+                <section class="feature-reader-mode-group">
+                  <h3>{group.title}</h3>
+                  <ul>
+                    {group.values.map((value) => (
+                      <li>{value}</li>
+                    ))}
+                  </ul>
+                </section>
+              ))}
+            </div>
+          )}
+
+          <ul class="feature-story-grid">
+            {section.items.map((item) => (
               <li>
                 <h3>{item.title}</h3>
                 <p>{item.body}</p>
@@ -113,24 +177,78 @@ const copy = featurePageCopy[locale];
       </h2>
       <p>{copy.formats.body}</p>
     </header>
-    <div class="format-groups">
+    <div class="feature-format-panel">
       <section>
         <h3>{copy.formats.archiveLabel}</h3>
-        <ul>
+        <ul class="feature-format-badges">
           {copy.formats.archive.map((format) => <li>{format}</li>)}
         </ul>
       </section>
-      <section>
-        <h3>{copy.formats.imageLabel}</h3>
-        <ul>
+      <section class="feature-password-formats">
+        <div class="feature-password-mark" aria-hidden="true">
+          <span></span>
+        </div>
+        <div>
+          <h3>{copy.formats.passwordLabel}</h3>
+          <p>{copy.formats.passwordBody}</p>
+          <ul class="feature-format-badges feature-format-badges-compact">
+            {copy.formats.passwordArchive.map((format) => <li>{format}</li>)}
+          </ul>
+        </div>
+      </section>
+      <details class="feature-image-formats">
+        <summary>{copy.formats.imageLabel}</summary>
+        <ul class="feature-format-badges feature-format-badges-compact">
           {copy.formats.image.map((format) => <li>{format}</li>)}
+        </ul>
+      </details>
+    </div>
+  </section>
+
+  <section
+    class="feature-platform-section shell"
+    aria-labelledby="platform-heading"
+    data-reveal
+  >
+    <header class="section-heading">
+      <p class="eyebrow">{copy.availability.eyebrow}</p>
+      <h2 id="platform-heading">
+        <PhraseText text={copy.availability.heading} />
+      </h2>
+      <p>{copy.availability.body}</p>
+    </header>
+    <div class="feature-platform-groups">
+      <section>
+        <h3>{copy.availability.currentLabel}</h3>
+        <ul>
+          {
+            copy.availability.currentPlatforms.map((platform) => (
+              <li>
+                <strong>{platform}</strong>
+                <span>{copy.availability.comingSoon}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+      <section class="feature-platform-future">
+        <h3>{copy.availability.futureLabel}</h3>
+        <ul>
+          {
+            copy.availability.futurePlatforms.map((platform) => (
+              <li>
+                <strong>{platform}</strong>
+                <span>{copy.availability.futureLabel}</span>
+              </li>
+            ))
+          }
         </ul>
       </section>
     </div>
-    <aside class="feature-availability">
-      <h3>{copy.availability.heading}</h3>
-      <p>{copy.availability.body}</p>
-    </aside>
+    <div class="feature-pricing-note">
+      <strong>{copy.availability.freeNote}</strong>
+      <span>{copy.availability.purchaseNote}</span>
+    </div>
   </section>
 
   <section class="closing-section shell" data-reveal>
@@ -138,8 +256,8 @@ const copy = featurePageCopy[locale];
     <p class="eyebrow">{copy.closing.eyebrow}</p>
     <h2><PhraseText text={copy.closing.heading} /></h2>
     <p>{copy.closing.body}</p>
-    <a class="primary-link" href={localePath(locale, '/')}
-      >{copy.closing.action}<span aria-hidden="true">→</span></a
-    >
+    <a class="primary-link" href={localePath(locale, '/')}>
+      {copy.closing.action}<span aria-hidden="true">→</span>
+    </a>
   </section>
 </SiteLayout>
