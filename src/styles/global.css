@@ -3353,6 +3353,14 @@ html[lang='en'] .features-hero h1 {
   html[lang='ja'] .features-hero h1 {
     font-size: clamp(4.5rem, 8.5vw, 6rem);
   }
+
+  .features-hero .headline-lines[data-headline-variant='desktop'] {
+    display: none;
+  }
+
+  .features-hero .headline-lines[data-headline-variant='mobile'] {
+    display: block;
+  }
 }
 
 @media (max-width: 60rem) {
@@ -3970,11 +3978,11 @@ html[lang='en'] .features-hero h1 {
     width: 100%;
   }
 
-  .headline-lines[data-headline-variant='desktop'] {
+  .hero-copy .headline-lines[data-headline-variant='desktop'] {
     display: none;
   }
 
-  .headline-lines[data-headline-variant='mobile'] {
+  .hero-copy .headline-lines[data-headline-variant='mobile'] {
     display: block;
   }
 
