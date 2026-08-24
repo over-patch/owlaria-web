@@ -4,6 +4,7 @@ import { localePath, type Locale } from '../../i18n/config';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import HeadlineLines from '../HeadlineLines.astro';
 import PhraseText from '../PhraseText.astro';
+import FeatureGlyph from './FeatureGlyph.astro';
 
 interface Props {
   locale: Locale;
@@ -11,6 +12,21 @@ interface Props {
 
 const { locale } = Astro.props;
 const copy = featurePageCopy[locale];
+const readerModeIcons = ['direction', 'pages', 'scroll'];
+const temporaryViewerIcons = ['finder', 'drop', 'history'];
+const featureCardIcons = {
+  library: [
+    'search',
+    'filename',
+    'series',
+    'folder',
+    'metadata',
+    'cover',
+    'tracking',
+    'explorer',
+  ],
+  everyday: ['lock', 'history', 'chart', 'sliders'],
+} as const;
 // Product preview frames are placeholders and must be replaced with approved Owlaria screenshots.
 ---
 
@@ -29,9 +45,6 @@ const copy = featurePageCopy[locale];
       />
     </h1>
     <p class="feature-hero-body">{copy.hero.body}</p>
-    <ul class="feature-hero-highlights">
-      {copy.hero.highlights.map((highlight) => <li>{highlight}</li>)}
-    </ul>
   </header>
 
   <nav
@@ -87,11 +100,28 @@ const copy = featurePageCopy[locale];
                   <p>{copy.sourceDiagram.body}</p>
                 </header>
                 <ul>
-                  {copy.sourceDiagram.sources.map((source) => (
-                    <li class="feature-source-node">{source}</li>
+                  {copy.sourceDiagram.sources.map((source, index) => (
+                    <li class="feature-source-node">
+                      <FeatureGlyph
+                        name={index < 2 ? 'server' : 'sourceFolder'}
+                        className={`feature-source-icon ${
+                          index < 2
+                            ? 'feature-source-icon-server'
+                            : 'feature-source-icon-folder'
+                        }`}
+                      />
+                      <span>{source}</span>
+                    </li>
                   ))}
                 </ul>
                 <div class="feature-source-connector">
+                  <svg
+                    viewBox="0 0 24 80"
+                    preserveAspectRatio="xMidYMid meet"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 0v70M5 63l7 7 7-7" />
+                  </svg>
                   <span>{copy.sourceDiagram.connector}</span>
                 </div>
                 <article class="feature-source-output">
@@ -139,9 +169,15 @@ const copy = featurePageCopy[locale];
 
           {section.modeGroups && (
             <div class="feature-reader-modes">
-              {section.modeGroups.map((group) => (
+              {section.modeGroups.map((group, index) => (
                 <section class="feature-reader-mode-group">
-                  <h3>{group.title}</h3>
+                  <div class="feature-reader-mode-heading">
+                    <FeatureGlyph
+                      name={readerModeIcons[index]}
+                      className="feature-reader-mode-icon"
+                    />
+                    <h3>{group.title}</h3>
+                  </div>
                   <ul>
                     {group.values.map((value) => (
                       <li>{value}</li>
@@ -152,10 +188,91 @@ const copy = featurePageCopy[locale];
             </div>
           )}
 
+          {section.temporaryViewer && (
+            <section
+              class="feature-temporary-viewer"
+              aria-labelledby={`${section.id}-temporary-viewer-heading`}
+            >
+              <div class="feature-temporary-viewer-intro">
+                <header>
+                  <p>{section.temporaryViewer.eyebrow}</p>
+                  <h3
+                    id={`${section.id}-temporary-viewer-heading`}
+                    aria-label={section.temporaryViewer.heading}
+                  >
+                    {section.temporaryViewer.headingLines.map((line) => (
+                      <span>{line}</span>
+                    ))}
+                  </h3>
+                  <p>{section.temporaryViewer.body}</p>
+                </header>
+
+                <div
+                  class="feature-temporary-viewer-diagram"
+                  aria-hidden="true"
+                >
+                  <div class="feature-temporary-file-stack">
+                    <span>CBZ</span>
+                    <span>RAR</span>
+                    <span>ZIP</span>
+                    <strong>{section.temporaryViewer.fileLabel}</strong>
+                  </div>
+                  <div class="feature-temporary-arrow">
+                    <span>→</span>
+                  </div>
+                  <div class="feature-temporary-window">
+                    <div class="feature-temporary-window-toolbar">
+                      <i />
+                      <i />
+                      <i />
+                    </div>
+                    <div class="feature-temporary-window-body">
+                      <img
+                        src="/owlaria-app-icon.png"
+                        width="56"
+                        height="56"
+                        alt=""
+                      />
+                      <strong>{section.temporaryViewer.viewerLabel}</strong>
+                      <span>{section.temporaryViewer.notAddedLabel}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <ul class="feature-temporary-viewer-methods">
+                {section.temporaryViewer.methods.map((method, index) => (
+                  <li>
+                    <div class="feature-temporary-method-heading">
+                      <FeatureGlyph
+                        name={temporaryViewerIcons[index]}
+                        className="feature-temporary-method-icon"
+                      />
+                      <h4>{method.title}</h4>
+                    </div>
+                    <p>{method.body}</p>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
           <ul class="feature-story-grid">
-            {section.items.map((item) => (
+            {section.items.map((item, index) => (
               <li>
-                <h3>{item.title}</h3>
+                <div class="feature-card-heading">
+                  {section.id in featureCardIcons && (
+                    <FeatureGlyph
+                      name={
+                        featureCardIcons[
+                          section.id as keyof typeof featureCardIcons
+                        ][index]
+                      }
+                      className="feature-card-icon"
+                    />
+                  )}
+                  <h3>{item.title}</h3>
+                </div>
                 <p>{item.body}</p>
               </li>
             ))}
@@ -178,30 +295,35 @@ const copy = featurePageCopy[locale];
       <p>{copy.formats.body}</p>
     </header>
     <div class="feature-format-panel">
-      <section>
-        <h3>{copy.formats.archiveLabel}</h3>
-        <ul class="feature-format-badges">
-          {copy.formats.archive.map((format) => <li>{format}</li>)}
-        </ul>
-      </section>
-      <section class="feature-password-formats">
-        <div class="feature-password-mark" aria-hidden="true">
-          <span></span>
+      <section class="feature-format-row feature-archive-formats">
+        <div class="feature-format-heading">
+          <FeatureGlyph name="archive" className="feature-format-icon" />
+          <h3>{copy.formats.archiveLabel}</h3>
         </div>
-        <div>
-          <h3>{copy.formats.passwordLabel}</h3>
-          <p>{copy.formats.passwordBody}</p>
-          <ul class="feature-format-badges feature-format-badges-compact">
-            {copy.formats.passwordArchive.map((format) => <li>{format}</li>)}
+        <div class="feature-format-values">
+          <ul class="feature-format-badges">
+            {
+              copy.formats.archive.map((format) => (
+                <li class="feature-format-badge">{format}</li>
+              ))
+            }
           </ul>
+          <p class="feature-format-support-note">{copy.formats.passwordBody}</p>
         </div>
       </section>
-      <details class="feature-image-formats">
-        <summary>{copy.formats.imageLabel}</summary>
-        <ul class="feature-format-badges feature-format-badges-compact">
-          {copy.formats.image.map((format) => <li>{format}</li>)}
+      <section class="feature-format-row feature-image-formats">
+        <div class="feature-format-heading">
+          <FeatureGlyph name="images" className="feature-format-icon" />
+          <h3>{copy.formats.imageLabel}</h3>
+        </div>
+        <ul class="feature-format-badges">
+          {
+            copy.formats.image.map((format) => (
+              <li class="feature-format-badge">{format}</li>
+            ))
+          }
         </ul>
-      </details>
+      </section>
     </div>
   </section>
 
@@ -249,15 +371,25 @@ const copy = featurePageCopy[locale];
       <strong>{copy.availability.freeNote}</strong>
       <span>{copy.availability.purchaseNote}</span>
     </div>
-  </section>
-
-  <section class="closing-section shell" data-reveal>
-    <img src="/owlaria-app-icon.png" width="96" height="96" alt="" />
-    <p class="eyebrow">{copy.closing.eyebrow}</p>
-    <h2><PhraseText text={copy.closing.heading} /></h2>
-    <p>{copy.closing.body}</p>
-    <a class="primary-link" href={localePath(locale, '/')}>
-      {copy.closing.action}<span aria-hidden="true">→</span>
-    </a>
+    <nav
+      class="feature-platform-actions"
+      aria-label={copy.availability.eyebrow}
+    >
+      <a
+        class="feature-platform-action feature-platform-action-primary"
+        href={localePath(locale, '/support/purchases/')}
+      >
+        {copy.availability.actions.purchases}<span aria-hidden="true">→</span>
+      </a>
+      <a
+        class="feature-platform-action"
+        href={localePath(locale, '/releases/')}
+      >
+        {copy.availability.actions.releases}<span aria-hidden="true">→</span>
+      </a>
+      <a class="feature-platform-action" href={localePath(locale, '/')}>
+        {copy.availability.actions.overview}<span aria-hidden="true">→</span>
+      </a>
+    </nav>
   </section>
 </SiteLayout>

@@ -24,11 +24,7 @@ describe('feature page content', () => {
       '整理も、読み方も、',
       '思いどおりに。',
     ]);
-    expect(featurePageCopy.ja.hero.highlights).toEqual([
-      '複数のNAS・ローカルを統合',
-      '保存先に管理ファイルを書き込まない',
-      '基本機能は無料',
-    ]);
+    expect('highlights' in featurePageCopy.ja.hero).toBe(false);
   });
 
   it('publishes archive formats as individual extensions', () => {
@@ -71,10 +67,24 @@ describe('feature page content', () => {
       'Windows',
       'Android',
     ]);
-    expect(featurePageCopy.ja.availability.freeNote).toContain(
-      '基本機能は無料',
+    expect(featurePageCopy.ja.availability.freeNote).toBe(
+      'すべての機能を1ライブラリ・100冊まで無料で利用できます。',
     );
+    expect(featurePageCopy.ja.availability.purchaseNote).toContain('買い切り');
     expect(featurePageCopy.ja.availability.futureLabel).toBe('登場予定');
+  });
+
+  it('provides clear next steps after the feature catalog', () => {
+    expect(featurePageCopy.ja.availability.actions).toEqual({
+      purchases: '無料範囲とPlusを見る',
+      releases: 'リリース情報を見る',
+      overview: '概要へ戻る',
+    });
+    expect(featurePageCopy.en.availability.actions).toEqual({
+      purchases: 'See Free and Plus details',
+      releases: 'View release information',
+      overview: 'Back to overview',
+    });
   });
 
   it('uses マンガ consistently in Japanese product copy', () => {
