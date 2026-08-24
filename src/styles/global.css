@@ -1540,7 +1540,7 @@ html[lang='ja'] .features-hero h1 {
 }
 
 html[lang='en'] .features-hero h1 {
-  font-size: clamp(3.5rem, 6.5vw, 6rem);
+  font-size: clamp(3.5rem, 5.25vw, 5rem);
 }
 
 .feature-hero-body {
