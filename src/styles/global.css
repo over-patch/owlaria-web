@@ -3497,7 +3497,7 @@ html[lang='en'] .features-hero h1 {
   }
 
   html[lang='ja'] .features-hero h1 {
-    font-size: clamp(2.2rem, 8.8vw, 3.75rem);
+    font-size: clamp(2rem, 8vw, 3.75rem);
   }
 
   html[lang='en'] .features-hero h1 {
