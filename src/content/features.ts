@@ -88,6 +88,11 @@ export type FeaturePageCopy = {
     comingSoon: string;
     freeNote: string;
     purchaseNote: string;
+    actions: {
+      purchases: string;
+      releases: string;
+      overview: string;
+    };
   };
 };
 
@@ -306,16 +311,21 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
     },
     availability: {
       eyebrow: 'Platforms & pricing',
-      heading: 'Coming to Mac and iPhone with free core features.',
+      heading: 'Coming to Mac and iPhone, free to try.',
       body: 'First on Mac and iPhone, with Windows and Android planned.',
       currentLabel: 'First release',
       currentPlatforms: ['Mac', 'iPhone'],
       futureLabel: 'Planned',
       futurePlatforms: ['Windows', 'Android'],
       comingSoon: 'Coming soon',
-      freeNote: 'Core features are free to use.',
+      freeNote: 'Use every feature free with one library and up to 100 books.',
       purchaseNote:
-        'Paid features are purchased separately for the Mac and iPhone versions.',
+        'Owlaria Plus removes the limits with a one-time purchase for each operating system.',
+      actions: {
+        purchases: 'See Free and Plus details',
+        releases: 'View release information',
+        overview: 'Back to overview',
+      },
     },
   },
   ja: {
@@ -539,15 +549,21 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
     },
     availability: {
       eyebrow: '対応環境・料金',
-      heading: 'MacとiPhoneに、基本無料で登場予定。',
+      heading: 'MacとiPhoneに、無料で登場予定。',
       body: 'まずはMacとiPhoneから。WindowsとAndroidも登場予定です。',
       currentLabel: '初回リリース',
       currentPlatforms: ['Mac', 'iPhone'],
       futureLabel: '登場予定',
       futurePlatforms: ['Windows', 'Android'],
       comingSoon: '近日公開',
-      freeNote: 'Owlariaの基本機能は無料で利用できます。',
-      purchaseNote: '有料機能はMac版とiPhone版で、それぞれ別に購入できます。',
+      freeNote: 'すべての機能を1ライブラリ・100冊まで無料で利用できます。',
+      purchaseNote:
+        'Owlaria Plusは、OSごとの買い切りでライブラリ数と冊数の上限を解除します。',
+      actions: {
+        purchases: '無料範囲とPlusを見る',
+        releases: 'リリース情報を見る',
+        overview: '概要へ戻る',
+      },
     },
   },
 };

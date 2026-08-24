@@ -25,7 +25,12 @@ for (const locale of [
     ],
     language: '日本語',
     languageHref: '/ja/features/',
-    freeNote: 'Core features are free to use.',
+    freeNote: 'Use every feature free with one library and up to 100 books.',
+    actions: [
+      { name: 'See Free and Plus details', href: '/support/purchases/' },
+      { name: 'View release information', href: '/releases/' },
+      { name: 'Back to overview', href: '/' },
+    ],
   },
   {
     path: '/ja/features/',
@@ -59,7 +64,12 @@ for (const locale of [
     ],
     language: 'English',
     languageHref: '/features/',
-    freeNote: 'Owlariaの基本機能は無料で利用できます。',
+    freeNote: 'すべての機能を1ライブラリ・100冊まで無料で利用できます。',
+    actions: [
+      { name: '無料範囲とPlusを見る', href: '/ja/support/purchases/' },
+      { name: 'リリース情報を見る', href: '/ja/releases/' },
+      { name: '概要へ戻る', href: '/ja/' },
+    ],
   },
 ] as const) {
   test(`${locale.path} presents value-led feature stories`, async ({
@@ -173,6 +183,11 @@ for (const locale of [
     await expect(
       page.getByText(locale.freeNote, { exact: true }),
     ).toBeVisible();
+    for (const action of locale.actions) {
+      await expect(
+        page.getByRole('link', { name: action.name }),
+      ).toHaveAttribute('href', action.href);
+    }
     await expect(page.getByTestId('header-locale-switch')).toHaveAttribute(
       'href',
       locale.languageHref,
@@ -295,6 +310,9 @@ test('feature page is responsive without overlap or horizontal overflow', async 
       { width: 820, height: 1024, columns: 1, jumpColumns: 2 },
       { width: 1024, height: 900, columns: 1, jumpColumns: 4 },
       { width: 1075, height: 900, columns: 1, jumpColumns: 4 },
+      { width: 1150, height: 900, columns: 1, jumpColumns: 4 },
+      { width: 1200, height: 900, columns: 1, jumpColumns: 4 },
+      { width: 1280, height: 900, columns: 2, jumpColumns: 4 },
       { width: 1440, height: 1000, columns: 2, jumpColumns: 4 },
     ]) {
       await page.setViewportSize(viewport);

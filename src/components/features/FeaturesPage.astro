@@ -1,6 +1,6 @@
 ---
 import { featurePageCopy } from '../../content/features';
-import type { Locale } from '../../i18n/config';
+import { localePath, type Locale } from '../../i18n/config';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import HeadlineLines from '../HeadlineLines.astro';
 import PhraseText from '../PhraseText.astro';
@@ -371,5 +371,25 @@ const featureCardIcons = {
       <strong>{copy.availability.freeNote}</strong>
       <span>{copy.availability.purchaseNote}</span>
     </div>
+    <nav
+      class="feature-platform-actions"
+      aria-label={copy.availability.eyebrow}
+    >
+      <a
+        class="feature-platform-action feature-platform-action-primary"
+        href={localePath(locale, '/support/purchases/')}
+      >
+        {copy.availability.actions.purchases}<span aria-hidden="true">→</span>
+      </a>
+      <a
+        class="feature-platform-action"
+        href={localePath(locale, '/releases/')}
+      >
+        {copy.availability.actions.releases}<span aria-hidden="true">→</span>
+      </a>
+      <a class="feature-platform-action" href={localePath(locale, '/')}>
+        {copy.availability.actions.overview}<span aria-hidden="true">→</span>
+      </a>
+    </nav>
   </section>
 </SiteLayout>
