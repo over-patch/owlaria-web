@@ -41,18 +41,23 @@ The development server prints its local URL. It does not redirect based on brows
 Run the same checks used by pull requests:
 
 ```sh
-mise exec -- pnpm format:check
-mise exec -- pnpm lint
-mise exec -- pnpm lint:actions
-mise exec -- pnpm check
-mise exec -- pnpm test
-mise exec -- pnpm build
-mise exec -- pnpm test:links
 mise exec -- pnpm exec playwright install chromium
-mise exec -- pnpm test:e2e
+mise exec -- pnpm lint:actions
+mise exec -- pnpm verify:ci
 ```
 
 `pnpm test:e2e` starts a production preview automatically. The browser suite covers bilingual routing and metadata, shared navigation, purchase-support guidance and links, representative mobile and desktop viewports, no-JavaScript use, and reduced-motion behavior.
+
+To reproduce the Ubuntu and Chromium environment used by GitHub Actions, run
+the same verification inside the pinned Playwright container:
+
+```sh
+mise exec -- pnpm verify:ci:linux
+```
+
+This command requires Docker. It keeps container dependencies separate from
+the host `node_modules` directory. Workflow YAML linting remains a separate
+host check because `actionlint` is provided by this repository's mise setup.
 
 ## GitHub Pages deployment
 
