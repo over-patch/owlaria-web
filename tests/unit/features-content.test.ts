@@ -24,11 +24,7 @@ describe('feature page content', () => {
       '整理も、読み方も、',
       '思いどおりに。',
     ]);
-    expect(featurePageCopy.ja.hero.highlights).toEqual([
-      '複数のNAS・ローカルを統合',
-      '保存先に管理ファイルを書き込まない',
-      '基本機能は無料',
-    ]);
+    expect('highlights' in featurePageCopy.ja.hero).toBe(false);
   });
 
   it('publishes archive formats as individual extensions', () => {

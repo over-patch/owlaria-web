@@ -8,16 +8,33 @@ for (const locale of [
     mobileLines: ['Keep your folders.', 'Organize and read', 'your way.'],
     sourcesHeading: 'Connect your folders. Keep your storage clean.',
     viewerLabel: 'Comic viewer',
+    temporaryViewerHeading: 'No library required. Just open and read.',
+    temporaryViewerBody:
+      'Open a single comic from your usual folders without creating a library.',
+    temporaryViewerMethods: [
+      'Open from Finder',
+      'Drag and drop',
+      'Resume later',
+    ],
+    temporaryViewerFinderBody:
+      'Associate ZIP or CBZ files with Owlaria, then double-click to open.',
+    implementationBackedFeatures: [
+      'Read metadata from file names',
+      'Build series from folders',
+      'Zoom in naturally',
+    ],
     language: '日本語',
     languageHref: '/ja/features/',
-    back: 'Back to overview',
-    homeHref: '/',
     freeNote: 'Core features are free to use.',
   },
   {
     path: '/ja/features/',
     heading: 'フォルダはそのまま。整理も、読み方も、思いどおりに。',
-    desktopLines: ['フォルダはそのまま。', '整理も、読み方も、思いどおりに。'],
+    desktopLines: [
+      'フォルダはそのまま。',
+      '整理も、読み方も、',
+      '思いどおりに。',
+    ],
     mobileLines: [
       'フォルダはそのまま。',
       '整理も、読み方も、',
@@ -25,10 +42,23 @@ for (const locale of [
     ],
     sourcesHeading: 'フォルダをつなぐ。保存先は汚さない。',
     viewerLabel: 'マンガビューア',
+    temporaryViewerHeading: 'ライブラリを作らず、そのまま読む。',
+    temporaryViewerBody:
+      'ライブラリを作らず、いつものフォルダから一冊だけ開く単体ビューアとしても使えます。',
+    temporaryViewerMethods: [
+      'Finderから直接',
+      'ドラッグ＆ドロップ',
+      '続きから再開',
+    ],
+    temporaryViewerFinderBody:
+      'ZIP・CBZなどを関連付け、ダブルクリックで開けます。',
+    implementationBackedFeatures: [
+      'ファイル名から整理情報を読み取る',
+      'フォルダからシリーズを作る',
+      '細部まで、自然に拡大',
+    ],
     language: 'English',
     languageHref: '/features/',
-    back: '概要へ戻る',
-    homeHref: '/ja/',
     freeNote: 'Owlariaの基本機能は無料で利用できます。',
   },
 ] as const) {
@@ -39,6 +69,7 @@ for (const locale of [
 
     const heading = page.getByRole('heading', { level: 1 });
     await expect(heading).toHaveAccessibleName(locale.heading);
+    await expect(page.locator('.feature-hero-highlights')).toHaveCount(0);
     await expect(
       heading.locator('[data-headline-variant="desktop"] > span'),
     ).toHaveText(locale.desktopLines);
@@ -50,8 +81,84 @@ for (const locale of [
     ).toBeVisible();
     await expect(page.locator('.feature-story')).toHaveCount(4);
     await expect(page.locator('.feature-source-node')).toHaveCount(3);
+    await expect(page.locator('.feature-source-icon')).toHaveCount(3);
+    await expect(page.locator('.feature-source-icon-server')).toHaveCount(2);
+    await expect(page.locator('.feature-source-icon-folder')).toHaveCount(1);
+    await expect(page.locator('.feature-source-connector > svg')).toHaveCount(
+      1,
+    );
     await expect(page.getByTestId('feature-product-preview')).toHaveCount(2);
     await expect(page.locator('.feature-reader-mode-group')).toHaveCount(3);
+    await expect(page.locator('.feature-reader-mode-visual')).toHaveCount(0);
+    await expect(
+      page.locator('.feature-reader-mode-heading').filter({
+        has: page.locator('.feature-reader-mode-icon'),
+      }),
+    ).toHaveCount(3);
+    await expect(
+      page.locator('.feature-reader-mode-icon .lucide-infinity'),
+    ).toHaveCount(1);
+    await expect(page.locator('.feature-temporary-method-icon')).toHaveCount(3);
+    await expect(page.locator('#library .feature-card-icon')).toHaveCount(8);
+    await expect(page.locator('#everyday .feature-card-icon')).toHaveCount(4);
+    await expect(page.locator('.feature-format-row')).toHaveCount(2);
+    await expect(
+      page.locator('.feature-archive-formats .feature-format-badge-lock'),
+    ).toHaveCount(0);
+    await expect(page.locator('.feature-password-formats')).toHaveCount(0);
+    await expect(
+      page.locator(
+        '.feature-archive-formats .feature-format-values > .feature-format-badges + .feature-format-support-note',
+      ),
+    ).toHaveCount(1);
+    await expect(page.locator('.feature-image-formats')).not.toHaveAttribute(
+      'open',
+    );
+    await expect(
+      page.locator('.feature-image-formats .feature-format-badge'),
+    ).toHaveCount(7);
+    await expect(
+      page.locator('.feature-image-formats .feature-format-badges-secondary'),
+    ).toHaveCount(0);
+    await expect(
+      page.locator('.feature-temporary-method-heading').filter({
+        has: page.locator('.feature-temporary-method-icon'),
+      }),
+    ).toHaveCount(3);
+    await expect(
+      page.locator('.feature-card-heading').filter({
+        has: page.locator('.feature-card-icon'),
+      }),
+    ).toHaveCount(12);
+    const temporaryViewer = page.locator('#viewer .feature-temporary-viewer');
+    await expect(temporaryViewer).toBeVisible();
+    await expect(
+      temporaryViewer.getByRole('heading', {
+        name: locale.temporaryViewerHeading,
+      }),
+    ).toBeVisible();
+    await expect(
+      temporaryViewer.getByText(locale.temporaryViewerBody, { exact: false }),
+    ).toBeVisible();
+    await expect(
+      temporaryViewer.locator('.feature-temporary-viewer-methods h4'),
+    ).toHaveText(locale.temporaryViewerMethods);
+    await expect(
+      temporaryViewer.locator('.feature-temporary-file-stack > span'),
+    ).toHaveText(['CBZ', 'RAR', 'ZIP']);
+    await expect(
+      temporaryViewer.getByText(locale.temporaryViewerFinderBody, {
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(
+      temporaryViewer.locator('.feature-temporary-viewer-formats'),
+    ).toHaveCount(0);
+    for (const feature of locale.implementationBackedFeatures) {
+      await expect(
+        page.getByRole('heading', { name: feature, exact: true }),
+      ).toBeVisible();
+    }
     const archiveFormats = page
       .locator('.feature-format-panel > section')
       .first();
@@ -73,11 +180,6 @@ for (const locale of [
     await expect(page.getByTestId('header-locale-switch')).toHaveText(
       locale.language,
     );
-    await expect(page.getByRole('link', { name: locale.back })).toHaveAttribute(
-      'href',
-      locale.homeHref,
-    );
-
     await page.setViewportSize({ width: 390, height: 844 });
     const mobileLines = heading.locator(
       '[data-headline-variant="mobile"] > span',
@@ -156,15 +258,44 @@ test('Japanese feature headings use intentional phrase breaks', async ({
   ).toBe(true);
 });
 
+test('Japanese feature page keeps supporting copy concise', async ({
+  page,
+}) => {
+  await page.goto('/ja/features/');
+
+  await expect(page.locator('main > .closing-section')).toHaveCount(0);
+
+  const cardBodyLengths = await page
+    .locator('.feature-story-grid p')
+    .evaluateAll((paragraphs) =>
+      paragraphs.map((paragraph) => paragraph.textContent?.length ?? 0),
+    );
+  expect(Math.max(...cardBodyLengths)).toBeLessThanOrEqual(45);
+
+  const sectionBodyLengths = await page
+    .locator('.feature-story-heading > p:last-child')
+    .evaluateAll((paragraphs) =>
+      paragraphs.map((paragraph) => paragraph.textContent?.length ?? 0),
+    );
+  expect(Math.max(...sectionBodyLengths)).toBeLessThanOrEqual(45);
+
+  const temporaryViewerBody = await page
+    .locator('.feature-temporary-viewer-intro header > p:last-child')
+    .textContent();
+  expect(temporaryViewerBody?.length ?? 0).toBeLessThanOrEqual(45);
+});
+
 test('feature page is responsive without overlap or horizontal overflow', async ({
   page,
 }) => {
   for (const pathname of ['/features/', '/ja/features/']) {
     for (const viewport of [
-      { width: 390, height: 844, columns: 1 },
-      { width: 768, height: 1024, columns: 1 },
-      { width: 1024, height: 900, columns: 2 },
-      { width: 1440, height: 1000, columns: 2 },
+      { width: 390, height: 844, columns: 1, jumpColumns: 1 },
+      { width: 768, height: 1024, columns: 1, jumpColumns: 1 },
+      { width: 820, height: 1024, columns: 1, jumpColumns: 2 },
+      { width: 1024, height: 900, columns: 1, jumpColumns: 4 },
+      { width: 1075, height: 900, columns: 1, jumpColumns: 4 },
+      { width: 1440, height: 1000, columns: 2, jumpColumns: 4 },
     ]) {
       await page.setViewportSize(viewport);
       await page.goto(pathname);
@@ -176,6 +307,79 @@ test('feature page is responsive without overlap or horizontal overflow', async 
             document.documentElement.clientWidth,
         ),
       ).toBe(true);
+
+      const visibleHeroLinesFit = await page
+        .locator('.features-hero h1')
+        .evaluate((heroHeading) => {
+          const heroBox = heroHeading.getBoundingClientRect();
+          const lines = [
+            ...heroHeading.querySelectorAll<HTMLElement>(
+              ':scope > span > span',
+            ),
+          ].filter(
+            (line) => getComputedStyle(line.parentElement!).display !== 'none',
+          );
+
+          return lines.every((line) => {
+            const box = line.getBoundingClientRect();
+            return (
+              line.scrollWidth <= line.clientWidth &&
+              box.right <= heroBox.right + 1
+            );
+          });
+        });
+      expect(visibleHeroLinesFit).toBe(true);
+
+      const jumpColumns = await page
+        .locator('.feature-jump-nav ol')
+        .evaluate(
+          (navigation) =>
+            getComputedStyle(navigation)
+              .gridTemplateColumns.split(' ')
+              .filter(Boolean).length,
+        );
+      expect(jumpColumns).toBe(viewport.jumpColumns);
+
+      const sourceCardColumns = await page
+        .locator('.feature-story-sources .feature-story-grid')
+        .evaluate(
+          (grid) =>
+            getComputedStyle(grid)
+              .gridTemplateColumns.split(' ')
+              .filter(Boolean).length,
+        );
+      expect(sourceCardColumns).toBe(viewport.width <= 768 ? 1 : 2);
+
+      if (viewport.width === 390) {
+        const heroBox = await page.locator('.features-hero').boundingBox();
+        const heroHeadingBox = await page
+          .locator('.features-hero h1')
+          .boundingBox();
+        expect(heroBox).not.toBeNull();
+        expect(heroHeadingBox).not.toBeNull();
+        expect(heroBox!.x).toBe(0);
+        expect(heroBox!.width).toBe(viewport.width);
+        expect(heroHeadingBox!.x).toBeGreaterThanOrEqual(20);
+        expect(
+          viewport.width - (heroHeadingBox!.x + heroHeadingBox!.width),
+        ).toBeGreaterThanOrEqual(20);
+        const heroGlowMask = await page
+          .locator('.features-hero')
+          .evaluate((hero) => getComputedStyle(hero, '::before').maskImage);
+        expect(heroGlowMask).toContain('linear-gradient');
+        await expect(
+          page.locator('.feature-archive-formats .feature-format-badges'),
+        ).toHaveCSS('display', 'flex');
+        const temporaryDiagramColumns = await page
+          .locator('.feature-temporary-viewer-diagram')
+          .evaluate(
+            (diagram) =>
+              getComputedStyle(diagram)
+                .gridTemplateColumns.split(' ')
+                .filter(Boolean).length,
+          );
+        expect(temporaryDiagramColumns).toBe(1);
+      }
 
       const storyColumns = await page
         .locator('.feature-story-layout')
@@ -217,6 +421,17 @@ test('feature page is responsive without overlap or horizontal overflow', async 
             previews.map((preview) => getComputedStyle(preview).aspectRatio),
           );
         expect(previewRatios.every((ratio) => ratio === '16 / 10')).toBe(true);
+
+        const libraryStory = page.locator('.feature-story-preview');
+        const libraryHeadingBox = await libraryStory
+          .locator('.feature-story-heading')
+          .boundingBox();
+        const libraryPreviewBox = await libraryStory
+          .getByTestId('feature-product-preview')
+          .boundingBox();
+        expect(libraryHeadingBox).not.toBeNull();
+        expect(libraryPreviewBox).not.toBeNull();
+        expect(libraryPreviewBox!.x).toBeLessThan(libraryHeadingBox!.x);
       }
     }
   }

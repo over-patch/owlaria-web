@@ -1,0 +1,60 @@
+---
+import {
+  BookOpen,
+  ChartNoAxesColumnIncreasing,
+  Clock3,
+  Database,
+  FileArchive,
+  FileSymlink,
+  Folder,
+  FolderPlus,
+  FolderTree,
+  Image,
+  Images,
+  Infinity as InfinityIcon,
+  LibraryBig,
+  LockKeyhole,
+  MousePointer,
+  Move,
+  Route,
+  ScanText,
+  Search,
+  Server,
+  SlidersHorizontal,
+} from '@lucide/astro';
+
+interface Props {
+  name: string;
+  className?: string;
+}
+
+const { name, className } = Astro.props;
+const lucideIcons = {
+  search: Search,
+  filename: ScanText,
+  series: LibraryBig,
+  folder: FolderPlus,
+  metadata: Database,
+  cover: Image,
+  tracking: Route,
+  explorer: FolderTree,
+  lock: LockKeyhole,
+  history: Clock3,
+  chart: ChartNoAxesColumnIncreasing,
+  sliders: SlidersHorizontal,
+  finder: FileSymlink,
+  drop: MousePointer,
+  server: Server,
+  sourceFolder: Folder,
+  archive: FileArchive,
+  images: Images,
+  direction: Move,
+  pages: BookOpen,
+  scroll: InfinityIcon,
+} as const;
+const LucideIcon = lucideIcons[name as keyof typeof lucideIcons];
+---
+
+<span class:list={['feature-glyph', className]} aria-hidden="true">
+  {LucideIcon && <LucideIcon />}
+</span>
