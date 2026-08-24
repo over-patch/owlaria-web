@@ -317,16 +317,18 @@ test('feature page is responsive without overlap or horizontal overflow', async 
     ]) {
       await page.setViewportSize(viewport);
       await page.goto(pathname);
+      await page.evaluate(() => document.fonts.ready);
 
+      const pageWidth = await page.evaluate(() => ({
+        clientWidth: document.documentElement.clientWidth,
+        scrollWidth: document.documentElement.scrollWidth,
+      }));
       expect(
-        await page.evaluate(
-          () =>
-            document.documentElement.scrollWidth <=
-            document.documentElement.clientWidth,
-        ),
-      ).toBe(true);
+        pageWidth.scrollWidth,
+        `${pathname} overflowed at ${viewport.width}px: ${JSON.stringify(pageWidth)}`,
+      ).toBeLessThanOrEqual(pageWidth.clientWidth);
 
-      const visibleHeroLinesFit = await page
+      const heroLineMetrics = await page
         .locator('.features-hero h1')
         .evaluate((heroHeading) => {
           const heroBox = heroHeading.getBoundingClientRect();
@@ -338,15 +340,24 @@ test('feature page is responsive without overlap or horizontal overflow', async 
             (line) => getComputedStyle(line.parentElement!).display !== 'none',
           );
 
-          return lines.every((line) => {
+          return lines.map((line) => {
             const box = line.getBoundingClientRect();
-            return (
-              line.scrollWidth <= line.clientWidth &&
-              box.right <= heroBox.right + 1
-            );
+            return {
+              text: line.textContent?.trim() ?? '',
+              clientWidth: line.clientWidth,
+              scrollWidth: line.scrollWidth,
+              right: Math.round(box.right * 100) / 100,
+              heroRight: Math.round(heroBox.right * 100) / 100,
+              fits:
+                line.scrollWidth <= line.clientWidth &&
+                box.right <= heroBox.right + 1,
+            };
           });
         });
-      expect(visibleHeroLinesFit).toBe(true);
+      expect(
+        heroLineMetrics.every(({ fits }) => fits),
+        `${pathname} hero lines did not fit at ${viewport.width}px: ${JSON.stringify(heroLineMetrics)}`,
+      ).toBe(true);
 
       const jumpColumns = await page
         .locator('.feature-jump-nav ol')

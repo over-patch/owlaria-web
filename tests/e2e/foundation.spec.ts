@@ -11,6 +11,11 @@ const routePairs = [
 
 const origin = 'https://owlaria.overpatch.dev';
 
+const bundledFonts = [
+  { path: '/', family: 'Inter Variable' },
+  { path: '/ja/', family: 'Noto Sans JP Variable' },
+] as const;
+
 async function expectSocialMetadata(
   page: import('@playwright/test').Page,
   expectedCanonical: string,
@@ -106,6 +111,28 @@ for (const [englishPath, japanesePath] of routePairs) {
       'href',
       englishPath,
     );
+  });
+}
+
+for (const { path, family } of bundledFonts) {
+  test(`${path} uses its bundled primary font`, async ({ page }) => {
+    await page.goto(path);
+    await page.evaluate(() => document.fonts.ready);
+
+    const fontState = await page.evaluate((expectedFamily) => {
+      const computedFamily = getComputedStyle(document.body).fontFamily;
+
+      return {
+        computedFamily,
+        loaded: document.fonts.check(`16px "${expectedFamily}"`),
+      };
+    }, family);
+
+    expect(
+      fontState.computedFamily,
+      `${path} resolved to ${fontState.computedFamily}`,
+    ).toContain(family);
+    expect(fontState.loaded, `${family} did not finish loading`).toBe(true);
   });
 }
 

@@ -453,6 +453,7 @@ test('homepage uses responsive content grids', async ({ page }) => {
   ]) {
     await page.setViewportSize(viewport);
     await page.goto('/');
+    await page.evaluate(() => document.fonts.ready);
 
     const overflow = await page.evaluate(() => {
       const viewportWidth = document.documentElement.clientWidth;
