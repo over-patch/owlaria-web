@@ -31,8 +31,7 @@ export const supportHubCopy: Record<Locale, SupportHubCopy> = {
     },
     eyebrow: 'Owlaria Support',
     title: 'How can we help?',
-    introduction:
-      'Start with the topic closest to what you need. Verified guidance is available in English and Japanese.',
+    introduction: 'Start with the topic closest to what you need.',
     resourcesLabel: 'Support topics',
     purchases: {
       label: 'Available now',
@@ -59,8 +58,7 @@ export const supportHubCopy: Record<Locale, SupportHubCopy> = {
     },
     eyebrow: 'Owlariaサポート',
     title: 'お困りのことは？',
-    introduction:
-      '知りたい内容に近い項目からご確認ください。確認済みの案内を日本語と英語で公開しています。',
+    introduction: '知りたい内容に近い項目からご確認ください。',
     resourcesLabel: 'サポート項目',
     purchases: {
       label: '公開中',

@@ -5,6 +5,7 @@ const locales = [
     homePath: '/',
     supportPath: '/support/',
     supportHeading: 'How can we help?',
+    supportIntroduction: 'Start with the topic closest to what you need.',
     path: '/support/purchases/',
     alternatePath: '/ja/support/purchases/',
     lang: 'en',
@@ -32,6 +33,7 @@ const locales = [
     homePath: '/ja/',
     supportPath: '/ja/support/',
     supportHeading: 'お困りのことは？',
+    supportIntroduction: '知りたい内容に近い項目からご確認ください。',
     path: '/ja/support/purchases/',
     alternatePath: '/support/purchases/',
     lang: 'ja',
@@ -205,10 +207,45 @@ for (const locale of locales) {
     expect(desktopColumns.split(' ')).toHaveLength(2);
 
     await page.setViewportSize({ width: 390, height: 844 });
+    await expect(
+      page.getByText(locale.supportIntroduction, { exact: true }),
+    ).toBeVisible();
+
+    const heroVisuals = await page
+      .locator('.support-hub-hero')
+      .evaluate((element) => ({
+        backgroundImage: getComputedStyle(element, '::before').backgroundImage,
+        borderRadius: getComputedStyle(element, '::before').borderRadius,
+        overflow: getComputedStyle(element).overflow,
+        maskImage: getComputedStyle(element, '::before').maskImage,
+      }));
+    expect(heroVisuals.overflow).toBe('visible');
+    expect(heroVisuals.backgroundImage).toContain('radial-gradient');
+    expect(heroVisuals.borderRadius).toBe('0px');
+    expect(heroVisuals.maskImage).toBe('none');
+
     const mobileColumns = await grid.evaluate(
       (element) => getComputedStyle(element).gridTemplateColumns,
     );
     expect(mobileColumns.split(' ')).toHaveLength(1);
+    await expect(grid.locator('.support-hub-card').first()).toHaveCSS(
+      'min-height',
+      '0px',
+    );
+
+    const categorySelectVisuals = await page
+      .locator('[data-problem-report-form] select')
+      .evaluate((element) => {
+        const style = getComputedStyle(element);
+        return {
+          appearance: style.appearance,
+          backgroundImage: style.backgroundImage,
+          backgroundPosition: style.backgroundPosition,
+        };
+      });
+    expect(categorySelectVisuals.appearance).toBe('none');
+    expect(categorySelectVisuals.backgroundImage).not.toBe('none');
+    expect(categorySelectVisuals.backgroundPosition).toContain('16px');
 
     const hasHorizontalOverflow = await page.evaluate(
       () =>
