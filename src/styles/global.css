@@ -8,11 +8,15 @@
 
 html {
   min-width: 20rem;
+  max-width: 100%;
+  overflow-x: clip;
   background: var(--color-navy-950);
   scroll-behavior: smooth;
 }
 
 body {
+  max-width: 100%;
+  overflow-x: clip;
   min-height: 100vh;
   margin: 0;
   color: var(--color-ink);
@@ -3361,6 +3365,14 @@ html[lang='en'] .features-hero h1 {
   .features-hero .headline-lines[data-headline-variant='mobile'] {
     display: block;
   }
+
+  html[lang='ja'] .features-hero h1 {
+    font-size: clamp(3rem, 7.2vw, 4.75rem);
+  }
+
+  html[lang='en'] .features-hero h1 {
+    font-size: clamp(3rem, 6.8vw, 4.5rem);
+  }
 }
 
 @media (max-width: 60rem) {
@@ -3505,11 +3517,11 @@ html[lang='en'] .features-hero h1 {
   }
 
   html[lang='ja'] .features-hero h1 {
-    font-size: clamp(2rem, 8vw, 3.75rem);
+    font-size: clamp(2rem, 7.6vw, 3.5rem);
   }
 
   html[lang='en'] .features-hero h1 {
-    font-size: clamp(2.2rem, 8.8vw, 3.75rem);
+    font-size: clamp(2rem, 7.8vw, 3.5rem);
   }
 
   .feature-story-heading h2 {
