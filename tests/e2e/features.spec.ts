@@ -359,6 +359,20 @@ test('feature page is responsive without overlap or horizontal overflow', async 
         `${pathname} hero lines did not fit at ${viewport.width}px: ${JSON.stringify(heroLineMetrics)}`,
       ).toBe(true);
 
+      if (viewport.width === 1075) {
+        const heroVisuals = await page
+          .locator('.features-hero')
+          .evaluate((hero) => ({
+            overflow: getComputedStyle(hero).overflow,
+            backgroundImage: getComputedStyle(hero, '::before').backgroundImage,
+            maskImage: getComputedStyle(hero, '::before').maskImage,
+          }));
+        expect(heroVisuals.overflow).toBe('visible');
+        expect(heroVisuals.backgroundImage).toContain('85, 124, 255');
+        expect(heroVisuals.backgroundImage).not.toContain('166, 108, 255');
+        expect(heroVisuals.maskImage).toBe('none');
+      }
+
       const jumpColumns = await page
         .locator('.feature-jump-nav ol')
         .evaluate(

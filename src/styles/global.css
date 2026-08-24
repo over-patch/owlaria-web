@@ -1507,25 +1507,25 @@ html[lang='ja'] .feature-category-heading h2 {
 .features-hero {
   position: relative;
   isolation: isolate;
-  overflow: hidden;
+  overflow: visible;
   padding-block: clamp(4rem, 8vw, 7.5rem) clamp(3rem, 5vw, 4.5rem);
 }
 
 .features-hero::before {
   position: absolute;
   z-index: -1;
-  top: -18rem;
-  right: -10rem;
-  width: 44rem;
-  height: 44rem;
-  border-radius: 50%;
-  background: linear-gradient(
-    135deg,
-    rgb(166 108 255 / 28%),
-    rgb(77 228 255 / 18%)
+  inset: -10rem -20vw -6rem 28%;
+  border-radius: 0;
+  background: radial-gradient(
+    ellipse at 72% 34%,
+    rgb(85 124 255 / 18%),
+    rgb(77 228 255 / 10%) 34%,
+    transparent 74%
   );
-  filter: blur(8rem);
+  filter: blur(2rem);
+  mask-image: none;
   content: '';
+  pointer-events: none;
 }
 
 .features-hero h1 {
@@ -2498,24 +2498,23 @@ html[lang='en'] .features-hero h1 {
 .support-hub-hero {
   position: relative;
   isolation: isolate;
-  overflow: clip;
+  overflow: visible;
   padding-block: clamp(4.5rem, 9vw, 8rem) clamp(3.5rem, 7vw, 6rem);
 }
 
 .support-hub-hero::before {
   position: absolute;
   z-index: -1;
-  top: -15rem;
-  right: -12rem;
-  width: 40rem;
-  height: 40rem;
-  border-radius: 50%;
-  background: linear-gradient(
-    135deg,
-    rgb(85 124 255 / 24%),
-    rgb(77 228 255 / 16%)
+  inset: -10rem -20vw -6rem 28%;
+  border-radius: 0;
+  background: radial-gradient(
+    ellipse at 72% 34%,
+    rgb(85 124 255 / 18%),
+    rgb(77 228 255 / 10%) 34%,
+    transparent 74%
   );
-  filter: blur(8rem);
+  filter: blur(2rem);
+  mask-image: none;
   content: '';
   pointer-events: none;
 }
@@ -2763,8 +2762,13 @@ html[lang='en'] .features-hero h1 {
 }
 
 .problem-report-field select {
+  appearance: none;
   min-height: 3.25rem;
-  padding: 0.7rem 2.6rem 0.7rem 0.9rem;
+  padding: 0.7rem 3rem 0.7rem 0.9rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6' fill='none' stroke='%23aab7d3' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'/%3E%3C/svg%3E");
+  background-position: right 1rem center;
+  background-repeat: no-repeat;
+  background-size: 1rem;
 }
 
 .problem-report-field textarea {
@@ -3596,7 +3600,7 @@ html[lang='en'] .features-hero h1 {
   }
 
   .support-hub-card {
-    min-height: 21rem;
+    min-height: 0;
     border-radius: var(--radius-md);
   }
 
