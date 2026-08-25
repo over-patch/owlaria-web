@@ -87,8 +87,9 @@ describe('feature page content', () => {
     });
   });
 
-  it('uses マンガ consistently in Japanese product copy', () => {
-    expect(JSON.stringify(featurePageCopy.ja)).not.toMatch(/漫画|コミック/);
+  it('uses コミック consistently in Japanese product copy', () => {
+    expect(JSON.stringify(featurePageCopy.ja)).toContain('コミック');
+    expect(JSON.stringify(featurePageCopy.ja)).not.toMatch(/漫画/);
   });
 
   it('describes Read-Only as a design property instead of an absolute guarantee', () => {

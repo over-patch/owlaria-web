@@ -46,7 +46,7 @@ for (const locale of [
       '思いどおりに。',
     ],
     sourcesHeading: 'フォルダをつなぐ。保存先は汚さない。',
-    viewerLabel: 'マンガビューア',
+    viewerLabel: 'コミックビューア',
     temporaryViewerHeading: 'ライブラリを作らず、そのまま読む。',
     temporaryViewerBody:
       'ライブラリを作らず、いつものフォルダから一冊だけ開く単体ビューアとしても使えます。',
@@ -247,8 +247,8 @@ test('Japanese feature headings use intentional phrase breaks', async ({
       lines: ['何千冊の中から、', '読みたい一冊へ。'],
     },
     {
-      name: 'マンガに合わせて読み方を選択',
-      lines: ['マンガに合わせて', '読み方を選択'],
+      name: 'コミックに合わせて読み方を選択',
+      lines: ['コミックに合わせて', '読み方を選択'],
     },
     {
       name: '続きから読む。読書の傾向もわかる。',

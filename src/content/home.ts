@@ -129,7 +129,7 @@ export const platformAction = (
 export const homeCopy: Record<Locale, HomeCopy> = {
   en: {
     metadata: {
-      title: 'Owlaria — Turn your comic folders into a library',
+      title: 'Owlaria',
       description:
         'Turn the comic folders you already have on NAS or local storage into an organized library without rebuilding your archive.',
     },
@@ -288,7 +288,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
   },
   ja: {
     metadata: {
-      title: 'Owlaria — フォルダはそのまま、理想のコミックライブラリへ',
+      title: 'Owlaria',
       description:
         'NASやローカルストレージにあるコミックフォルダを作り直さず、そのまま整理されたライブラリとして管理できます。',
     },
@@ -372,7 +372,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
       ],
       reader: {
         number: '03',
-        title: 'マンガに合わせて読み方を選択',
+        title: 'コミックに合わせて読み方を選択',
         body: '作品やその日の読み方に合わせて、表示スタイルをいつでも切り替えられます。',
         modes: [
           {

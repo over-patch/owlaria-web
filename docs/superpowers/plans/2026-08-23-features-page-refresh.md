@@ -10,7 +10,7 @@
 
 ## Global Constraints
 
-- Japanese product copy uses `マンガ`, not `漫画` or `コミック`.
+- Japanese product copy uses `コミック`, not alternative spellings.
 - Lead with keeping folders unchanged, not writing management files to storage, unifying multiple NAS/local sources, and flexible reading modes.
 - Display ZIP, CBZ, RAR, CBR, 7Z, CB7, LZH, and PDF as individual extensions.
 - Password support is limited to ZIP, CBZ, RAR, CBR, 7Z, and CB7.

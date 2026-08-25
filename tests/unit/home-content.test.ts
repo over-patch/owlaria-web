@@ -97,7 +97,7 @@ describe('homepage content', () => {
     ]);
     expect(homeCopy.ja.features.reader).toEqual({
       number: '03',
-      title: 'マンガに合わせて読み方を選択',
+      title: 'コミックに合わせて読み方を選択',
       body: '作品やその日の読み方に合わせて、表示スタイルをいつでも切り替えられます。',
       modes: [
         {
