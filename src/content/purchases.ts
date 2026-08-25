@@ -36,7 +36,7 @@ export type PurchaseSupportCopy = {
     description: string;
   };
   eyebrow: string;
-  title: string;
+  titlePhrases: string[];
   introduction: string[];
   contentsLabel: string;
   contentsHint: string;
@@ -82,7 +82,7 @@ export const purchaseSupportCopy: Record<Locale, PurchaseSupportCopy> = {
         'Learn about Owlaria Plus pricing, separate iOS and macOS purchases, Restore Purchases, Apple refunds, and purchase support.',
     },
     eyebrow: 'Support / Purchases',
-    title: 'Owlaria Plus purchases, restores, and refunds',
+    titlePhrases: ['Owlaria Plus purchases,', 'restores, and refunds'],
     introduction: [
       'You can use every Owlaria feature for free with up to one library and 100 books.',
       'Owlaria Plus is a one-time in-app purchase that removes the library and book limits. It is not a subscription.',
@@ -217,7 +217,7 @@ export const purchaseSupportCopy: Record<Locale, PurchaseSupportCopy> = {
         'Owlaria Plusの価格、iOS版とmacOS版の別購入、購入の復元、Appleへの返金申請、購入サポートをご案内します。',
     },
     eyebrow: 'サポート / 購入について',
-    title: 'Owlaria Plusの購入・復元・返金について',
+    titlePhrases: ['Owlaria Plusの', '購入・復元・返金について'],
     introduction: [
       'Owlariaは、すべての機能を1ライブラリ・100冊まで無料で利用できます。',
       'Owlaria Plusは、ライブラリ数と冊数の上限を解除する買い切りのアプリ内課金です。サブスクリプションではありません。',

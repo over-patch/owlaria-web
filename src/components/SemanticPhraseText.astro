@@ -1,0 +1,34 @@
+---
+interface Props {
+  phrases: string[];
+  separator?: string;
+}
+
+const { phrases, separator = '' } = Astro.props;
+---
+
+{
+  phrases.map((phrase, index) => (
+    <>
+      <span data-semantic-phrase>{phrase}</span>
+      {index < phrases.length - 1 && (
+        <>
+          {separator}
+          <wbr />
+        </>
+      )}
+    </>
+  ))
+}
+
+<style>
+  [data-semantic-phrase] {
+    white-space: normal;
+  }
+
+  @media (min-width: 48rem) {
+    [data-semantic-phrase] {
+      white-space: nowrap;
+    }
+  }
+</style>

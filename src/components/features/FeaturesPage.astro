@@ -4,6 +4,7 @@ import { localePath, type Locale } from '../../i18n/config';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import HeadlineLines from '../HeadlineLines.astro';
 import PhraseText from '../PhraseText.astro';
+import SemanticPhraseText from '../SemanticPhraseText.astro';
 import FeatureGlyph from './FeatureGlyph.astro';
 
 interface Props {
@@ -290,7 +291,10 @@ const featureCardIcons = {
     <header class="section-heading">
       <p class="eyebrow">{copy.formats.eyebrow}</p>
       <h2 id="formats-heading">
-        <PhraseText text={copy.formats.heading} />
+        <SemanticPhraseText
+          phrases={copy.formats.headingPhrases}
+          separator={locale === 'en' ? ' ' : ''}
+        />
       </h2>
       <p>{copy.formats.body}</p>
     </header>
@@ -314,7 +318,12 @@ const featureCardIcons = {
       <section class="feature-format-row feature-image-formats">
         <div class="feature-format-heading">
           <FeatureGlyph name="images" className="feature-format-icon" />
-          <h3>{copy.formats.imageLabel}</h3>
+          <h3>
+            <SemanticPhraseText
+              phrases={copy.formats.imageLabelPhrases}
+              separator={locale === 'en' ? ' ' : ''}
+            />
+          </h3>
         </div>
         <ul class="feature-format-badges">
           {

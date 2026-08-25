@@ -18,6 +18,8 @@ for (const locale of [
     ],
     temporaryViewerFinderBody:
       'Associate ZIP or CBZ files with Owlaria, then double-click to open.',
+    imageFormatLabelPhrases: ['Image formats', 'read inside archives'],
+    imageFormatLabelSeparator: ' ',
     implementationBackedFeatures: [
       'Read metadata from file names',
       'Build series from folders',
@@ -57,6 +59,8 @@ for (const locale of [
     ],
     temporaryViewerFinderBody:
       'ZIP・CBZなどを関連付け、ダブルクリックで開けます。',
+    imageFormatLabelPhrases: ['アーカイブ内で', '読める画像形式'],
+    imageFormatLabelSeparator: '',
     implementationBackedFeatures: [
       'ファイル名から整理情報を読み取る',
       'フォルダからシリーズを作る',
@@ -127,6 +131,24 @@ for (const locale of [
     await expect(
       page.locator('.feature-image-formats .feature-format-badge'),
     ).toHaveCount(7);
+    const imageFormatHeading = page.locator(
+      '.feature-image-formats .feature-format-heading h3',
+    );
+    await expect(imageFormatHeading).toHaveAccessibleName(
+      locale.imageFormatLabelPhrases.join(locale.imageFormatLabelSeparator),
+    );
+    await expect(
+      imageFormatHeading.locator('[data-semantic-phrase]'),
+    ).toHaveText(locale.imageFormatLabelPhrases);
+    expect(
+      await imageFormatHeading
+        .locator('[data-semantic-phrase]')
+        .evaluateAll((phrases) =>
+          phrases.every(
+            (phrase) => getComputedStyle(phrase).whiteSpace === 'nowrap',
+          ),
+        ),
+    ).toBe(true);
     await expect(
       page.locator('.feature-image-formats .feature-format-badges-secondary'),
     ).toHaveCount(0);
@@ -262,6 +284,26 @@ test('Japanese feature headings use intentional phrase breaks', async ({
     ).toHaveText(lines);
   }
 
+  await page.setViewportSize({ width: 1098, height: 862 });
+  const formatsHeading = page.getByRole('heading', {
+    name: 'コミックでよく使われる形式に対応。',
+  });
+  await expect(formatsHeading.locator('[data-semantic-phrase]')).toHaveText([
+    'コミックでよく使われる',
+    '形式に対応。',
+  ]);
+  expect(
+    await formatsHeading
+      .locator('[data-semantic-phrase]')
+      .evaluateAll((phrases) =>
+        phrases.every(
+          (phrase) =>
+            getComputedStyle(phrase).whiteSpace === 'nowrap' &&
+            phrase.getClientRects().length === 1,
+        ),
+      ),
+  ).toBe(true);
+
   await page.setViewportSize({ width: 390, height: 844 });
   const mobileLines = page.locator(
     '.feature-story-heading [data-headline-variant="mobile"] > span',
@@ -307,6 +349,9 @@ test('feature page is responsive without overlap or horizontal overflow', async 
     for (const viewport of [
       { width: 390, height: 844, columns: 1, jumpColumns: 1 },
       { width: 768, height: 1024, columns: 1, jumpColumns: 1 },
+      { width: 800, height: 1024, columns: 1, jumpColumns: 2 },
+      { width: 805, height: 1024, columns: 1, jumpColumns: 2 },
+      { width: 817, height: 1024, columns: 1, jumpColumns: 2 },
       { width: 820, height: 1024, columns: 1, jumpColumns: 2 },
       { width: 1024, height: 900, columns: 1, jumpColumns: 4 },
       { width: 1075, height: 900, columns: 1, jumpColumns: 4 },
@@ -327,6 +372,39 @@ test('feature page is responsive without overlap or horizontal overflow', async 
         pageWidth.scrollWidth,
         `${pathname} overflowed at ${viewport.width}px: ${JSON.stringify(pageWidth)}`,
       ).toBeLessThanOrEqual(pageWidth.clientWidth);
+
+      const formatRowMetrics = await page
+        .locator('.feature-format-row')
+        .evaluateAll((rows) =>
+          rows.map((row) => {
+            const heading = row.querySelector('.feature-format-heading h3');
+            const badges = row.querySelector('.feature-format-badges');
+            const headingRange = document.createRange();
+            if (heading) headingRange.selectNodeContents(heading);
+            const headingBox = heading
+              ? headingRange.getBoundingClientRect()
+              : null;
+            const badgesBox = badges?.getBoundingClientRect();
+
+            return {
+              headingRight: headingBox?.right ?? null,
+              badgesLeft: badgesBox?.left ?? null,
+              overlaps:
+                headingBox && badgesBox
+                  ? !(
+                      headingBox.right <= badgesBox.left ||
+                      badgesBox.right <= headingBox.left ||
+                      headingBox.bottom <= badgesBox.top ||
+                      badgesBox.bottom <= headingBox.top
+                    )
+                  : true,
+            };
+          }),
+        );
+      expect(
+        formatRowMetrics.every(({ overlaps }) => !overlaps),
+        `${pathname} format row overlapped at ${viewport.width}px: ${JSON.stringify(formatRowMetrics)}`,
+      ).toBe(true);
 
       const heroLineMetrics = await page
         .locator('.features-hero h1')

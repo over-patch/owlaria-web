@@ -47,6 +47,26 @@ test('English and Japanese indexes publish paired releases in descending order',
   }
 });
 
+test('Japanese release index title stays on one line when space is available', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 990, height: 862 });
+  await page.goto('/ja/releases/');
+
+  const heading = page.getByRole('heading', {
+    level: 1,
+    name: 'Owlaria リリースノート',
+  });
+  await expect(heading).toBeVisible();
+  expect(
+    await heading.evaluate((element) => {
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      return range.getClientRects().length;
+    }),
+  ).toBe(1);
+});
+
 test('release details render reviewed Markdown and preserve the version across locales', async ({
   page,
 }) => {

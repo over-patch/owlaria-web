@@ -16,7 +16,7 @@ function localeText(locale: 'en' | 'ja'): string {
   const page = purchaseSupportCopy[locale];
 
   return [
-    page.title,
+    page.titlePhrases.join(locale === 'en' ? ' ' : ''),
     ...page.introduction,
     ...page.faq.flatMap((item) => [
       item.question,
