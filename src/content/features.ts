@@ -68,13 +68,13 @@ export type FeaturePageCopy = {
   };
   formats: {
     eyebrow: string;
-    heading: string;
+    headingPhrases: string[];
     body: string;
     archiveLabel: string;
     archive: string[];
     passwordBody: string;
     passwordArchive: string[];
-    imageLabel: string;
+    imageLabelPhrases: string[];
     image: string[];
   };
   availability: {
@@ -299,14 +299,14 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
     },
     formats: {
       eyebrow: 'Compatibility',
-      heading: 'Open the formats comic libraries actually use.',
+      headingPhrases: ['Open the formats', 'comic libraries actually use.'],
       body: 'Register and read without converting or extracting first.',
       archiveLabel: 'Supported files',
       archive: ['ZIP', 'CBZ', 'RAR', 'CBR', '7Z', 'CB7', 'LZH', 'PDF'],
       passwordBody:
         'Password-protected ZIP, CBZ, RAR, CBR, 7Z, and CB7 files are supported.',
       passwordArchive: ['ZIP', 'CBZ', 'RAR', 'CBR', '7Z', 'CB7'],
-      imageLabel: 'Image formats read inside archives',
+      imageLabelPhrases: ['Image formats', 'read inside archives'],
       image: ['JPEG', 'PNG', 'WebP', 'AVIF', 'HEIC', 'GIF', 'BMP'],
     },
     availability: {
@@ -538,13 +538,13 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
     },
     formats: {
       eyebrow: '対応形式',
-      heading: 'コミックでよく使われる形式に対応。',
+      headingPhrases: ['コミックでよく使われる', '形式に対応。'],
       body: '変換や展開をせず、登録してそのまま読めます。',
       archiveLabel: '対応ファイル',
       archive: ['ZIP', 'CBZ', 'RAR', 'CBR', '7Z', 'CB7', 'LZH', 'PDF'],
       passwordBody: 'ZIP・CBZ・RAR・CBR・7Z・CB7は、パスワード付きにも対応。',
       passwordArchive: ['ZIP', 'CBZ', 'RAR', 'CBR', '7Z', 'CB7'],
-      imageLabel: 'アーカイブ内で読める画像形式',
+      imageLabelPhrases: ['アーカイブ内で', '読める画像形式'],
       image: ['JPEG', 'PNG', 'WebP', 'AVIF', 'HEIC', 'GIF', 'BMP'],
     },
     availability: {

@@ -748,8 +748,7 @@ html[lang='en'] .hero-copy h1 {
 }
 
 html[lang='ja'] .story-heading h2 {
-  overflow-wrap: anywhere;
-  word-break: keep-all;
+  overflow-wrap: normal;
 }
 
 .product-story {
@@ -1168,9 +1167,8 @@ html[lang='ja'] .story-heading h2 {
 html[lang='ja'] .section-heading h2,
 html[lang='ja'] .closing-section h2,
 html[lang='ja'] .feature-category-heading h2 {
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
   text-wrap: pretty;
-  word-break: keep-all;
 }
 
 .section-heading > p:last-child {
@@ -2370,7 +2368,7 @@ html[lang='en'] .features-hero h1 {
   line-height: 1.55;
 }
 
-@media (max-width: 48rem) {
+@media (max-width: 51rem) {
   .feature-format-row {
     gap: var(--space-3);
     grid-template-columns: minmax(0, 1fr);
@@ -2527,6 +2525,13 @@ html[lang='en'] .features-hero h1 {
   letter-spacing: -0.075em;
   line-height: 0.9;
   text-wrap: balance;
+}
+
+@media (min-width: 40rem) {
+  html[lang='ja'] .support-hub-hero h1 {
+    max-width: none;
+    white-space: nowrap;
+  }
 }
 
 .support-hub-hero > p:last-child {
@@ -2922,7 +2927,7 @@ html[lang='en'] .features-hero h1 {
 .support-hero {
   position: relative;
   isolation: isolate;
-  overflow: clip;
+  overflow: visible;
   padding-block: clamp(4.5rem, 9vw, 8rem) clamp(3.5rem, 7vw, 6rem);
 }
 
@@ -3741,6 +3746,13 @@ html[lang='en'] .features-hero h1 {
   text-wrap: balance;
 }
 
+@media (min-width: 48rem) {
+  html[lang='ja'] .release-hero h1 {
+    max-width: none;
+    white-space: nowrap;
+  }
+}
+
 .release-hero > p:last-child {
   max-width: 42rem;
   margin: var(--space-5) 0 0;
@@ -4146,5 +4158,21 @@ html[lang='en'] .features-hero h1 {
 
   .feature-temporary-window {
     width: min(100%, 22rem);
+  }
+}
+
+html[lang='ja'] {
+  --heading-word-break: normal;
+}
+
+html[lang='ja'] :where(h1, h2, h3, h4, h5, h6) {
+  line-break: strict;
+  overflow-wrap: normal;
+  word-break: var(--heading-word-break);
+}
+
+@supports (word-break: auto-phrase) {
+  html[lang='ja'] {
+    --heading-word-break: auto-phrase;
   }
 }

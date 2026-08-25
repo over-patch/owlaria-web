@@ -5,6 +5,7 @@ import {
 } from '../../content/purchases';
 import type { Locale } from '../../i18n/config';
 import SiteLayout from '../../layouts/SiteLayout.astro';
+import SemanticPhraseText from '../SemanticPhraseText.astro';
 
 interface Props {
   locale: Locale;
@@ -27,7 +28,12 @@ const externalLabel = (part: PurchaseTextPart): string | undefined =>
   <header class="support-hero shell" id="page-top">
     <div class="support-hero-copy" data-reveal>
       <p class="eyebrow">{page.eyebrow}</p>
-      <h1>{page.title}</h1>
+      <h1>
+        <SemanticPhraseText
+          phrases={page.titlePhrases}
+          separator={locale === 'en' ? ' ' : ''}
+        />
+      </h1>
       <div class="support-introduction">
         {page.introduction.map((paragraph) => <p>{paragraph}</p>)}
       </div>

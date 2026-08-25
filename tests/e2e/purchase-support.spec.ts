@@ -10,6 +10,7 @@ const locales = [
     alternatePath: '/ja/support/purchases/',
     lang: 'en',
     heading: 'Owlaria Plus purchases, restores, and refunds',
+    headingPhrases: ['Owlaria Plus purchases,', 'restores, and refunds'],
     title: 'Owlaria Plus purchases, restores, and refunds · Owlaria Support',
     description:
       'Learn about Owlaria Plus pricing, separate iOS and macOS purchases, Restore Purchases, Apple refunds, and purchase support.',
@@ -38,6 +39,7 @@ const locales = [
     alternatePath: '/support/purchases/',
     lang: 'ja',
     heading: 'Owlaria Plusの購入・復元・返金について',
+    headingPhrases: ['Owlaria Plusの', '購入・復元・返金について'],
     title: 'Owlaria Plusの購入・復元・返金について · Owlariaサポート',
     description:
       'Owlaria Plusの価格、iOS版とmacOS版の別購入、購入の復元、Appleへの返金申請、購入サポートをご案内します。',
@@ -79,9 +81,14 @@ for (const locale of locales) {
       'content',
       locale.description,
     );
-    await expect(
-      page.getByRole('heading', { level: 1, name: locale.heading }),
-    ).toBeVisible();
+    const pageHeading = page.getByRole('heading', {
+      level: 1,
+      name: locale.heading,
+    });
+    await expect(pageHeading).toBeVisible();
+    await expect(pageHeading.locator('[data-semantic-phrase]')).toHaveText(
+      locale.headingPhrases,
+    );
     await expect(page.getByRole('main')).toHaveCount(1);
 
     const contents = page.getByRole('navigation', { name: locale.contents });
@@ -166,6 +173,73 @@ for (const locale of locales) {
   });
 }
 
+test('Japanese support title stays on one line when space is available', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 899, height: 862 });
+  await page.goto('/ja/support/');
+
+  const heading = page.getByRole('heading', {
+    level: 1,
+    name: 'お困りのことは？',
+  });
+  await expect(heading).toBeVisible();
+  expect(
+    await heading.evaluate((element) => {
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      return range.getClientRects().length;
+    }),
+  ).toBe(1);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(
+    await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth <=
+        document.documentElement.clientWidth,
+    ),
+  ).toBe(true);
+});
+
+test('decorative page hero backgrounds blend into the page without clipped edges', async ({
+  page,
+}) => {
+  for (const { path, selector } of [
+    { path: '/ja/', selector: '.home-hero' },
+    { path: '/ja/features/', selector: '.features-hero' },
+    { path: '/ja/support/', selector: '.support-hub-hero' },
+    { path: '/ja/support/purchases/', selector: '.support-hero' },
+    { path: '/ja/privacy/', selector: '.legal-hero' },
+    { path: '/ja/terms/', selector: '.legal-hero' },
+    { path: '/ja/releases/', selector: '.release-hero' },
+    {
+      path: '/ja/releases/1.0.0/',
+      selector: '.release-detail-header',
+    },
+  ] as const) {
+    await page.goto(path);
+
+    const heroVisual = await page.locator(selector).evaluate((hero) => {
+      const before = getComputedStyle(hero, '::before');
+      const hasDecorativeBackground =
+        before.content !== 'none' && before.backgroundImage !== 'none';
+
+      return {
+        hasDecorativeBackground,
+        overflow: getComputedStyle(hero).overflow,
+      };
+    });
+
+    if (heroVisual.hasDecorativeBackground) {
+      expect(
+        heroVisual.overflow,
+        `${path} clips its decorative hero background`,
+      ).toBe('visible');
+    }
+  }
+});
+
 for (const locale of locales) {
   test(`${locale.path} uses a readable responsive FAQ layout without horizontal overflow`, async ({
     page,
@@ -179,14 +253,28 @@ for (const locale of locales) {
       'sticky',
     );
 
-    await page.setViewportSize({ width: 390, height: 844 });
+    await page.setViewportSize({ width: 320, height: 844 });
     const hasHorizontalOverflow = await page.evaluate(
       () =>
         document.documentElement.scrollWidth >
         document.documentElement.clientWidth,
     );
+    const headingFitsViewport = await page
+      .getByRole('heading', { level: 1, name: locale.heading })
+      .evaluate((heading) => {
+        const box = heading.getBoundingClientRect();
+        const visibleRight = Math.max(
+          ...Array.from(
+            heading.querySelectorAll<HTMLElement>('[data-semantic-phrase]'),
+            (phrase) => phrase.getBoundingClientRect().right,
+          ),
+        );
+
+        return box.left >= 0 && visibleRight <= window.innerWidth;
+      });
 
     expect(hasHorizontalOverflow).toBe(false);
+    expect(headingFitsViewport).toBe(true);
     await expect(page.locator('.support-contents')).toHaveCSS(
       'position',
       'static',
