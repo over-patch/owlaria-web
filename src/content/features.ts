@@ -99,7 +99,7 @@ export type FeaturePageCopy = {
 export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
   en: {
     metadata: {
-      title: 'Owlaria features for NAS and local comic libraries',
+      title: 'Features · Owlaria',
       description:
         'Explore how Owlaria organizes and reads comics across NAS and local folders without adding management files to your storage.',
     },
@@ -330,9 +330,9 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
   },
   ja: {
     metadata: {
-      title: 'NAS・ローカルのマンガ管理と閲覧機能 · Owlaria',
+      title: '機能 · Owlaria',
       description:
-        'NASやローカルフォルダの保存先を汚さず、マンガを整理して読むためのOwlariaの機能をご紹介します。',
+        'NASやローカルフォルダの保存先を汚さず、コミックを整理して読むためのOwlariaの機能をご紹介します。',
     },
     hero: {
       eyebrow: 'Owlariaの機能',
@@ -408,7 +408,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
           },
           {
             title: 'フォルダからシリーズを作る',
-            body: '新しく見つかったマンガを、末端フォルダ単位でシリーズ化します。',
+            body: '新しく見つかったコミックを、末端フォルダ単位でシリーズ化します。',
           },
           {
             title: '整理情報はOwlariaの中で',
@@ -431,15 +431,15 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
       {
         id: 'viewer',
         number: '03',
-        label: 'マンガビューア',
-        heading: 'マンガに合わせて読み方を選択',
-        desktopLines: ['マンガに合わせて', '読み方を選択'],
-        mobileLines: ['マンガに合わせて', '読み方を選択'],
+        label: 'コミックビューア',
+        heading: 'コミックに合わせて読み方を選択',
+        desktopLines: ['コミックに合わせて', '読み方を選択'],
+        mobileLines: ['コミックに合わせて', '読み方を選択'],
         body: '作品ごとに、読み方向と表示方法を切り替えられます。',
         visual: 'reader',
         preview: {
           platform: 'IPHONE',
-          title: 'マンガビューア画面',
+          title: 'コミックビューア画面',
           note: '正式なOwlariaの画面へ差し替え予定',
         },
         modeGroups: [
@@ -461,7 +461,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
           heading: 'ライブラリを作らず、そのまま読む。',
           headingLines: ['ライブラリを作らず、', 'そのまま読む。'],
           body: 'ライブラリを作らず、いつものフォルダから一冊だけ開く単体ビューアとしても使えます。',
-          fileLabel: 'マンガファイル',
+          fileLabel: 'コミックファイル',
           viewerLabel: '一時ビューア',
           notAddedLabel: 'ライブラリには追加しない',
           methods: [
@@ -538,7 +538,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
     },
     formats: {
       eyebrow: '対応形式',
-      heading: 'マンガでよく使われる形式に対応。',
+      heading: 'コミックでよく使われる形式に対応。',
       body: '変換や展開をせず、登録してそのまま読めます。',
       archiveLabel: '対応ファイル',
       archive: ['ZIP', 'CBZ', 'RAR', 'CBR', '7Z', 'CB7', 'LZH', 'PDF'],
