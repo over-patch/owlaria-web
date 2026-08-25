@@ -3392,6 +3392,16 @@ html[lang='en'] .features-hero h1 {
 }
 
 @media (min-width: 76.001rem) {
+  .feature-story-sources .feature-story-layout,
+  .feature-story-reader .feature-story-layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .feature-story-sources .feature-story-heading h2,
+  .feature-story-reader .feature-story-heading h2 {
+    font-size: min(var(--text-section), 3.5rem);
+  }
+
   .feature-story-preview .feature-story-heading {
     grid-row: 1;
     grid-column: 2;
