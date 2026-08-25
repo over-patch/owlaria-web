@@ -438,6 +438,55 @@ test('feature page is responsive without overlap or horizontal overflow', async 
         true,
       );
 
+      if (viewport.columns === 2) {
+        for (const { name, storySelector, visualSelector } of [
+          {
+            name: 'source',
+            storySelector: '.feature-story-sources',
+            visualSelector: '.feature-source-diagram',
+          },
+          {
+            name: 'viewer',
+            storySelector: '.feature-story-reader',
+            visualSelector: '[data-testid="feature-product-preview"]',
+          },
+        ]) {
+          const headlineMetrics = await page
+            .locator(storySelector)
+            .evaluate((story, visualSelector) => {
+              const visual = story.querySelector(visualSelector);
+              const visualBox = visual?.getBoundingClientRect();
+              const lines = [
+                ...story.querySelectorAll<HTMLElement>(
+                  '.feature-story-heading .headline-lines > span',
+                ),
+              ].filter(
+                (line) =>
+                  getComputedStyle(line.parentElement!).display !== 'none',
+              );
+
+              return lines.map((line) => {
+                const range = document.createRange();
+                range.selectNodeContents(line);
+                const textBox = range.getBoundingClientRect();
+
+                return {
+                  text: line.textContent?.trim() ?? '',
+                  right: Math.round(textBox.right * 100) / 100,
+                  visualLeft: visualBox
+                    ? Math.round(visualBox.left * 100) / 100
+                    : null,
+                  fits: visualBox ? textBox.right <= visualBox.left : false,
+                };
+              });
+            }, visualSelector);
+          expect(
+            headlineMetrics.every(({ fits }) => fits),
+            `${pathname} ${name} headline overlapped its visual at ${viewport.width}px: ${JSON.stringify(headlineMetrics)}`,
+          ).toBe(true);
+        }
+      }
+
       if (viewport.columns === 1) {
         for (const story of await page
           .locator(
