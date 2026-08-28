@@ -79,7 +79,7 @@ for (const locale of [
     await expect(
       heading.locator('[data-headline-variant="mobile"] > span'),
     ).toHaveText(locale.mobileLines);
-    await expect(page.locator('.hero-benefits > li')).toHaveCount(3);
+    await expect(page.locator('.hero-benefits > li')).toHaveCount(2);
     const heroPreview = page.getByTestId('hero-product-preview');
     await expect(heroPreview).toBeVisible();
     await expect(heroPreview.getByTestId('hero-preview-label')).toHaveText(
@@ -288,6 +288,7 @@ for (const locale of [
       expect(cardStyle.rightBorder).toBe('solid');
     }
 
+    await page.setViewportSize({ width: 1920, height: 1080 });
     const productStory = page.locator('.product-story');
     await expect(productStory).toBeVisible();
     await expect(
@@ -301,6 +302,33 @@ for (const locale of [
     await expect(productStory.locator('.story-connector-label')).toHaveText(
       locale.connectorLabels,
     );
+    const sourceLocations = await productStory
+      .locator('.story-source-list > li')
+      .evaluateAll((items) =>
+        items.map((item) => {
+          const { x, width } = item.getBoundingClientRect();
+          return { x, width };
+        }),
+      );
+    expect(sourceLocations).toHaveLength(3);
+    expect.soft(sourceLocations[1]).toEqual(sourceLocations[0]);
+    expect.soft(sourceLocations[2]).toEqual(sourceLocations[0]);
+    expect(
+      await productStory.locator('.story-source > p').evaluate((body) => {
+        const range = document.createRange();
+        range.selectNodeContents(body);
+        return range.getClientRects().length;
+      }),
+    ).toBe(1);
+    expect(
+      await productStory.locator('.story-body > span').evaluateAll((lines) =>
+        lines.map((line) => {
+          const range = document.createRange();
+          range.selectNodeContents(line);
+          return range.getClientRects().length;
+        }),
+      ),
+    ).toEqual([1, 1]);
     expect(
       await productStory
         .locator('.story-connector-label')

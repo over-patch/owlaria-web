@@ -576,7 +576,7 @@ html[lang='en'] .hero-copy h1 {
 .hero-benefits {
   display: grid;
   gap: var(--space-3);
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   max-width: 62rem;
   margin: var(--space-5) auto 0;
   padding: 0;
@@ -788,9 +788,17 @@ html[lang='ja'] .story-heading h2 {
   box-shadow: none;
 }
 
+.story-node.story-source p {
+  max-width: none;
+}
+
 .story-guardian {
   border-color: rgb(128 236 255 / 28%);
   box-shadow: var(--shadow-glow);
+}
+
+.story-node.story-guardian p {
+  max-width: none;
 }
 
 .story-guardian::before {
@@ -826,10 +834,6 @@ html[lang='ja'] .story-heading h2 {
   font-size: 0.68rem;
   font-weight: 820;
   letter-spacing: 0.08em;
-}
-
-.story-source-list li:nth-child(2) {
-  transform: translateX(0.8rem);
 }
 
 .story-icon {
@@ -3316,10 +3320,6 @@ html[lang='en'] .features-hero h1 {
   .story-node.story-source p {
     grid-column: 1 / -1;
     justify-self: center;
-  }
-
-  .story-source-list li:nth-child(2) {
-    transform: none;
   }
 
   .story-node h3,
