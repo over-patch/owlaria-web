@@ -154,12 +154,8 @@ export const homeCopy: Record<Locale, HomeCopy> = {
           body: 'Add NAS and local folders to Owlaria without changing their structure.',
         },
         {
-          title: 'Organize inside Owlaria',
-          body: 'Manage tags, series, ratings, covers, and more separately from your storage.',
-        },
-        {
           title: 'Keep your storage uncluttered',
-          body: 'Your files and folder structure stay unchanged, with no extra management files written alongside them.',
+          body: 'Owlaria keeps tags, series, ratings, and covers separate from your storage, without changing folders or writing extra management files.',
         },
       ],
       preview: {
@@ -312,12 +308,8 @@ export const homeCopy: Record<Locale, HomeCopy> = {
           body: 'NASやローカルフォルダを、構成を変えずにOwlariaへ登録できます。',
         },
         {
-          title: '整理はOwlariaの中だけで',
-          body: 'タグ・シリーズ・評価・表紙などを、保存先とは切り離して管理できます。',
-        },
-        {
-          title: '保存先を汚さない',
-          body: 'ファイルやフォルダ構成を変えず、余計な管理ファイルも書き込みません。',
+          title: 'フォルダは汚さない',
+          body: 'タグ・シリーズ・評価・表紙などはOwlariaの中で管理。ファイルやフォルダ構成を変えず、余計な管理ファイルも書き込みません。',
         },
       ],
       preview: {

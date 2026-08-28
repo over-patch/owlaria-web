@@ -62,8 +62,8 @@ for (const locale of [
     imageFormatLabelPhrases: ['アーカイブ内で', '読める画像形式'],
     imageFormatLabelSeparator: '',
     implementationBackedFeatures: [
-      'ファイル名から整理情報を読み取る',
-      'フォルダからシリーズを作る',
+      'ファイル名から情報を取り込む',
+      'フォルダ単位でシリーズ化',
       '細部まで、自然に拡大',
     ],
     language: 'English',
