@@ -1,0 +1,32 @@
+---
+import type { FeaturePlatform } from '../../content/features';
+import type { Locale } from '../../i18n/config';
+
+interface Props {
+  locale: Locale;
+  platforms: FeaturePlatform[];
+}
+
+const { locale, platforms } = Astro.props;
+const names: Record<FeaturePlatform, string> = {
+  mac: 'Mac',
+  iphone: 'iPhone',
+};
+const label =
+  locale === 'ja' ? '提供予定プラットフォーム' : 'Planned platforms';
+const only = locale === 'ja' ? 'のみ' : ' only';
+---
+
+<ul
+  class="feature-platform-badges"
+  aria-label={label}
+  data-platforms={platforms.join(' ')}
+>
+  {
+    platforms.map((platform) => (
+      <li>
+        {platforms.length === 1 ? `${names[platform]}${only}` : names[platform]}
+      </li>
+    ))
+  }
+</ul>

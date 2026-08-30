@@ -24,9 +24,13 @@ const collectSourceText = (directory: string): string =>
     .join('\n');
 
 describe('brand language', () => {
-  it('uses a concise product name for the homepage browser title', () => {
-    expect(homeCopy.en.metadata.title).toBe('Owlaria');
-    expect(homeCopy.ja.metadata.title).toBe('Owlaria');
+  it('describes the product in the homepage browser title', () => {
+    expect(homeCopy.en.metadata.title).toBe(
+      'Owlaria — Comic Library for NAS & Local Folders',
+    );
+    expect(homeCopy.ja.metadata.title).toBe(
+      'Owlaria — NAS・ローカル対応コミックライブラリ',
+    );
   });
 
   it('uses concise localized browser titles for the feature page', () => {

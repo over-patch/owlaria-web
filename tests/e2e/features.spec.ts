@@ -8,6 +8,14 @@ for (const locale of [
     mobileLines: ['Keep your folders.', 'Organize and read', 'your way.'],
     sourcesHeading: 'Connect your folders. Keep your storage clean.',
     viewerLabel: 'Comic viewer',
+    navigationLabels: [
+      '01 Sources',
+      '02 Organize',
+      '03 Library',
+      '04 Viewer',
+      '05 Statistics',
+      '06 Settings',
+    ],
     temporaryViewerHeading: 'No library required. Just open and read.',
     temporaryViewerBody:
       'Open a single comic from your usual folders without creating a library.',
@@ -28,6 +36,10 @@ for (const locale of [
     language: '日本語',
     languageHref: '/ja/features/',
     freeNote: 'Use every feature free with one library and up to 100 books.',
+    environmentHeading: 'Bring your NAS library into Owlaria.',
+    environmentBody: 'Use shared folders on your network from Mac and iPhone.',
+    environmentSupport: 'Supports SMB 2.0 or later',
+    macOnly: 'Mac only',
     actions: [
       { name: 'See Free and Plus details', href: '/support/purchases/' },
       { name: 'View release information', href: '/releases/' },
@@ -47,8 +59,16 @@ for (const locale of [
       '整理も、読み方も、',
       '思いどおりに。',
     ],
-    sourcesHeading: 'フォルダをつなぐ。保存先は汚さない。',
+    sourcesHeading: 'フォルダを統合。元のフォルダは汚さない。',
     viewerLabel: 'コミックビューア',
+    navigationLabels: [
+      '01 フォルダ',
+      '02 整理',
+      '03 ライブラリ',
+      '04 ビューア',
+      '05 統計',
+      '06 設定',
+    ],
     temporaryViewerHeading: 'ライブラリを作らず、そのまま読む。',
     temporaryViewerBody:
       'ライブラリを作らず、いつものフォルダから一冊だけ開く単体ビューアとしても使えます。',
@@ -69,6 +89,11 @@ for (const locale of [
     language: 'English',
     languageHref: '/features/',
     freeNote: 'すべての機能を1ライブラリ・100冊まで無料で利用できます。',
+    environmentHeading: 'NASのコミックを、そのままライブラリへ。',
+    environmentBody:
+      'ネットワーク上の共有フォルダを、MacとiPhoneから利用できます。',
+    environmentSupport: 'SMB 2.0以降に対応',
+    macOnly: 'Macのみ',
     actions: [
       { name: '無料範囲とPlusを見る', href: '/ja/support/purchases/' },
       { name: 'リリース情報を見る', href: '/ja/releases/' },
@@ -93,7 +118,12 @@ for (const locale of [
     await expect(
       page.getByRole('heading', { name: locale.sourcesHeading }),
     ).toBeVisible();
-    await expect(page.locator('.feature-story')).toHaveCount(4);
+    await expect(page.locator('.feature-story')).toHaveCount(6);
+    for (const navigationLabel of locale.navigationLabels) {
+      await expect(
+        page.getByRole('link', { name: navigationLabel, exact: true }),
+      ).toBeVisible();
+    }
     await expect(page.locator('.feature-source-node')).toHaveCount(3);
     await expect(page.locator('.feature-source-icon')).toHaveCount(3);
     await expect(page.locator('.feature-source-icon-server')).toHaveCount(2);
@@ -101,9 +131,19 @@ for (const locale of [
     await expect(page.locator('.feature-source-connector > svg')).toHaveCount(
       1,
     );
-    await expect(page.getByTestId('feature-product-preview')).toHaveCount(2);
+    await expect(page.getByTestId('feature-product-preview')).toHaveCount(3);
+    const previewCaptions = await page
+      .getByTestId('feature-product-preview')
+      .locator('figcaption')
+      .allTextContents();
+    expect(previewCaptions.join(' ')).not.toMatch(/replace|差し替え/i);
     await expect(page.locator('.feature-reader-mode-group')).toHaveCount(3);
     await expect(page.locator('.feature-reader-mode-visual')).toHaveCount(0);
+    const platformBadge = page
+      .locator('.feature-story-grid .feature-platform-badges li')
+      .first();
+    await expect(platformBadge).toBeVisible();
+    expect((await platformBadge.boundingBox())?.height).toBeLessThan(40);
     await expect(
       page.locator('.feature-reader-mode-heading').filter({
         has: page.locator('.feature-reader-mode-icon'),
@@ -113,8 +153,34 @@ for (const locale of [
       page.locator('.feature-reader-mode-icon .lucide-infinity'),
     ).toHaveCount(1);
     await expect(page.locator('.feature-temporary-method-icon')).toHaveCount(3);
-    await expect(page.locator('#library .feature-card-icon')).toHaveCount(8);
-    await expect(page.locator('#everyday .feature-card-icon')).toHaveCount(4);
+    await expect(page.locator('#organize .feature-card-icon')).toHaveCount(4);
+    await expect(page.locator('#library .feature-card-icon')).toHaveCount(5);
+    await expect(page.locator('#statistics .feature-card-icon')).toHaveCount(3);
+    await expect(page.locator('#settings .feature-card-icon')).toHaveCount(2);
+    await expect(page.locator('#organize .feature-card-icon svg')).toHaveClass([
+      /lucide-search/,
+      /lucide-scan-text/,
+      /lucide-route/,
+      /lucide-folder-tree/,
+    ]);
+    await expect(page.locator('#library .feature-card-icon svg')).toHaveClass([
+      /lucide-library-big/,
+      /lucide-folder-plus/,
+      /lucide-image/,
+      /lucide-lock-keyhole/,
+      /lucide-clock-3/,
+    ]);
+    await expect(
+      page.locator('#statistics .feature-card-icon svg'),
+    ).toHaveClass([
+      /lucide-chart-no-axes-column-increasing/,
+      /lucide-clock-3/,
+      /lucide-tag/,
+    ]);
+    await expect(page.locator('#settings .feature-card-icon svg')).toHaveClass([
+      /lucide-sliders-horizontal/,
+      /lucide-keyboard/,
+    ]);
     await expect(page.locator('.feature-format-row')).toHaveCount(2);
     await expect(
       page.locator('.feature-archive-formats .feature-format-badge-lock'),
@@ -161,7 +227,7 @@ for (const locale of [
       page.locator('.feature-card-heading').filter({
         has: page.locator('.feature-card-icon'),
       }),
-    ).toHaveCount(12);
+    ).toHaveCount(14);
     const temporaryViewer = page.locator('#viewer .feature-temporary-viewer');
     await expect(temporaryViewer).toBeVisible();
     await expect(
@@ -186,6 +252,12 @@ for (const locale of [
     await expect(
       temporaryViewer.locator('.feature-temporary-viewer-formats'),
     ).toHaveCount(0);
+    await expect(
+      temporaryViewer.locator('.feature-platform-badges'),
+    ).toContainText(locale.macOnly);
+    await expect(
+      page.locator('#settings .feature-story-grid .feature-platform-badges'),
+    ).toContainText(locale.macOnly);
     for (const feature of locale.implementationBackedFeatures) {
       await expect(
         page.getByRole('heading', { name: feature, exact: true }),
@@ -205,6 +277,18 @@ for (const locale of [
     await expect(
       page.getByText(locale.freeNote, { exact: true }),
     ).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: locale.environmentHeading }),
+    ).toBeVisible();
+    await expect(
+      page.locator('.feature-environment-section .section-heading > p').last(),
+    ).toHaveText(locale.environmentBody);
+    await expect(page.locator('.feature-environment-panel')).toContainText(
+      locale.environmentSupport,
+    );
+    await expect(page.locator('.feature-environment-panel > span')).toHaveCount(
+      0,
+    );
     for (const action of locale.actions) {
       await expect(
         page.getByRole('link', { name: action.name }),
@@ -247,9 +331,10 @@ test('feature stories remain usable without JavaScript', async ({
       name: 'Keep your folders. Organize and read your way.',
     }),
   ).toBeVisible();
-  await expect(
-    page.getByRole('link', { name: 'Comic viewer' }),
-  ).toHaveAttribute('href', '#viewer');
+  await expect(page.getByRole('link', { name: '04 Viewer' })).toHaveAttribute(
+    'href',
+    '#viewer',
+  );
   await context.close();
 });
 
@@ -261,20 +346,28 @@ test('Japanese feature headings use intentional phrase breaks', async ({
 
   for (const { name, lines } of [
     {
-      name: 'フォルダをつなぐ。保存先は汚さない。',
-      lines: ['フォルダをつなぐ。', '保存先は汚さない。'],
+      name: 'フォルダを統合。元のフォルダは汚さない。',
+      lines: ['フォルダを統合。', '元のフォルダは', '汚さない。'],
     },
     {
       name: '何千冊の中から、読みたい一冊へ。',
       lines: ['何千冊の中から、', '読みたい一冊へ。'],
     },
     {
-      name: 'コミックに合わせて読み方を選択',
-      lines: ['コミックに合わせて', '読み方を選択'],
+      name: 'シリーズも、表紙も、読んだ位置も。',
+      lines: ['シリーズも、表紙も、', '読んだ位置も。'],
     },
     {
-      name: '続きから読む。読書の傾向もわかる。',
-      lines: ['続きから読む。', '読書の傾向もわかる。'],
+      name: '読み込みも、読み方も、快適に。',
+      lines: ['読み込みも、', '読み方も、快適に。'],
+    },
+    {
+      name: '読書の積み重ねを、ひと目で。',
+      lines: ['読書の積み重ねを、', 'ひと目で。'],
+    },
+    {
+      name: '見た目も、操作も、自分に合わせる。',
+      lines: ['見た目も、操作も、', '自分に合わせる。'],
     },
   ]) {
     await expect(
@@ -330,7 +423,7 @@ test('Japanese feature page keeps supporting copy concise', async ({
   expect(Math.max(...cardBodyLengths)).toBeLessThanOrEqual(45);
 
   const sectionBodyLengths = await page
-    .locator('.feature-story-heading > p:last-child')
+    .locator('.feature-story-body')
     .evaluateAll((paragraphs) =>
       paragraphs.map((paragraph) => paragraph.textContent?.length ?? 0),
     );
@@ -342,6 +435,23 @@ test('Japanese feature page keeps supporting copy concise', async ({
   expect(temporaryViewerBody?.length ?? 0).toBeLessThanOrEqual(45);
 });
 
+test('Japanese source introduction stays on one line at desktop width', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1098, height: 862 });
+  await page.goto('/ja/features/');
+
+  const lineCount = await page
+    .locator('#sources .feature-story-body')
+    .evaluate((paragraph) => {
+      const range = document.createRange();
+      range.selectNodeContents(paragraph);
+      return range.getClientRects().length;
+    });
+
+  expect(lineCount).toBe(1);
+});
+
 test('feature page is responsive without overlap or horizontal overflow', async ({
   page,
 }) => {
@@ -349,16 +459,16 @@ test('feature page is responsive without overlap or horizontal overflow', async 
     for (const viewport of [
       { width: 390, height: 844, columns: 1, jumpColumns: 1 },
       { width: 768, height: 1024, columns: 1, jumpColumns: 1 },
-      { width: 800, height: 1024, columns: 1, jumpColumns: 2 },
-      { width: 805, height: 1024, columns: 1, jumpColumns: 2 },
-      { width: 817, height: 1024, columns: 1, jumpColumns: 2 },
-      { width: 820, height: 1024, columns: 1, jumpColumns: 2 },
-      { width: 1024, height: 900, columns: 1, jumpColumns: 4 },
-      { width: 1075, height: 900, columns: 1, jumpColumns: 4 },
-      { width: 1150, height: 900, columns: 1, jumpColumns: 4 },
-      { width: 1200, height: 900, columns: 1, jumpColumns: 4 },
-      { width: 1280, height: 900, columns: 2, jumpColumns: 4 },
-      { width: 1440, height: 1000, columns: 2, jumpColumns: 4 },
+      { width: 800, height: 1024, columns: 1, jumpColumns: 3 },
+      { width: 805, height: 1024, columns: 1, jumpColumns: 3 },
+      { width: 817, height: 1024, columns: 1, jumpColumns: 3 },
+      { width: 820, height: 1024, columns: 1, jumpColumns: 3 },
+      { width: 1024, height: 900, columns: 1, jumpColumns: 6 },
+      { width: 1075, height: 900, columns: 1, jumpColumns: 6 },
+      { width: 1150, height: 900, columns: 1, jumpColumns: 6 },
+      { width: 1200, height: 900, columns: 1, jumpColumns: 6 },
+      { width: 1280, height: 900, columns: 2, jumpColumns: 6 },
+      { width: 1440, height: 1000, columns: 2, jumpColumns: 6 },
     ]) {
       await page.setViewportSize(viewport);
       await page.goto(pathname);

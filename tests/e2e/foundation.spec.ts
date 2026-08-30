@@ -12,17 +12,26 @@ const routePairs = [
 const origin = 'https://owlaria.overpatch.dev';
 
 const bundledFonts = [
-  { path: '/', family: 'Inter Variable' },
-  { path: '/ja/', family: 'Noto Sans JP Variable' },
+  {
+    path: '/',
+    family: 'Inter Variable',
+    absentFamily: 'Noto Sans JP Variable',
+  },
+  {
+    path: '/ja/',
+    family: 'Noto Sans JP Variable',
+    absentFamily: 'Inter Variable',
+  },
 ] as const;
 
 async function expectSocialMetadata(
   page: import('@playwright/test').Page,
   expectedCanonical: string,
 ) {
+  const title = await page.title();
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
     'content',
-    await page.title(),
+    title,
   );
   await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
     'content',
@@ -114,8 +123,8 @@ for (const [englishPath, japanesePath] of routePairs) {
   });
 }
 
-for (const { path, family } of bundledFonts) {
-  test(`${path} uses its bundled primary font`, async ({ page }) => {
+for (const { path, family, absentFamily } of bundledFonts) {
+  test(`${path} loads only its localized bundled font`, async ({ page }) => {
     await page.goto(path);
     await page.evaluate(() => document.fonts.ready);
 
@@ -124,6 +133,9 @@ for (const { path, family } of bundledFonts) {
 
       return {
         computedFamily,
+        registeredFamilies: [
+          ...new Set(Array.from(document.fonts, (font) => font.family)),
+        ],
         loaded: document.fonts.check(`16px "${expectedFamily}"`),
       };
     }, family);
@@ -133,6 +145,8 @@ for (const { path, family } of bundledFonts) {
       `${path} resolved to ${fontState.computedFamily}`,
     ).toContain(family);
     expect(fontState.loaded, `${family} did not finish loading`).toBe(true);
+    expect(fontState.registeredFamilies).toContain(family);
+    expect(fontState.registeredFamilies).not.toContain(absentFamily);
   });
 }
 

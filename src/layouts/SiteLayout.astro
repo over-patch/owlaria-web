@@ -4,6 +4,8 @@ import SiteHeader from '../components/SiteHeader.astro';
 import { siteCopy } from '../content/site';
 import { absoluteLocaleUrl, type Locale } from '../i18n/config';
 import '../styles/global.css';
+import interFontStylesheet from '@fontsource-variable/inter/wght.css?url';
+import japaneseFontStylesheet from '@fontsource-variable/noto-sans-jp/wght.css?url';
 
 interface Props {
   locale: Locale;
@@ -16,6 +18,8 @@ const { locale, pathname, title, description } = Astro.props;
 const englishUrl = absoluteLocaleUrl('en', pathname);
 const japaneseUrl = absoluteLocaleUrl('ja', pathname);
 const canonicalUrl = absoluteLocaleUrl(locale, pathname);
+const fontStylesheet =
+  locale === 'ja' ? japaneseFontStylesheet : interFontStylesheet;
 ---
 
 <!doctype html>
@@ -25,6 +29,7 @@ const canonicalUrl = absoluteLocaleUrl(locale, pathname);
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#030611" />
+    <link rel="stylesheet" href={fontStylesheet} />
     <link rel="icon" type="image/png" href="/owlaria-app-icon.png" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang="en" href={englishUrl} />

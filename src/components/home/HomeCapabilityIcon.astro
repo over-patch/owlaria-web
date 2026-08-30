@@ -1,0 +1,26 @@
+---
+import {
+  ChartNoAxesColumnIncreasing,
+  LockKeyhole,
+  Route,
+  Search,
+} from '@lucide/astro';
+import type { HomeCapabilityIconName } from '../../content/home';
+
+interface Props {
+  name: HomeCapabilityIconName;
+}
+
+const { name } = Astro.props;
+const icons = {
+  search: Search,
+  tracking: Route,
+  privacy: LockKeyhole,
+  statistics: ChartNoAxesColumnIncreasing,
+} as const;
+const Icon = icons[name];
+---
+
+<span class="capability-icon" aria-hidden="true">
+  <Icon />
+</span>

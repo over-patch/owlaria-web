@@ -6,6 +6,7 @@ import HeadlineLines from '../HeadlineLines.astro';
 import PhraseText from '../PhraseText.astro';
 import SemanticPhraseText from '../SemanticPhraseText.astro';
 import FeatureGlyph from './FeatureGlyph.astro';
+import FeaturePlatformBadges from './FeaturePlatformBadges.astro';
 
 interface Props {
   locale: Locale;
@@ -16,19 +17,12 @@ const copy = featurePageCopy[locale];
 const readerModeIcons = ['direction', 'pages', 'scroll'];
 const temporaryViewerIcons = ['finder', 'drop', 'history'];
 const featureCardIcons = {
-  library: [
-    'search',
-    'filename',
-    'series',
-    'folder',
-    'metadata',
-    'cover',
-    'tracking',
-    'explorer',
-  ],
-  everyday: ['lock', 'history', 'chart', 'sliders'],
+  organize: ['search', 'filename', 'tracking', 'explorer'],
+  library: ['series', 'folder', 'cover', 'lock', 'history'],
+  statistics: ['chart', 'history', 'tag'],
+  settings: ['sliders', 'keyboard'],
 } as const;
-// Product preview frames are placeholders and must be replaced with approved Owlaria screenshots.
+// Product preview frames intentionally remain abstract until approved screenshots are available.
 ---
 
 <SiteLayout
@@ -88,7 +82,8 @@ const featureCardIcons = {
                   mobileLines={section.mobileLines}
                 />
               </h2>
-              <p>{section.body}</p>
+              <p class="feature-story-body">{section.body}</p>
+              <FeaturePlatformBadges {locale} platforms={section.platforms} />
             </header>
 
             {section.visual === 'sources' && (
@@ -197,6 +192,10 @@ const featureCardIcons = {
               <div class="feature-temporary-viewer-intro">
                 <header>
                   <p>{section.temporaryViewer.eyebrow}</p>
+                  <FeaturePlatformBadges
+                    {locale}
+                    platforms={section.temporaryViewer.platforms}
+                  />
                   <h3
                     id={`${section.id}-temporary-viewer-heading`}
                     aria-label={section.temporaryViewer.heading}
@@ -275,6 +274,9 @@ const featureCardIcons = {
                   <h3>{item.title}</h3>
                 </div>
                 <p>{item.body}</p>
+                {item.platforms && (
+                  <FeaturePlatformBadges {locale} platforms={item.platforms} />
+                )}
               </li>
             ))}
           </ul>
@@ -282,6 +284,21 @@ const featureCardIcons = {
       ))
     }
   </div>
+
+  <section
+    class="feature-environment-section shell"
+    aria-labelledby="environment-heading"
+    data-reveal
+  >
+    <header class="section-heading">
+      <p class="eyebrow">{copy.environment.eyebrow}</p>
+      <h2 id="environment-heading">{copy.environment.heading}</h2>
+      <p>{copy.environment.body}</p>
+    </header>
+    <div class="feature-environment-panel">
+      <strong>{copy.environment.smbVersion}</strong>
+    </div>
+  </section>
 
   <section
     class="formats-section shell"

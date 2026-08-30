@@ -1,6 +1,8 @@
 import type { Locale } from '../i18n/config';
 
 export type PlatformId = 'macos' | 'ios';
+export type HomeCapabilityIconName =
+  'search' | 'tracking' | 'privacy' | 'statistics';
 
 export type Platform = {
   id: PlatformId;
@@ -32,26 +34,16 @@ export type HomeCopy = {
       title: string;
       body: string;
     }>;
+    actions: {
+      features: string;
+      purchases: string;
+    };
     preview: {
       label: string;
       desktopLabel: string;
       mobileLabel: string;
-      replacementNote: string;
+      statusLabel: string;
     };
-  };
-  productStory: {
-    eyebrow: string;
-    heading: string;
-    source: {
-      locations: string[];
-      title: string;
-      body: string;
-    };
-    organization: {
-      title: string;
-      body: string[];
-    };
-    connectorLabels: [string];
   };
   capabilities: {
     eyebrow: string;
@@ -61,6 +53,7 @@ export type HomeCopy = {
     body: string[];
     action: string;
     items: Array<{
+      icon: HomeCapabilityIconName;
       title: string;
       body: string;
     }>;
@@ -129,7 +122,7 @@ export const platformAction = (
 export const homeCopy: Record<Locale, HomeCopy> = {
   en: {
     metadata: {
-      title: 'Owlaria',
+      title: 'Owlaria — Comic Library for NAS & Local Folders',
       description:
         'Turn the comic folders you already have on NAS or local storage into an organized library without rebuilding your archive.',
     },
@@ -158,29 +151,16 @@ export const homeCopy: Record<Locale, HomeCopy> = {
           body: 'Owlaria keeps tags, series, ratings, and covers separate from your storage, without changing folders or writing extra management files.',
         },
       ],
+      actions: {
+        features: 'Explore features',
+        purchases: 'See Free and Plus',
+      },
       preview: {
         label: 'Owlaria product preview',
         desktopLabel: 'Mac library screenshot',
         mobileLabel: 'iPhone reader screenshot',
-        replacementNote: 'Product screenshots coming soon',
+        statusLabel: 'Product previews coming soon',
       },
-    },
-    productStory: {
-      eyebrow: 'How Owlaria works',
-      heading: 'Keep your folders. Add the organization they deserve.',
-      source: {
-        locations: ['NAS 1', 'NAS 2', 'LOCAL'],
-        title: 'Your existing folders',
-        body: 'Files and folder structure stay unchanged',
-      },
-      organization: {
-        title: 'Organize in Owlaria',
-        body: [
-          'Manage tags, series, ratings, and covers in the app.',
-          'Browse, search, and read across every source as one library.',
-        ],
-      },
-      connectorLabels: ['Reference as-is'],
     },
     features: {
       eyebrow: 'From folders to reading',
@@ -222,8 +202,8 @@ export const homeCopy: Record<Locale, HomeCopy> = {
     screenshotShowcase: {
       eyebrow: 'See Owlaria in action',
       heading: 'Keep your storage. Transform how you browse.',
-      body: 'This space will show the macOS library where tags, series, and covers make your collection easier to explore.',
-      placeholderLabel: 'macOS library screenshot',
+      body: 'A closer look at the macOS library is coming soon.',
+      placeholderLabel: 'macOS library preview coming soon',
     },
     compatibility: {
       eyebrow: 'Compatibility',
@@ -247,18 +227,22 @@ export const homeCopy: Record<Locale, HomeCopy> = {
       action: 'Explore every feature',
       items: [
         {
+          icon: 'search',
           title: 'Powerful library search',
           body: 'Search and filter by title, author, series, tags, rating, reading state, and more.',
         },
         {
+          icon: 'tracking',
           title: 'Smart file tracking',
           body: 'Keep your app metadata when a source file is moved or renamed.',
         },
         {
+          icon: 'privacy',
           title: 'Private libraries',
           body: 'Lock selected libraries and unlock them with Touch ID or Face ID.',
         },
         {
+          icon: 'statistics',
           title: 'Reading insights',
           body: 'Review reading time, finished books, pages, and activity trends.',
         },
@@ -270,9 +254,10 @@ export const homeCopy: Record<Locale, HomeCopy> = {
       desktopLines: ['Owlaria for Mac.', 'Owlaria for iPhone.'],
       mobileLines: ['Owlaria for', 'Mac.', 'Owlaria for', 'iPhone.'],
       body: 'On Mac and iPhone, starting free.',
-      heroFreeNote: 'Free to start at launch',
-      freeNote: 'Core features are free to use.',
-      purchaseNote: 'Paid features are purchased separately on Mac and iPhone.',
+      heroFreeNote: 'Free: 1 library · 100 books',
+      freeNote: 'Use every feature free with one library and up to 100 books.',
+      purchaseNote:
+        'Owlaria Plus removes the library and book limits with a one-time purchase for each operating system. Check the App Store price shown in the app.',
       comingSoon: 'Coming soon',
       futureLabel: 'Also planned',
       futurePlatforms: ['Windows', 'Android'],
@@ -284,7 +269,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
   },
   ja: {
     metadata: {
-      title: 'Owlaria',
+      title: 'Owlaria — NAS・ローカル対応コミックライブラリ',
       description:
         'NASやローカルストレージにあるコミックフォルダを作り直さず、そのまま整理されたライブラリとして管理できます。',
     },
@@ -312,29 +297,16 @@ export const homeCopy: Record<Locale, HomeCopy> = {
           body: 'タグ・シリーズ・評価・表紙などはOwlariaの中で管理。ファイルやフォルダ構成を変えず、余計な管理ファイルも書き込みません。',
         },
       ],
+      actions: {
+        features: '機能を見る',
+        purchases: '無料範囲とPlusを見る',
+      },
       preview: {
         label: 'Owlariaのアプリ画面',
         desktopLabel: 'Mac版ライブラリ画面',
         mobileLabel: 'iPhone版ビューア画面',
-        replacementNote: '正式なアプリ画面に差し替え予定',
+        statusLabel: 'アプリ画面は近日公開',
       },
-    },
-    productStory: {
-      eyebrow: 'Owlariaの仕組み',
-      heading: 'フォルダはそのまま。整理はOwlariaの中で。',
-      source: {
-        locations: ['NAS 1', 'NAS 2', 'LOCAL'],
-        title: '複数の保存先',
-        body: 'ファイルもフォルダ構成もそのまま',
-      },
-      organization: {
-        title: 'Owlariaで統合整理',
-        body: [
-          'タグ・シリーズ・評価・表紙をアプリ内で管理。',
-          '保存場所をまたいだひとつの本棚として、一覧・検索・閲覧できます。',
-        ],
-      },
-      connectorLabels: ['登録'],
     },
     features: {
       eyebrow: 'フォルダから読書まで',
@@ -385,8 +357,8 @@ export const homeCopy: Record<Locale, HomeCopy> = {
     screenshotShowcase: {
       eyebrow: '実際のアプリ画面',
       heading: '保存先はそのまま。見え方は、ここまで変わる。',
-      body: 'タグやシリーズで整理し、表紙から探せるmacOSのライブラリ画面をここで紹介します。',
-      placeholderLabel: 'macOSライブラリ画面のスクリーンショット',
+      body: 'macOSのライブラリ画面は近日公開予定です。',
+      placeholderLabel: 'macOSライブラリ画面は近日公開',
     },
     compatibility: {
       eyebrow: '対応形式',
@@ -395,7 +367,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
         'ファイルを変換したり、アーカイブを展開したりせず、ライブラリに登録してそのまま閲覧できます。',
       ],
       formats: ['ZIP', 'CBZ', 'RAR', 'CBR', '7Z', 'CB7', 'LZH', 'PDF'],
-      passwordLabel: 'パスワード付きアーカイブ対応',
+      passwordLabel: 'パスワード付きアーカイブにも対応',
       passwordFormats: 'ZIP · CBZ · RAR · CBR · 7Z · CB7',
     },
     capabilities: {
@@ -410,18 +382,22 @@ export const homeCopy: Record<Locale, HomeCopy> = {
       action: 'すべての機能を見る',
       items: [
         {
+          icon: 'search',
           title: '細かな検索と絞り込み',
           body: 'タイトル、作者、シリーズ、タグ、評価、読書状態などから探せます。',
         },
         {
+          icon: 'tracking',
           title: 'ファイル移動を追跡',
           body: '保存場所や名前が変わっても、Owlaria内のメタデータを維持します。',
         },
         {
+          icon: 'privacy',
           title: 'プライベートライブラリ',
           body: '選んだライブラリをロックし、Touch IDやFace IDで解除できます。',
         },
         {
+          icon: 'statistics',
           title: '読書を振り返る統計',
           body: '読書時間、読了冊数、ページ数、アクティビティの傾向を確認できます。',
         },
@@ -433,9 +409,10 @@ export const homeCopy: Record<Locale, HomeCopy> = {
       desktopLines: ['Macにも、iPhoneにも。', 'Owlariaを。'],
       mobileLines: ['Macにも、', 'iPhoneにも。', 'Owlariaを。'],
       body: 'MacとiPhoneで、基本無料から。',
-      heroFreeNote: '基本無料で提供予定',
-      freeNote: '基本機能は無料で利用できます。',
-      purchaseNote: '有料機能はMac版とiPhone版でそれぞれ別に購入できます。',
+      heroFreeNote: '無料：1ライブラリ・100冊まで',
+      freeNote: 'すべての機能を1ライブラリ・100冊まで無料で利用できます。',
+      purchaseNote:
+        'Owlaria Plusは、ライブラリ数と冊数の上限を解除するOSごとの買い切りです。価格はアプリ内のApp Store表示をご確認ください。',
       comingSoon: '近日公開',
       futureLabel: '今後登場予定',
       futurePlatforms: ['Windows', 'Android'],

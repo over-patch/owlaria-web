@@ -1,10 +1,13 @@
 import type { Locale } from '../i18n/config';
 
-export type FeatureSectionId = 'sources' | 'library' | 'viewer' | 'everyday';
+export type FeatureSectionId =
+  'sources' | 'organize' | 'library' | 'viewer' | 'statistics' | 'settings';
+export type FeaturePlatform = 'mac' | 'iphone';
 
 type FeatureItem = {
   title: string;
   body: string;
+  platforms?: FeaturePlatform[];
 };
 
 type FeaturePreview = {
@@ -26,6 +29,7 @@ type FeatureTemporaryViewer = {
   fileLabel: string;
   viewerLabel: string;
   notAddedLabel: string;
+  platforms: FeaturePlatform[];
   methods: FeatureItem[];
 };
 
@@ -37,6 +41,7 @@ type FeatureSection = {
   desktopLines: string[];
   mobileLines: string[];
   body: string;
+  platforms: FeaturePlatform[];
   visual: 'sources' | 'preview' | 'reader' | 'cards';
   items: FeatureItem[];
   preview?: FeaturePreview;
@@ -77,6 +82,12 @@ export type FeaturePageCopy = {
     imageLabelPhrases: string[];
     image: string[];
   };
+  environment: {
+    eyebrow: string;
+    heading: string;
+    body: string;
+    smbVersion: string;
+  };
   availability: {
     eyebrow: string;
     heading: string;
@@ -115,11 +126,12 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
       {
         id: 'sources',
         number: '01',
-        label: 'Folders & storage',
+        label: 'Sources',
         heading: 'Connect your folders. Keep your storage clean.',
         desktopLines: ['Connect your folders.', 'Keep your storage', 'clean.'],
         mobileLines: ['Connect your folders.', 'Keep your storage', 'clean.'],
         body: 'Add your existing NAS and local folders. Owlaria keeps organization data in the app.',
+        platforms: ['mac', 'iphone'],
         visual: 'sources',
         items: [
           {
@@ -130,29 +142,22 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
             title: 'Read-Only source design',
             body: 'Owlaria does not rename, move, delete, create, or write sidecar files at the source.',
           },
-          {
-            title: 'Start with the data you need',
-            body: 'Start remote ZIP, CBZ, and PDF books without waiting for a full copy.',
-          },
-          {
-            title: 'Cache and offline copies',
-            body: 'Control cache size and save selected comics for offline reading.',
-          },
         ],
       },
       {
-        id: 'library',
+        id: 'organize',
         number: '02',
-        label: 'Organize & discover',
+        label: 'Organize',
         heading: 'Find the book you want, even among thousands.',
         desktopLines: ['Find the book you want,', 'even among thousands.'],
         mobileLines: ['Find the book', 'you want, even', 'among thousands.'],
         body: 'Find a book by cover, search, or the folder structure you already know.',
+        platforms: ['mac', 'iphone'],
         visual: 'preview',
         preview: {
           platform: 'MAC',
           title: 'Library and search screen',
-          note: 'To be replaced with an approved Owlaria screenshot',
+          note: 'Mac product preview coming soon',
         },
         items: [
           {
@@ -164,6 +169,35 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
             body: 'Extract titles, authors, and tags from naming rules without renaming files.',
           },
           {
+            title: 'Smart file tracking',
+            body: 'Keep Owlaria metadata when a file moves or changes its name.',
+          },
+          {
+            title: 'Browse the folder structure',
+            body: 'Find books by following the folder structure you already know.',
+          },
+        ],
+      },
+      {
+        id: 'library',
+        number: '03',
+        label: 'Library',
+        heading: 'Keep series, covers, and reading positions together.',
+        desktopLines: [
+          'Keep series, covers,',
+          'and reading positions',
+          'together.',
+        ],
+        mobileLines: [
+          'Keep series,',
+          'covers, and reading',
+          'positions together.',
+        ],
+        body: 'Organize series and covers, save your place, and protect private libraries.',
+        platforms: ['mac', 'iphone'],
+        visual: 'cards',
+        items: [
+          {
             title: 'Series and next unread volume',
             body: 'Track series progress and continue with the next unread volume.',
           },
@@ -172,36 +206,33 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
             body: 'Optionally group newly found comics into series by their leaf folders.',
           },
           {
-            title: 'Metadata stays in Owlaria',
-            body: 'Keep titles, tags, ratings, and reading state separate from source files.',
+            title: 'Custom covers',
+            body: 'Choose any page as a cover and crop it to the right framing.',
           },
           {
-            title: 'Custom covers and bulk editing',
-            body: 'Choose any page as a cover and apply shared metadata in bulk.',
+            title: 'Private libraries',
+            body: 'Protect a library with a password, Touch ID, or Face ID.',
           },
           {
-            title: 'Smart file tracking',
-            body: 'Keep Owlaria metadata when a file moves or changes its name.',
-          },
-          {
-            title: 'Grid, list, or Explorer',
-            body: 'Switch between cover views and a Read-Only Explorer of your folders.',
+            title: 'Save your reading position',
+            body: 'Save the last page in your library and continue from there next time.',
           },
         ],
       },
       {
         id: 'viewer',
-        number: '03',
-        label: 'Comic viewer',
-        heading: 'Choose the reading style that fits each comic.',
-        desktopLines: ['Choose the reading', 'style that fits', 'each comic.'],
-        mobileLines: ['Choose the reading', 'style that fits', 'each comic.'],
-        body: 'Switch reading direction and page layout for each comic.',
+        number: '04',
+        label: 'Viewer',
+        heading: 'Smooth loading. Read your way.',
+        desktopLines: ['Smooth loading.', 'Read your way.'],
+        mobileLines: ['Smooth loading.', 'Read your way.'],
+        body: 'Reduce loading waits, choose the reading direction and page layout, or save selected books for offline reading.',
+        platforms: ['mac', 'iphone'],
         visual: 'reader',
         preview: {
           platform: 'IPHONE',
           title: 'Comic viewer screen',
-          note: 'To be replaced with an approved Owlaria screenshot',
+          note: 'iPhone product preview coming soon',
         },
         modeGroups: [
           {
@@ -225,6 +256,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
           fileLabel: 'Comic file',
           viewerLabel: 'Temporary Viewer',
           notAddedLabel: 'Not added to library',
+          platforms: ['mac'],
           methods: [
             {
               title: 'Open from Finder',
@@ -242,6 +274,14 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         },
         items: [
           {
+            title: 'Smooth streaming, less waiting',
+            body: 'Start remote ZIP, CBZ, and PDF books without waiting for a full copy.',
+          },
+          {
+            title: 'Cache and offline copies',
+            body: 'Control cache size and save selected comics for offline reading.',
+          },
+          {
             title: 'Zoom in naturally',
             body: 'Pinch on iPhone or use a Mac trackpad. Mac also supports a zoom lens and fullscreen.',
           },
@@ -254,36 +294,60 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
             body: 'Jump with the scrubber or thumbnails, then move to the previous or next book.',
           },
           {
-            title: 'Prepare nearby pages',
+            title: 'Prefetch the next pages',
             body: 'Prefetch pages in the reading direction while keeping controls responsive.',
           },
         ],
       },
       {
-        id: 'everyday',
-        number: '04',
-        label: 'Privacy & history',
-        heading: 'Continue reading. Understand your habits.',
-        desktopLines: ['Continue reading.', 'Understand your habits.'],
-        mobileLines: ['Continue reading.', 'Understand your', 'habits.'],
-        body: 'Resume reading, protect private shelves, and review your reading patterns.',
+        id: 'statistics',
+        number: '05',
+        label: 'Statistics',
+        heading: 'See how your reading adds up.',
+        desktopLines: ['See how your reading', 'adds up.'],
+        mobileLines: ['See how your', 'reading adds up.'],
+        body: 'Review reading volume, active hours, and your collection by tag.',
+        platforms: ['mac', 'iphone'],
+        visual: 'cards',
+        preview: {
+          platform: 'MAC',
+          title: 'Reading statistics screen',
+          note: 'Mac statistics screen coming soon',
+        },
+        items: [
+          {
+            title: 'Reading volume',
+            body: 'Review reading time, finished books, and pages.',
+          },
+          {
+            title: 'Active hours',
+            body: 'See which hours of the day you read most.',
+          },
+          {
+            title: 'Tag breakdown',
+            body: 'See how many owned comics are assigned to each tag.',
+          },
+        ],
+      },
+      {
+        id: 'settings',
+        number: '06',
+        label: 'Settings',
+        heading: 'Make Owlaria look and work your way.',
+        desktopLines: ['Make Owlaria look', 'and work your way.'],
+        mobileLines: ['Make Owlaria look', 'and work your way.'],
+        body: 'Adjust themes, page effects, and Mac keyboard shortcuts to fit how you use Owlaria.',
+        platforms: ['mac', 'iphone'],
         visual: 'cards',
         items: [
           {
-            title: 'Private libraries',
-            body: 'Protect a library with a password, Touch ID, or Face ID.',
+            title: 'Personalize your reading',
+            body: 'Adjust themes, backgrounds, and page effects.',
           },
           {
-            title: 'Resume from history',
-            body: 'Continue a recent book from its last recorded page.',
-          },
-          {
-            title: 'Reading statistics',
-            body: 'Review reading time, finished books, pages, active hours, and tag trends.',
-          },
-          {
-            title: 'Preferences that fit you',
-            body: 'Adjust themes, backgrounds, page effects, and desktop shortcuts.',
+            title: 'Keyboard shortcuts',
+            body: 'Customize desktop shortcuts on Mac.',
+            platforms: ['mac'],
           },
         ],
       },
@@ -308,6 +372,12 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
       passwordArchive: ['ZIP', 'CBZ', 'RAR', 'CBR', '7Z', 'CB7'],
       imageLabelPhrases: ['Image formats', 'read inside archives'],
       image: ['JPEG', 'PNG', 'WebP', 'AVIF', 'HEIC', 'GIF', 'BMP'],
+    },
+    environment: {
+      eyebrow: 'Supported environment',
+      heading: 'Bring your NAS library into Owlaria.',
+      body: 'Use shared folders on your network from Mac and iPhone.',
+      smbVersion: 'Supports SMB 2.0 or later',
     },
     availability: {
       eyebrow: 'Platforms & pricing',
@@ -354,44 +424,38 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
       {
         id: 'sources',
         number: '01',
-        label: 'フォルダ・保存先',
-        heading: 'フォルダをつなぐ。保存先は汚さない。',
-        desktopLines: ['フォルダをつなぐ。', '保存先は汚さない。'],
-        mobileLines: ['フォルダをつなぐ。', '保存先は', '汚さない。'],
+        label: 'フォルダ',
+        heading: 'フォルダを統合。元のフォルダは汚さない。',
+        desktopLines: ['フォルダを統合。', '元のフォルダは', '汚さない。'],
+        mobileLines: ['フォルダを統合。', '元のフォルダは', '汚さない。'],
         body: 'NASやローカルフォルダを登録するだけ。整理情報はOwlaria内に保存します。',
+        platforms: ['mac', 'iphone'],
         visual: 'sources',
         items: [
           {
-            title: '複数の保存先をひとつに',
-            body: '複数のSMB NASとローカルフォルダを、ひとつの本棚から探して読めます。',
+            title: '複数のフォルダをひとつに',
+            body: '複数のSMB NASとローカルフォルダを、ひとつのライブラリから探して読めます。',
           },
           {
-            title: '保存先へ書き込まない設計',
+            title: '元のフォルダへ書き込まない設計',
             body: '原本の変更・移動・削除や、管理ファイルの書き込みを行いません。',
-          },
-          {
-            title: '必要なデータから読み始める',
-            body: 'リモートのZIP・CBZ・PDFは、本全体を待たずに読み始められます。',
-          },
-          {
-            title: 'キャッシュとオフライン保存',
-            body: '容量を管理できるキャッシュと、オフライン保存に対応します。',
           },
         ],
       },
       {
-        id: 'library',
+        id: 'organize',
         number: '02',
-        label: '整理・検索',
+        label: '整理',
         heading: '何千冊の中から、読みたい一冊へ。',
         desktopLines: ['何千冊の中から、', '読みたい一冊へ。'],
         mobileLines: ['何千冊の中から、', '読みたい一冊へ。'],
         body: '表紙・検索・フォルダ表示から、読みたい一冊を探せます。',
+        platforms: ['mac', 'iphone'],
         visual: 'preview',
         preview: {
           platform: 'MAC',
           title: 'ライブラリ・検索画面',
-          note: '正式なOwlariaの画面へ差し替え予定',
+          note: 'Mac版のアプリ画面は近日公開',
         },
         items: [
           {
@@ -400,51 +464,69 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
           },
           {
             title: 'ファイル名から情報を取り込む',
-            body: '命名規則に沿ってタイトル・作者・タグを読み取ります。元のファイル名は変更しません。',
+            body: 'ファイル名から、命名規則に沿ってタイトル・作者・タグを読み取ります。',
           },
+          {
+            title: '移動・名前変更を追跡',
+            body: 'ファイルの場所や名前が変わっても、その変更を追跡できます。',
+          },
+          {
+            title: 'フォルダ構成から探せる',
+            body: 'いつものフォルダ構成をたどるエクスプローラから探せます。',
+          },
+        ],
+      },
+      {
+        id: 'library',
+        number: '03',
+        label: 'ライブラリ',
+        heading: 'シリーズも、表紙も、読んだ位置も。',
+        desktopLines: ['シリーズも、表紙も、', '読んだ位置も。'],
+        mobileLines: ['シリーズも、', '表紙も、読んだ位置も。'],
+        body: 'シリーズや表紙を整え、読んだ位置を保存し、プライベートなライブラリを保護できます。',
+        platforms: ['mac', 'iphone'],
+        visual: 'cards',
+        items: [
           {
             title: 'シリーズの続きがすぐ見つかる',
             body: 'シリーズごとの読書状況を確認し、次に読む未読巻をすぐに開けます。',
           },
           {
             title: 'フォルダ単位でシリーズ化',
-            body: '新しく見つけたコミックを、一番下の階層のフォルダごとにシリーズ化できます。',
+            body: 'フォルダ読み込み時に、サブフォルダ単位でシリーズ化することもできます。',
           },
           {
-            title: '整理情報はOwlariaだけに保存',
-            body: 'タイトル・タグ・評価・読書状態は、元のファイルを書き換えずに管理します。',
+            title: '表紙を設定・トリミング',
+            body: '好きなページを表紙に設定し、表示範囲をトリミングできます。',
           },
           {
-            title: '表紙を選び、まとめて編集',
-            body: '好きなページを表紙に設定できます。共通する情報は、複数冊へまとめて反映できます。',
+            title: 'プライベートライブラリ',
+            body: 'パスワードで保護し、Touch IDやFace IDで解除できます。',
           },
           {
-            title: '移動・名前変更にも追従',
-            body: 'ファイルの場所や名前が変わっても、Owlariaで設定した整理情報を引き継ぎます。',
-          },
-          {
-            title: '表紙でも、フォルダ構成でも探せる',
-            body: '表紙や整理情報から探す表示と、いつものフォルダ構成をたどるExplorerを選べます。',
+            title: '読書位置を自動保存',
+            body: '最後に読んだページを保存し、次回はその続きから再開できます。',
           },
         ],
       },
       {
         id: 'viewer',
-        number: '03',
-        label: 'コミックビューア',
-        heading: 'コミックに合わせて読み方を選択',
-        desktopLines: ['コミックに合わせて', '読み方を選択'],
-        mobileLines: ['コミックに合わせて', '読み方を選択'],
-        body: '作品ごとに、読み方向と表示方法を切り替えられます。',
+        number: '04',
+        label: 'ビューア',
+        heading: '読み込みも、読み方も、快適に。',
+        desktopLines: ['読み込みも、', '読み方も、快適に。'],
+        mobileLines: ['読み込みも、', '読み方も、快適に。'],
+        body: 'すばやく読み始められ、ページめくり方向や表示方法を選べます。オフラインでも読めます。',
+        platforms: ['mac', 'iphone'],
         visual: 'reader',
         preview: {
           platform: 'IPHONE',
           title: 'コミックビューア画面',
-          note: '正式なOwlariaの画面へ差し替え予定',
+          note: 'iPhone版のアプリ画面は近日公開',
         },
         modeGroups: [
           {
-            title: '作品に合わせた読み方向',
+            title: 'ページめくり方向',
             values: ['右開き', '左開き', '縦読み'],
           },
           {
@@ -464,6 +546,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
           fileLabel: 'コミックファイル',
           viewerLabel: '一時ビューア',
           notAddedLabel: 'ライブラリには追加しない',
+          platforms: ['mac'],
           methods: [
             {
               title: 'Finderから直接',
@@ -481,60 +564,91 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         },
         items: [
           {
+            title: 'ストリーミング処理でストレスなし',
+            body: 'リモートのZIP・CBZ・PDFは、本全体を待たずに読み始められます。',
+          },
+          {
+            title: 'キャッシュとオフライン保存',
+            body: '容量を管理できるキャッシュと、オフライン保存に対応します。',
+          },
+          {
             title: '細部まで、自然に拡大',
             body: 'iPhoneはピンチ、Macはトラックパッドで拡大。Macは拡大鏡・全画面にも対応。',
           },
           {
             title: '見開きを自然に表示',
-            body: '表紙は単ページ、横長画像は一枚で表示。見開き位置も調整できます。',
+            body: '表紙と横長画像を自動判別し、表紙は単ページ、横長画像は一枚で表示します。',
           },
           {
             title: 'すばやいページ移動',
             body: 'スライダーやサムネイルから移動し、前後の巻へ進めます。',
           },
           {
-            title: '読む方向に先読み',
+            title: '次のページを先読み',
             body: '読む方向のページを先読みし、操作の軽さを保ちます。',
           },
         ],
       },
       {
-        id: 'everyday',
-        number: '04',
-        label: 'プライバシー・履歴',
-        heading: '続きから読む。読書の傾向もわかる。',
-        desktopLines: ['続きから読む。', '読書の傾向もわかる。'],
-        mobileLines: ['続きから読む。', '読書の傾向も', 'わかる。'],
-        body: '続きから読み、本棚を守り、読書の傾向を振り返れます。',
+        id: 'statistics',
+        number: '05',
+        label: '統計',
+        heading: '読書の積み重ねを、ひと目で。',
+        desktopLines: ['読書の積み重ねを、', 'ひと目で。'],
+        mobileLines: ['読書の積み重ねを、', 'ひと目で。'],
+        body: '読書時間や冊数、よく読む時間帯、保有コミックのタグ内訳を確認できます。',
+        platforms: ['mac', 'iphone'],
+        visual: 'cards',
+        preview: {
+          platform: 'MAC',
+          title: '読書統計画面',
+          note: 'Mac版の統計画面は近日公開',
+        },
+        items: [
+          {
+            title: '読書量',
+            body: '読書時間・読了冊数・ページ数を確認できます。',
+          },
+          {
+            title: 'よく読む時間帯',
+            body: 'よく読んでいる時間帯を確認できます。',
+          },
+          {
+            title: 'タグの内訳',
+            body: '保有するコミックのタグ別件数を確認できます。',
+          },
+        ],
+      },
+      {
+        id: 'settings',
+        number: '06',
+        label: '設定',
+        heading: '見た目も、操作も、自分に合わせる。',
+        desktopLines: ['見た目も、操作も、', '自分に合わせる。'],
+        mobileLines: ['見た目も、', '操作も、', '自分に合わせる。'],
+        body: 'テーマやページ表現、Macのショートカットを好みに合わせて調整できます。',
+        platforms: ['mac', 'iphone'],
         visual: 'cards',
         items: [
           {
-            title: 'プライベートライブラリ',
-            body: 'パスワードで保護し、Touch IDやFace IDで解除できます。',
-          },
-          {
-            title: '履歴から続きを読む',
-            body: '最後に読んだページから再開できます。',
-          },
-          {
-            title: '読書統計',
-            body: '読書時間・冊数・ページ数・時間帯・タグ傾向を確認できます。',
-          },
-          {
             title: '好みに合わせた設定',
-            body: 'テーマ、背景、ページ表現、ショートカットを調整できます。',
+            body: 'テーマ、背景、ページ表現を調整できます。',
+          },
+          {
+            title: 'キーボードショートカット',
+            body: 'Macのショートカットを好みに合わせて変更できます。',
+            platforms: ['mac'],
           },
         ],
       },
     ],
     sourceDiagram: {
-      heading: '複数の保存先',
+      heading: '複数のフォルダ',
       body: 'ファイルもフォルダ構成も、そのまま。',
       sources: ['NAS 1', 'NAS 2', 'LOCAL'],
       connector: '登録',
       outputHeading: 'Owlariaで統合整理',
-      outputBody:
-        '整理情報はアプリ内に保存。保存場所をまたいで探して読めます。',
+      outputBody: '整理情報はアプリ内に保存。保存場所をまたいで管理できます。',
     },
     formats: {
       eyebrow: '対応形式',
@@ -546,6 +660,12 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
       passwordArchive: ['ZIP', 'CBZ', 'RAR', 'CBR', '7Z', 'CB7'],
       imageLabelPhrases: ['アーカイブ内で', '読める画像形式'],
       image: ['JPEG', 'PNG', 'WebP', 'AVIF', 'HEIC', 'GIF', 'BMP'],
+    },
+    environment: {
+      eyebrow: '対応環境',
+      heading: 'NASのコミックを、そのままライブラリへ。',
+      body: 'ネットワーク上の共有フォルダを、MacとiPhoneから利用できます。',
+      smbVersion: 'SMB 2.0以降に対応',
     },
     availability: {
       eyebrow: '対応環境・料金',
