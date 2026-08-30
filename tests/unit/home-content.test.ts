@@ -37,38 +37,28 @@ describe('homepage content', () => {
     expect(homeCopy.ja.hero.heading).not.toBe(homeCopy.en.hero.heading);
   });
 
-  it('explains how untouched folders become a library', () => {
-    expect(homeCopy.en.productStory).toMatchObject({
-      heading: 'Keep your folders. Add the organization they deserve.',
-      source: {
-        locations: ['NAS 1', 'NAS 2', 'LOCAL'],
-        title: 'Your existing folders',
-        body: 'Files and folder structure stay unchanged',
-      },
-      organization: {
-        title: 'Organize in Owlaria',
-        body: [
-          'Manage tags, series, ratings, and covers in the app.',
-          'Browse, search, and read across every source as one library.',
-        ],
-      },
-      connectorLabels: ['Reference as-is'],
+  it('keeps the homepage focused by omitting a duplicate product story', () => {
+    expect('productStory' in homeCopy.en).toBe(false);
+    expect('productStory' in homeCopy.ja).toBe(false);
+  });
+
+  it('uses descriptive localized search titles', () => {
+    expect(homeCopy.en.metadata.title).toBe(
+      'Owlaria — Comic Library for NAS & Local Folders',
+    );
+    expect(homeCopy.ja.metadata.title).toBe(
+      'Owlaria — NAS・ローカル対応コミックライブラリ',
+    );
+  });
+
+  it('offers useful next steps in the hero', () => {
+    expect(homeCopy.en.hero.actions).toEqual({
+      features: 'Explore features',
+      purchases: 'See Free and Plus',
     });
-    expect(homeCopy.ja.productStory).toMatchObject({
-      heading: 'フォルダはそのまま。整理はOwlariaの中で。',
-      source: {
-        locations: ['NAS 1', 'NAS 2', 'LOCAL'],
-        title: '複数の保存先',
-        body: 'ファイルもフォルダ構成もそのまま',
-      },
-      organization: {
-        title: 'Owlariaで統合整理',
-        body: [
-          'タグ・シリーズ・評価・表紙をアプリ内で管理。',
-          '保存場所をまたいだひとつの本棚として、一覧・検索・閲覧できます。',
-        ],
-      },
-      connectorLabels: ['登録'],
+    expect(homeCopy.ja.hero.actions).toEqual({
+      features: '機能を見る',
+      purchases: '無料範囲とPlusを見る',
     });
   });
 
@@ -112,14 +102,14 @@ describe('homepage content', () => {
     expect(homeCopy.en.screenshotShowcase).toEqual({
       eyebrow: 'See Owlaria in action',
       heading: 'Keep your storage. Transform how you browse.',
-      body: 'This space will show the macOS library where tags, series, and covers make your collection easier to explore.',
-      placeholderLabel: 'macOS library screenshot',
+      body: 'A closer look at the macOS library is coming soon.',
+      placeholderLabel: 'macOS library preview coming soon',
     });
     expect(homeCopy.ja.screenshotShowcase).toEqual({
       eyebrow: '実際のアプリ画面',
       heading: '保存先はそのまま。見え方は、ここまで変わる。',
-      body: 'タグやシリーズで整理し、表紙から探せるmacOSのライブラリ画面をここで紹介します。',
-      placeholderLabel: 'macOSライブラリ画面のスクリーンショット',
+      body: 'macOSのライブラリ画面は近日公開予定です。',
+      placeholderLabel: 'macOSライブラリ画面は近日公開',
     });
   });
 
@@ -128,13 +118,13 @@ describe('homepage content', () => {
       label: 'Owlaria product preview',
       desktopLabel: 'Mac library screenshot',
       mobileLabel: 'iPhone reader screenshot',
-      replacementNote: 'Product screenshots coming soon',
+      statusLabel: 'Product previews coming soon',
     });
     expect(homeCopy.ja.hero.preview).toEqual({
       label: 'Owlariaのアプリ画面',
       desktopLabel: 'Mac版ライブラリ画面',
       mobileLabel: 'iPhone版ビューア画面',
-      replacementNote: '正式なアプリ画面に差し替え予定',
+      statusLabel: 'アプリ画面は近日公開',
     });
   });
 
@@ -156,7 +146,7 @@ describe('homepage content', () => {
         'ファイルを変換したり、アーカイブを展開したりせず、ライブラリに登録してそのまま閲覧できます。',
       ],
       formats: ['ZIP', 'CBZ', 'RAR', 'CBR', '7Z', 'CB7', 'LZH', 'PDF'],
-      passwordLabel: 'パスワード付きアーカイブ対応',
+      passwordLabel: 'パスワード付きアーカイブにも対応',
       passwordFormats: 'ZIP · CBZ · RAR · CBR · 7Z · CB7',
     });
   });
@@ -213,23 +203,31 @@ describe('homepage content', () => {
 
   it('leads with free access while keeping paid upgrades platform-specific', () => {
     expect(homeCopy.en.platforms.freeNote).toBe(
-      'Core features are free to use.',
+      'Use every feature free with one library and up to 100 books.',
     );
     expect(homeCopy.en.platforms.purchaseNote).toBe(
-      'Paid features are purchased separately on Mac and iPhone.',
+      'Owlaria Plus removes the library and book limits with a one-time purchase for each operating system. Check the App Store price shown in the app.',
     );
     expect(homeCopy.ja.platforms.freeNote).toBe(
-      '基本機能は無料で利用できます。',
+      'すべての機能を1ライブラリ・100冊まで無料で利用できます。',
     );
     expect(homeCopy.ja.platforms.purchaseNote).toBe(
-      '有料機能はMac版とiPhone版でそれぞれ別に購入できます。',
+      'Owlaria Plusは、ライブラリ数と冊数の上限を解除するOSごとの買い切りです。価格はアプリ内のApp Store表示をご確認ください。',
     );
-    expect(homeCopy.en.platforms.body).toBe(
-      'On Mac and iPhone, starting free.',
+    expect(homeCopy.en.platforms.heroFreeNote).toBe(
+      'Free: 1 library · 100 books',
     );
-    expect(homeCopy.ja.platforms.body).toBe('MacとiPhoneで、基本無料から。');
-    expect(homeCopy.en.platforms.heroFreeNote).toBe('Free to start at launch');
-    expect(homeCopy.ja.platforms.heroFreeNote).toBe('基本無料で提供予定');
+    expect(homeCopy.ja.platforms.heroFreeNote).toBe(
+      '無料：1ライブラリ・100冊まで',
+    );
+  });
+
+  it('assigns a meaningful icon to every capability card', () => {
+    for (const locale of ['en', 'ja'] as const) {
+      expect(
+        homeCopy[locale].capabilities.items.map((item) => item.icon),
+      ).toEqual(['search', 'tracking', 'privacy', 'statistics']);
+    }
   });
 
   it('announces Windows and Android without presenting them as available', () => {

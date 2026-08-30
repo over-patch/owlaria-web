@@ -19,7 +19,18 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
+      testIgnore: /webkit-smoke\.spec\.ts/,
       use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'webkit-desktop',
+      testMatch: /webkit-smoke\.spec\.ts/,
+      use: { ...devices['Desktop Safari'] },
+    },
+    {
+      name: 'webkit-iphone',
+      testMatch: /webkit-smoke\.spec\.ts/,
+      use: { ...devices['iPhone 16'] },
     },
   ],
   webServer: {

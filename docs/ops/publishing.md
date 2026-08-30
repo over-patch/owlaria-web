@@ -31,7 +31,7 @@ mise exec -- pnpm lint
 mise exec -- pnpm lint:actions
 mise exec -- pnpm check
 mise exec -- pnpm test
-mise exec -- pnpm exec playwright install chromium
+mise exec -- pnpm exec playwright install chromium webkit
 mise exec -- pnpm build
 mise exec -- pnpm test:links
 mise exec -- pnpm test:e2e

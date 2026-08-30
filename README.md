@@ -41,14 +41,14 @@ The development server prints its local URL. It does not redirect based on brows
 Run the same checks used by pull requests:
 
 ```sh
-mise exec -- pnpm exec playwright install chromium
+mise exec -- pnpm exec playwright install chromium webkit
 mise exec -- pnpm lint:actions
 mise exec -- pnpm verify:ci
 ```
 
-`pnpm test:e2e` starts a production preview automatically. The browser suite covers bilingual routing and metadata, shared navigation, purchase-support guidance and links, representative mobile and desktop viewports, no-JavaScript use, and reduced-motion behavior.
+`pnpm test:e2e` starts a production preview automatically. Chromium runs the full browser suite; Desktop Safari and iPhone WebKit run focused smoke coverage for bilingual home and feature routes, navigation, fonts, and horizontal overflow.
 
-To reproduce the Ubuntu and Chromium environment used by GitHub Actions, run
+To reproduce the Ubuntu Playwright browser environment used by GitHub Actions, run
 the same verification inside the pinned Playwright container:
 
 ```sh

@@ -3,7 +3,9 @@ import { homeCopy, platformAction, platforms } from '../../content/home';
 import { localePath, type Locale } from '../../i18n/config';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import HeadlineLines from '../HeadlineLines.astro';
+import HomeCapabilityIcon from './HomeCapabilityIcon.astro';
 import PlatformCard from './PlatformCard.astro';
+import PlatformIcon from './PlatformIcon.astro';
 
 interface Props {
   locale: Locale;
@@ -38,7 +40,6 @@ const copy = homeCopy[locale];
           {copy.hero.mobileLines.map((line) => <span>{line}</span>)}
         </span>
       </h1>
-      <!-- Replace both frames with approved product screenshots before launch. -->
       <figure
         class="hero-product-preview"
         aria-label={copy.hero.preview.label}
@@ -60,7 +61,7 @@ const copy = homeCopy[locale];
             </strong>
           </div>
         </div>
-        <figcaption>{copy.hero.preview.replacementNote}</figcaption>
+        <figcaption>{copy.hero.preview.statusLabel}</figcaption>
       </figure>
       <ul class="hero-benefits" aria-label={copy.hero.eyebrow}>
         {
@@ -72,62 +73,33 @@ const copy = homeCopy[locale];
           ))
         }
       </ul>
-      <div class="hero-availability" aria-label={copy.platforms.body}>
-        <span>Mac</span>
-        <span>iPhone</span>
-        <strong class="hero-free-note">{copy.platforms.heroFreeNote}</strong>
-        <em class="hero-coming-soon">{copy.platforms.comingSoon}</em>
+      <p class="hero-platforms">
+        <span class="hero-platform-item">
+          <span class="hero-platform-icon" aria-hidden="true">
+            <PlatformIcon platform="macos" />
+          </span>
+          <span>Mac</span>
+        </span>
+        <span aria-hidden="true">·</span>
+        <span class="hero-platform-item">
+          <span class="hero-platform-icon" aria-hidden="true">
+            <PlatformIcon platform="ios" />
+          </span>
+          <span>iPhone</span>
+        </span>
+      </p>
+      <div class="hero-actions">
+        <a class="primary-link" href={localePath(locale, '/features/')}>
+          {copy.hero.actions.features}<span aria-hidden="true">→</span>
+        </a>
+        <a
+          class="secondary-link"
+          href={localePath(locale, '/support/purchases/')}
+        >
+          {copy.hero.actions.purchases}<span aria-hidden="true">→</span>
+        </a>
       </div>
     </div>
-
-    <section
-      class="product-story-section"
-      aria-labelledby="product-story-heading"
-      data-reveal
-    >
-      <div class="story-heading">
-        <p class="eyebrow">{copy.productStory.eyebrow}</p>
-        <h2 id="product-story-heading">{copy.productStory.heading}</h2>
-      </div>
-      <div class="product-story">
-        <article class="story-node story-source">
-          <h3>{copy.productStory.source.title}</h3>
-          <p>{copy.productStory.source.body}</p>
-          <ul
-            class="story-source-list"
-            aria-label={copy.productStory.source.title}
-          >
-            {
-              copy.productStory.source.locations.map((location) => (
-                <li>{location}</li>
-              ))
-            }
-          </ul>
-        </article>
-        <div class="story-connector" aria-hidden="true">
-          <span class="story-connector-label">
-            {copy.productStory.connectorLabels[0]}
-          </span>
-        </div>
-        <article class="story-node story-guardian">
-          <img
-            class="story-icon"
-            src="/owlaria-app-icon.png"
-            width="96"
-            height="96"
-            alt=""
-          />
-          <h3>{copy.productStory.organization.title}</h3>
-          <p class="story-body">
-            {
-              copy.productStory.organization.body.map((sentence) => (
-                <span>{sentence}</span>
-              ))
-            }
-          </p>
-        </article>
-      </div>
-    </section>
   </section>
 
   <section class="feature-section shell" aria-labelledby="feature-heading">
@@ -256,7 +228,10 @@ const copy = homeCopy[locale];
       {
         copy.capabilities.items.map((item) => (
           <li data-reveal>
-            <h3>{item.title}</h3>
+            <div class="capability-card-heading">
+              <HomeCapabilityIcon name={item.icon} />
+              <h3>{item.title}</h3>
+            </div>
             <p>{item.body}</p>
           </li>
         ))
