@@ -188,6 +188,20 @@ for (const locale of [
       backgroundImage: 'none',
       boxShadow: 'none',
     });
+    const screenshotFrameRadii = await page
+      .getByTestId('feature-product-preview')
+      .evaluateAll((previews) =>
+        previews.map((preview) => ({
+          className: preview.className,
+          radius: Number.parseFloat(
+            getComputedStyle(preview).borderTopLeftRadius,
+          ),
+        })),
+      );
+    expect(
+      screenshotFrameRadii.every(({ radius }) => radius <= 12),
+      `Screenshot frames use an excessive corner radius: ${JSON.stringify(screenshotFrameRadii)}`,
+    ).toBe(true);
     await expect(page.locator('.feature-reader-mode-group')).toHaveCount(3);
     await expect(page.locator('.feature-reader-mode-visual')).toHaveCount(0);
     const platformBadge = page
@@ -520,6 +534,7 @@ test('feature page is responsive without overlap or horizontal overflow', async 
       { width: 1200, height: 900, columns: 1, jumpColumns: 6 },
       { width: 1280, height: 900, columns: 2, jumpColumns: 6 },
       { width: 1440, height: 1000, columns: 2, jumpColumns: 6 },
+      { width: 1451, height: 900, columns: 2, jumpColumns: 6 },
     ]) {
       await page.setViewportSize(viewport);
       await page.goto(pathname);
@@ -687,6 +702,16 @@ test('feature page is responsive without overlap or horizontal overflow', async 
           {
             name: 'organize',
             storySelector: '.feature-story-preview',
+            visualSelector: '[data-testid="feature-product-preview"]',
+          },
+          {
+            name: 'library',
+            storySelector: '#library',
+            visualSelector: '[data-testid="feature-product-preview"]',
+          },
+          {
+            name: 'viewer',
+            storySelector: '.feature-story-reader',
             visualSelector: '[data-testid="feature-product-preview"]',
           },
         ]) {
