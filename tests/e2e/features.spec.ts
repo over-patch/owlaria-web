@@ -132,11 +132,62 @@ for (const locale of [
       1,
     );
     await expect(page.getByTestId('feature-product-preview')).toHaveCount(3);
-    const previewCaptions = await page
-      .getByTestId('feature-product-preview')
-      .locator('figcaption')
-      .allTextContents();
-    expect(previewCaptions.join(' ')).not.toMatch(/replace|差し替え/i);
+    expect(
+      await page
+        .getByTestId('feature-product-preview')
+        .locator('img')
+        .evaluateAll((images) =>
+          images.map((image) => image.getAttribute('src')),
+        ),
+    ).toEqual([
+      '/screenshots/owlaria-library-macos.webp',
+      '/screenshots/owlaria-series-macos.webp',
+      '/screenshots/owlaria-viewer-macos-controls.webp',
+    ]);
+    await expect(page.locator('.feature-preview-toolbar')).toHaveCount(0);
+    await expect(
+      page.getByTestId('feature-product-preview').locator('figcaption'),
+    ).toHaveCount(0);
+    const viewerPreview = page.locator(
+      '.feature-product-preview-reader[data-testid="feature-product-preview"]',
+    );
+    const viewerPreviewFrame = await viewerPreview.evaluate((element) => {
+      const style = getComputedStyle(element);
+
+      return {
+        borderStyle: style.borderTopStyle,
+        backgroundColor: style.backgroundColor,
+        backgroundImage: style.backgroundImage,
+        boxShadow: style.boxShadow,
+      };
+    });
+    expect(viewerPreviewFrame).toEqual({
+      borderStyle: 'none',
+      backgroundColor: 'rgba(0, 0, 0, 0)',
+      backgroundImage: 'none',
+      boxShadow: 'none',
+    });
+    const seriesPreview = page.locator(
+      '.feature-product-preview-cards[data-testid="feature-product-preview"]',
+    );
+    const seriesPreviewFrame = await seriesPreview.evaluate((element) => {
+      const style = getComputedStyle(element);
+
+      return {
+        aspectRatio: style.aspectRatio,
+        borderStyle: style.borderTopStyle,
+        backgroundColor: style.backgroundColor,
+        backgroundImage: style.backgroundImage,
+        boxShadow: style.boxShadow,
+      };
+    });
+    expect(seriesPreviewFrame).toEqual({
+      aspectRatio: '3088 / 2080',
+      borderStyle: 'none',
+      backgroundColor: 'rgba(0, 0, 0, 0)',
+      backgroundImage: 'none',
+      boxShadow: 'none',
+    });
     await expect(page.locator('.feature-reader-mode-group')).toHaveCount(3);
     await expect(page.locator('.feature-reader-mode-visual')).toHaveCount(0);
     const platformBadge = page
@@ -634,8 +685,8 @@ test('feature page is responsive without overlap or horizontal overflow', async 
             visualSelector: '.feature-source-diagram',
           },
           {
-            name: 'viewer',
-            storySelector: '.feature-story-reader',
+            name: 'organize',
+            storySelector: '.feature-story-preview',
             visualSelector: '[data-testid="feature-product-preview"]',
           },
         ]) {
@@ -661,10 +712,17 @@ test('feature page is responsive without overlap or horizontal overflow', async 
                 return {
                   text: line.textContent?.trim() ?? '',
                   right: Math.round(textBox.right * 100) / 100,
+                  left: Math.round(textBox.left * 100) / 100,
                   visualLeft: visualBox
                     ? Math.round(visualBox.left * 100) / 100
                     : null,
-                  fits: visualBox ? textBox.right <= visualBox.left : false,
+                  visualRight: visualBox
+                    ? Math.round(visualBox.right * 100) / 100
+                    : null,
+                  fits: visualBox
+                    ? textBox.right <= visualBox.left ||
+                      textBox.left >= visualBox.right
+                    : false,
                 };
               });
             }, visualSelector);
@@ -700,7 +758,8 @@ test('feature page is responsive without overlap or horizontal overflow', async 
           .evaluateAll((previews) =>
             previews.map((preview) => getComputedStyle(preview).aspectRatio),
           );
-        expect(previewRatios.every((ratio) => ratio === '16 / 10')).toBe(true);
+        expect(previewRatios.slice(0, 2)).toEqual(['16 / 10', '3088 / 2080']);
+        expect(previewRatios.at(-1)).toBe('1600 / 1077');
 
         const libraryStory = page.locator('.feature-story-preview');
         const libraryHeadingBox = await libraryStory

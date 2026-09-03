@@ -42,7 +42,6 @@ export type HomeCopy = {
       label: string;
       desktopLabel: string;
       mobileLabel: string;
-      statusLabel: string;
     };
   };
   capabilities: {
@@ -158,8 +157,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
       preview: {
         label: 'Owlaria product preview',
         desktopLabel: 'Mac library screenshot',
-        mobileLabel: 'iPhone reader screenshot',
-        statusLabel: 'Product previews coming soon',
+        mobileLabel: 'iPhone library screenshot',
       },
     },
     features: {
@@ -201,9 +199,9 @@ export const homeCopy: Record<Locale, HomeCopy> = {
     },
     screenshotShowcase: {
       eyebrow: 'See Owlaria in action',
-      heading: 'Keep your storage. Transform how you browse.',
-      body: 'A closer look at the macOS library is coming soon.',
-      placeholderLabel: 'macOS library preview coming soon',
+      heading: 'When you read, nothing gets in the way.',
+      body: 'Switch between single pages and spreads to suit each comic.',
+      placeholderLabel: 'A comic spread in the Owlaria viewer on macOS',
     },
     compatibility: {
       eyebrow: 'Compatibility',
@@ -304,8 +302,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
       preview: {
         label: 'Owlariaのアプリ画面',
         desktopLabel: 'Mac版ライブラリ画面',
-        mobileLabel: 'iPhone版ビューア画面',
-        statusLabel: 'アプリ画面は近日公開',
+        mobileLabel: 'iPhone版ライブラリ画面',
       },
     },
     features: {
@@ -356,9 +353,9 @@ export const homeCopy: Record<Locale, HomeCopy> = {
     },
     screenshotShowcase: {
       eyebrow: '実際のアプリ画面',
-      heading: '保存先はそのまま。見え方は、ここまで変わる。',
-      body: 'macOSのライブラリ画面は近日公開予定です。',
-      placeholderLabel: 'macOSライブラリ画面は近日公開',
+      heading: '読むときは、作品だけに集中。',
+      body: '単ページも見開きも、作品に合わせて心地よく表示できます。',
+      placeholderLabel: 'macOS版Owlariaビューアで表示したコミックの見開き',
     },
     compatibility: {
       eyebrow: '対応形式',

@@ -13,7 +13,7 @@ type FeatureItem = {
 type FeaturePreview = {
   platform: string;
   title: string;
-  note: string;
+  image: string;
 };
 
 type FeatureModeGroup = {
@@ -157,7 +157,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         preview: {
           platform: 'MAC',
           title: 'Library and search screen',
-          note: 'Mac product preview coming soon',
+          image: '/screenshots/owlaria-library-macos.webp',
         },
         items: [
           {
@@ -196,6 +196,11 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         body: 'Organize series and covers, save your place, and protect private libraries.',
         platforms: ['mac', 'iphone'],
         visual: 'cards',
+        preview: {
+          platform: 'MAC',
+          title: 'Series detail screen for Bookshop Above the Clouds',
+          image: '/screenshots/owlaria-series-macos.webp',
+        },
         items: [
           {
             title: 'Series and next unread volume',
@@ -230,9 +235,9 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         platforms: ['mac', 'iphone'],
         visual: 'reader',
         preview: {
-          platform: 'IPHONE',
-          title: 'Comic viewer screen',
-          note: 'iPhone product preview coming soon',
+          platform: 'MAC',
+          title: 'Viewer controls over a two-page comic spread',
+          image: '/screenshots/owlaria-viewer-macos-controls.webp',
         },
         modeGroups: [
           {
@@ -309,11 +314,6 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         body: 'Review reading volume, active hours, and your collection by tag.',
         platforms: ['mac', 'iphone'],
         visual: 'cards',
-        preview: {
-          platform: 'MAC',
-          title: 'Reading statistics screen',
-          note: 'Mac statistics screen coming soon',
-        },
         items: [
           {
             title: 'Reading volume',
@@ -455,7 +455,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         preview: {
           platform: 'MAC',
           title: 'ライブラリ・検索画面',
-          note: 'Mac版のアプリ画面は近日公開',
+          image: '/screenshots/owlaria-library-macos.webp',
         },
         items: [
           {
@@ -486,6 +486,11 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         body: 'シリーズや表紙を整え、読んだ位置を保存し、プライベートなライブラリを保護できます。',
         platforms: ['mac', 'iphone'],
         visual: 'cards',
+        preview: {
+          platform: 'MAC',
+          title: 'Bookshop Above the Cloudsのシリーズ詳細画面',
+          image: '/screenshots/owlaria-series-macos.webp',
+        },
         items: [
           {
             title: 'シリーズの続きがすぐ見つかる',
@@ -520,9 +525,9 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         platforms: ['mac', 'iphone'],
         visual: 'reader',
         preview: {
-          platform: 'IPHONE',
-          title: 'コミックビューア画面',
-          note: 'iPhone版のアプリ画面は近日公開',
+          platform: 'MAC',
+          title: 'コミックの見開きにビューア操作を表示した画面',
+          image: '/screenshots/owlaria-viewer-macos-controls.webp',
         },
         modeGroups: [
           {
@@ -599,11 +604,6 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         body: '読書時間や冊数、よく読む時間帯、保有コミックのタグ内訳を確認できます。',
         platforms: ['mac', 'iphone'],
         visual: 'cards',
-        preview: {
-          platform: 'MAC',
-          title: '読書統計画面',
-          note: 'Mac版の統計画面は近日公開',
-        },
         items: [
           {
             title: '読書量',
