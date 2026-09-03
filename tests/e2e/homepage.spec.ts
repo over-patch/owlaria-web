@@ -19,7 +19,7 @@ for (const locale of [
     principle: 'Organize without touching files',
     featureHeading: 'Keep your folders. Organize and read your way.',
     capabilityHeading: 'More than a folder browser.',
-    screenshotHeading: 'Keep your storage. Transform how you browse.',
+    screenshotHeading: 'When you read, nothing gets in the way.',
     compatibilityHeading: 'Open the files you already have.',
     heroActions: [
       { name: 'Explore features', href: '/features/' },
@@ -29,8 +29,7 @@ for (const locale of [
     featureHref: '/features/',
     platformHeading: 'Owlaria for Mac. Owlaria for iPhone.',
     heroFreeNote: 'Free: 1 library · 100 books',
-    heroPreviewStatus: 'Product previews coming soon',
-    heroPreviewLabels: ['Mac library screenshot', 'iPhone reader screenshot'],
+    heroPreviewLabels: ['Mac library screenshot', 'iPhone library screenshot'],
     freeNote: 'Use every feature free with one library and up to 100 books.',
     purchaseNote:
       'Owlaria Plus removes the library and book limits with a one-time purchase for each operating system. Check the App Store price shown in the app.',
@@ -51,7 +50,7 @@ for (const locale of [
     principle: '原本に触れずに整理',
     featureHeading: 'フォルダはそのまま。整理も、読み方も、思いどおりに。',
     capabilityHeading: 'フォルダを超えて、見つかる本棚へ。',
-    screenshotHeading: '保存先はそのまま。見え方は、ここまで変わる。',
+    screenshotHeading: '読むときは、作品だけに集中。',
     compatibilityHeading: 'いつものファイルを、そのまま開ける。',
     heroActions: [
       { name: '機能を見る', href: '/ja/features/' },
@@ -61,8 +60,7 @@ for (const locale of [
     featureHref: '/ja/features/',
     platformHeading: 'Macにも、iPhoneにも。Owlariaを。',
     heroFreeNote: '無料：1ライブラリ・100冊まで',
-    heroPreviewStatus: 'アプリ画面は近日公開',
-    heroPreviewLabels: ['Mac版ライブラリ画面', 'iPhone版ビューア画面'],
+    heroPreviewLabels: ['Mac版ライブラリ画面', 'iPhone版ライブラリ画面'],
     freeNote: 'すべての機能を1ライブラリ・100冊まで無料で利用できます。',
     purchaseNote:
       'Owlaria Plusは、ライブラリ数と冊数の上限を解除するOSごとの買い切りです。価格はアプリ内のApp Store表示をご確認ください。',
@@ -89,9 +87,13 @@ for (const locale of [
     await expect(heroPreview.getByTestId('hero-preview-label')).toHaveText(
       locale.heroPreviewLabels,
     );
-    await expect(heroPreview.locator('figcaption')).toHaveText(
-      locale.heroPreviewStatus,
-    );
+    await expect(heroPreview.locator('figcaption')).toHaveCount(0);
+    await expect(
+      heroPreview.locator('.hero-preview-desktop img'),
+    ).toHaveAttribute('src', '/screenshots/owlaria-library-macos.webp');
+    await expect(
+      heroPreview.locator('.hero-preview-mobile img'),
+    ).toHaveAttribute('src', '/screenshots/owlaria-library-ios.webp');
     for (const action of locale.heroActions) {
       await expect(
         page.locator('.hero-actions').getByRole('link', { name: action.name }),
@@ -101,16 +103,102 @@ for (const locale of [
     const desktopPreviewBox = await heroPreview
       .locator('.hero-preview-desktop')
       .boundingBox();
+    const desktopPreviewImageBox = await heroPreview
+      .locator('.hero-preview-desktop img')
+      .boundingBox();
     const mobilePreviewBox = await heroPreview
       .locator('.hero-preview-mobile')
       .boundingBox();
     expect(desktopPreviewBox).not.toBeNull();
+    expect(desktopPreviewImageBox).not.toBeNull();
     expect(mobilePreviewBox).not.toBeNull();
+    expect(
+      Math.abs(desktopPreviewImageBox!.x - (desktopPreviewBox!.x + 1)),
+    ).toBeLessThanOrEqual(1.5);
+    expect(
+      Math.abs(desktopPreviewImageBox!.y - (desktopPreviewBox!.y + 1)),
+    ).toBeLessThanOrEqual(1.5);
+    expect(
+      Math.abs(
+        desktopPreviewImageBox!.x +
+          desktopPreviewImageBox!.width -
+          (desktopPreviewBox!.x + desktopPreviewBox!.width - 1),
+      ),
+    ).toBeLessThanOrEqual(1.5);
+    expect(
+      Math.abs(
+        desktopPreviewImageBox!.y +
+          desktopPreviewImageBox!.height -
+          (desktopPreviewBox!.y + desktopPreviewBox!.height - 1),
+      ),
+    ).toBeLessThanOrEqual(1.5);
+    const desktopPreviewAspectRatios = await heroPreview
+      .locator('.hero-preview-desktop')
+      .evaluate((frame) => {
+        const image = frame.querySelector('img');
+        const frameBox = frame.getBoundingClientRect();
+
+        return {
+          frame: frameBox.width / frameBox.height,
+          image: image!.naturalWidth / image!.naturalHeight,
+        };
+      });
+    expect(desktopPreviewAspectRatios.frame).toBeCloseTo(
+      desktopPreviewAspectRatios.image,
+      2,
+    );
+    const desktopPreviewImageRatio = await heroPreview
+      .locator('.hero-preview-desktop img')
+      .evaluate(
+        (image: HTMLImageElement) => image.naturalWidth / image.naturalHeight,
+      );
+    expect(desktopPreviewBox!.width / desktopPreviewBox!.height).toBeCloseTo(
+      desktopPreviewImageRatio,
+      2,
+    );
     expect(desktopPreviewBox!.width).toBeGreaterThan(
       mobilePreviewBox!.width * 2,
     );
     expect(mobilePreviewBox!.x).toBeLessThan(
       desktopPreviewBox!.x + desktopPreviewBox!.width,
+    );
+    await expect(
+      page.getByTestId('app-screenshot-slot').locator('img'),
+    ).toHaveAttribute('src', '/screenshots/owlaria-viewer-macos-clean.webp');
+    await expect(page.locator('.app-preview-chrome')).toHaveCount(0);
+    await expect(page.locator('.app-preview-caption')).toHaveCount(0);
+    const appPreviewFrame = await page
+      .getByTestId('app-screenshot-slot')
+      .evaluate((element) => {
+        const style = getComputedStyle(element);
+
+        return {
+          borderStyle: style.borderTopStyle,
+          backgroundColor: style.backgroundColor,
+          backgroundImage: style.backgroundImage,
+          boxShadow: style.boxShadow,
+        };
+      });
+    expect(appPreviewFrame).toEqual({
+      borderStyle: 'none',
+      backgroundColor: 'rgba(0, 0, 0, 0)',
+      backgroundImage: 'none',
+      boxShadow: 'none',
+    });
+    const appPreviewAspectRatios = await page
+      .getByTestId('app-screenshot-slot')
+      .evaluate((frame) => {
+        const image = frame.querySelector('img');
+        const frameBox = frame.getBoundingClientRect();
+
+        return {
+          frame: frameBox.width / frameBox.height,
+          image: image!.naturalWidth / image!.naturalHeight,
+        };
+      });
+    expect(appPreviewAspectRatios.frame).toBeCloseTo(
+      appPreviewAspectRatios.image,
+      2,
     );
     const firstBenefit = page.locator('.hero-benefits > li').nth(0);
     const secondBenefit = page.locator('.hero-benefits > li').nth(1);
@@ -296,6 +384,28 @@ for (const locale of [
   });
 }
 
+test('hero screenshots keep breathing room before the benefit cards', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 854, height: 862 });
+  await page.goto('/ja/');
+
+  const desktopBox = await page.locator('.hero-preview-desktop').boundingBox();
+  const mobileBox = await page.locator('.hero-preview-mobile').boundingBox();
+  const benefitsBox = await page.locator('.hero-benefits').boundingBox();
+
+  expect(desktopBox).not.toBeNull();
+  expect(mobileBox).not.toBeNull();
+  expect(benefitsBox).not.toBeNull();
+  expect(
+    benefitsBox!.y -
+      Math.max(
+        desktopBox!.y + desktopBox!.height,
+        mobileBox!.y + mobileBox!.height,
+      ),
+  ).toBeGreaterThanOrEqual(48);
+});
+
 test('English hero typography leaves room for descenders', async ({ page }) => {
   await page.goto('/');
 
@@ -467,8 +577,27 @@ test('homepage uses responsive content grids', async ({ page }) => {
     const screenshotBox = await screenshotSlot.boundingBox();
     expect(
       (screenshotBox?.width ?? 0) / (screenshotBox?.height ?? 1),
-    ).toBeCloseTo(1.6, 1);
+    ).toBeCloseTo(1600 / 1077, 2);
     await expect(page.getByTestId('platform-macos')).toBeVisible();
+  }
+});
+
+test('Japanese capability headings stay inside their cards', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1098, height: 862 });
+  await page.goto('/ja/');
+  await page.evaluate(() => document.fonts.ready);
+
+  for (const heading of await page.locator('.capability-grid h3').all()) {
+    const headingBox = await heading.boundingBox();
+    const cardBox = await heading.locator('xpath=ancestor::li').boundingBox();
+
+    expect(headingBox).not.toBeNull();
+    expect(cardBox).not.toBeNull();
+    expect(headingBox!.x + headingBox!.width).toBeLessThanOrEqual(
+      cardBox!.x + cardBox!.width,
+    );
   }
 });
 

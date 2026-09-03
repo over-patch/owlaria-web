@@ -47,21 +47,28 @@ const copy = homeCopy[locale];
       >
         <div class="hero-preview-stage">
           <div class="hero-preview-frame hero-preview-desktop">
-            <span class="hero-preview-device">Mac</span>
-            <img src="/owlaria-app-icon.png" width="72" height="72" alt="" />
-            <strong data-testid="hero-preview-label">
+            <img
+              src="/screenshots/owlaria-library-macos.webp"
+              width="1600"
+              height="1037"
+              alt={copy.hero.preview.desktopLabel}
+            />
+            <strong class="sr-only" data-testid="hero-preview-label">
               {copy.hero.preview.desktopLabel}
             </strong>
           </div>
           <div class="hero-preview-frame hero-preview-mobile">
-            <span class="hero-preview-device">iPhone</span>
-            <img src="/owlaria-app-icon.png" width="48" height="48" alt="" />
-            <strong data-testid="hero-preview-label">
+            <img
+              src="/screenshots/owlaria-library-ios.webp"
+              width="603"
+              height="1311"
+              alt={copy.hero.preview.mobileLabel}
+            />
+            <strong class="sr-only" data-testid="hero-preview-label">
               {copy.hero.preview.mobileLabel}
             </strong>
           </div>
         </div>
-        <figcaption>{copy.hero.preview.statusLabel}</figcaption>
       </figure>
       <ul class="hero-benefits" aria-label={copy.hero.eyebrow}>
         {
@@ -164,16 +171,13 @@ const copy = homeCopy[locale];
       data-testid="app-screenshot-slot"
       data-reveal
     >
-      <div class="app-preview-chrome" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
-        <strong>Owlaria for macOS</strong>
-      </div>
-      <div class="app-preview-placeholder">
-        <span aria-hidden="true">16:10</span>
-        <figcaption>{copy.screenshotShowcase.placeholderLabel}</figcaption>
-      </div>
+      <img
+        class="app-preview-image"
+        src="/screenshots/owlaria-viewer-macos-clean.webp"
+        width="1600"
+        height="1077"
+        alt={copy.screenshotShowcase.placeholderLabel}
+      />
     </figure>
   </section>
 

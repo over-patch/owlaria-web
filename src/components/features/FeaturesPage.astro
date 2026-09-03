@@ -22,7 +22,6 @@ const featureCardIcons = {
   statistics: ['chart', 'history', 'tag'],
   settings: ['sliders', 'keyboard'],
 } as const;
-// Product preview frames intentionally remain abstract until approved screenshots are available.
 ---
 
 <SiteLayout
@@ -143,22 +142,26 @@ const featureCardIcons = {
                 ]}
                 data-testid="feature-product-preview"
               >
-                <div class="feature-preview-toolbar" aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                </div>
                 <div class="feature-preview-stage">
-                  <span>{section.preview.platform}</span>
                   <img
-                    src="/owlaria-app-icon.png"
-                    width="88"
-                    height="88"
-                    alt=""
+                    src={section.preview.image}
+                    width={
+                      section.visual === 'reader'
+                        ? 1600
+                        : section.preview.platform === 'MAC'
+                          ? 1432
+                          : 603
+                    }
+                    height={
+                      section.visual === 'reader'
+                        ? 1077
+                        : section.preview.platform === 'MAC'
+                          ? 928
+                          : 1311
+                    }
+                    alt={section.preview.title}
                   />
-                  <strong>{section.preview.title}</strong>
                 </div>
-                <figcaption>{section.preview.note}</figcaption>
               </figure>
             )}
           </div>

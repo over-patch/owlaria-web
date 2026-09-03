@@ -151,37 +151,34 @@ describe('feature page content', () => {
     ).toEqual(['mac']);
   });
 
-  it('uses public coming-soon copy for feature previews', () => {
-    const previewNotes = Object.values(featurePageCopy).flatMap(
-      ({ sections }) =>
-        sections.flatMap(({ preview }) => (preview ? [preview.note] : [])),
-    );
-
-    expect(previewNotes).toEqual([
-      'Mac product preview coming soon',
-      'iPhone product preview coming soon',
-      'Mac statistics screen coming soon',
-      'Mac版のアプリ画面は近日公開',
-      'iPhone版のアプリ画面は近日公開',
-      'Mac版の統計画面は近日公開',
-    ]);
-    expect(previewNotes.join(' ')).not.toMatch(/replace|差し替え/i);
-
+  it('describes the available product screenshots', () => {
     expect(
-      featurePageCopy.en.sections.find(({ id }) => id === 'statistics')
-        ?.preview,
+      featurePageCopy.en.sections.find(({ id }) => id === 'library')?.preview,
     ).toEqual({
       platform: 'MAC',
-      title: 'Reading statistics screen',
-      note: 'Mac statistics screen coming soon',
+      title: 'Series detail screen for Bookshop Above the Clouds',
+      image: '/screenshots/owlaria-series-macos.webp',
     });
     expect(
-      featurePageCopy.ja.sections.find(({ id }) => id === 'statistics')
-        ?.preview,
+      featurePageCopy.ja.sections.find(({ id }) => id === 'library')?.preview,
     ).toEqual({
       platform: 'MAC',
-      title: '読書統計画面',
-      note: 'Mac版の統計画面は近日公開',
+      title: 'Bookshop Above the Cloudsのシリーズ詳細画面',
+      image: '/screenshots/owlaria-series-macos.webp',
+    });
+    expect(
+      featurePageCopy.en.sections.find(({ id }) => id === 'viewer')?.preview,
+    ).toEqual({
+      platform: 'MAC',
+      title: 'Viewer controls over a two-page comic spread',
+      image: '/screenshots/owlaria-viewer-macos-controls.webp',
+    });
+    expect(
+      featurePageCopy.ja.sections.find(({ id }) => id === 'viewer')?.preview,
+    ).toEqual({
+      platform: 'MAC',
+      title: 'コミックの見開きにビューア操作を表示した画面',
+      image: '/screenshots/owlaria-viewer-macos-controls.webp',
     });
   });
 
