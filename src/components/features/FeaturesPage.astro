@@ -65,7 +65,11 @@ const featureCardIcons = {
       copy.sections.map((section) => (
         <section
           id={section.id}
-          class:list={['feature-story', `feature-story-${section.visual}`]}
+          class:list={[
+            'feature-story',
+            `feature-story-${section.visual}`,
+            { 'feature-story-has-preview': Boolean(section.preview) },
+          ]}
           aria-labelledby={`${section.id}-heading`}
           data-reveal
         >

@@ -185,6 +185,20 @@ for (const locale of [
       backgroundImage: 'none',
       boxShadow: 'none',
     });
+    const screenshotFrameRadii = await page
+      .locator('.hero-preview-desktop, [data-testid="app-screenshot-slot"]')
+      .evaluateAll((frames) =>
+        frames.map((frame) => ({
+          className: frame.className,
+          radius: Number.parseFloat(
+            getComputedStyle(frame).borderTopLeftRadius,
+          ),
+        })),
+      );
+    expect(
+      screenshotFrameRadii.every(({ radius }) => radius <= 12),
+      `Screenshot frames use an excessive corner radius: ${JSON.stringify(screenshotFrameRadii)}`,
+    ).toBe(true);
     const appPreviewAspectRatios = await page
       .getByTestId('app-screenshot-slot')
       .evaluate((frame) => {

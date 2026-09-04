@@ -39,6 +39,7 @@
   --radius-sm: 0.75rem;
   --radius-md: 1.25rem;
   --radius-lg: 2rem;
+  --radius-product-screenshot: 0.75rem;
   --radius-pill: 999px;
   --shadow-glow: 0 0 5rem rgb(85 124 255 / 20%);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);

@@ -663,7 +663,7 @@ html[lang='en'] .hero-copy h1 {
 .hero-preview-desktop {
   width: 100%;
   aspect-ratio: 1600 / 1037;
-  border-radius: clamp(1rem, 2vw, 1.75rem);
+  border-radius: var(--radius-product-screenshot);
 }
 
 .hero-preview-mobile {
@@ -1829,7 +1829,7 @@ html[lang='en'] .features-hero h1 {
   overflow: hidden;
   margin: 0;
   border: 1px solid rgb(77 228 255 / 28%);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-product-screenshot);
   background:
     radial-gradient(circle at 25% 20%, rgb(166 108 255 / 24%), transparent 38%),
     linear-gradient(145deg, #111a37, #07101f);
@@ -3222,16 +3222,16 @@ html[lang='en'] .features-hero h1 {
 
 @media (min-width: 76.001rem) {
   .feature-story-sources .feature-story-layout,
-  .feature-story-preview .feature-story-layout,
-  .feature-story-reader .feature-story-layout {
+  .feature-story-has-preview .feature-story-layout {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .feature-story-sources .feature-story-heading h2,
-  .feature-story-library .feature-story-heading h2,
-  .feature-story-preview .feature-story-heading h2,
-  .feature-story-reader .feature-story-heading h2 {
+  .feature-story-sources .feature-story-heading h2 {
     font-size: min(var(--text-section), 3.5rem);
+  }
+
+  .feature-story-has-preview .feature-story-heading h2 {
+    font-size: min(var(--text-section), 3rem);
   }
 
   .feature-story-preview .feature-story-heading {
