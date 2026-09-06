@@ -13,7 +13,11 @@ a deferred follow-up below.
       optional and is not a merge requirement.
 - [ ] `Verify website` is passing for the latest commit.
 - [ ] Local quality gate results are recorded: `format:check`, `lint`,
-      `lint:actions`, `check`, `test`, build, `test:links`, and `test:e2e`.
+      `lint:actions`, `check`, `check:i18n`, `test`, build, `test:links`, and `test:e2e`.
+
+- [ ] Source and every configured translation were reviewed together following
+      [localization maintenance](./localization.md), including unchanged translations
+      after source meaning changes. Record semantic and display evidence.
 
 ## Routes, locales, and responsive behavior
 

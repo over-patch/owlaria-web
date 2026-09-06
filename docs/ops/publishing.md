@@ -30,6 +30,7 @@ mise exec -- pnpm format:check
 mise exec -- pnpm lint
 mise exec -- pnpm lint:actions
 mise exec -- pnpm check
+mise exec -- pnpm check:i18n
 mise exec -- pnpm test
 mise exec -- pnpm exec playwright install chromium webkit
 mise exec -- pnpm build
@@ -38,7 +39,9 @@ mise exec -- pnpm test:e2e
 ```
 
 `test:e2e` starts the production preview defined in `playwright.config.ts`.
-Record the command results in the pull request. Complete the
+Record the command results in the pull request. Follow the
+[localization maintenance procedure](./localization.md) for every copy change.
+The deployment build also runs `check` and `check:i18n` before building the Pages artifact. Complete the
 [preflight checklist](./preflight-checklist.md) for visual, accessibility,
 metadata, integration, and production evidence that commands cannot prove.
 

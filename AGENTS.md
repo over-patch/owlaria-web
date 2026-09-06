@@ -56,6 +56,25 @@ This repository contains the public product website for Owlaria. These rules app
 - Generate self-referencing canonical metadata, reciprocal `hreflang` metadata, and an English `x-default`.
 - Preserve stable public URLs. Define explicit redirects when a published URL must move.
 
+## Localization Maintenance
+
+- The supported-language policy is owned by `over-patch/owlaria` in
+  `docs/specs/localization.md`; consult its translation procedure, glossary
+  (`localization_glossary.md`), and inventory (`localization_inventory.md`).
+  Do not copy those private documents into this public repository.
+- Use `src/i18n/config.ts` as the Web implementation locale list. Before changing
+  localized content, manually confirm it covers every language required by the
+  upstream policy; the public gate cannot read that private policy. Add or change
+  user-facing content in all policy-required languages in the same change, including
+  source-copy meaning changes, accessibility labels, date/number formatting,
+  metadata, and language-specific links. A fallback does not complete a translation.
+- Follow [Web localization maintenance](docs/ops/localization.md) for AI translation,
+  semantic and screen review, resource conventions, and coordinated language additions.
+- Run `pnpm check` and `pnpm check:i18n` before committing relevant changes.
+  Record source/translation review and display evidence; passing automated checks
+  does not prove meaning, naturalness, or layout. Keep related cross-repository
+  changes linked without publishing private material.
+
 ## Visual And Motion Direction
 
 - Present Owlaria as a premium app built by a modern technology company.
