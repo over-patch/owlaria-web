@@ -29,8 +29,9 @@
     "test": "vitest run",
     "test:e2e": "env -u NO_COLOR playwright test",
     "test:links": "node scripts/check-built-links.mjs",
-    "verify:ci": "pnpm format:check && pnpm lint && pnpm check && pnpm test && pnpm test:e2e && pnpm test:links",
-    "verify:ci:linux": "sh scripts/verify-ci-linux.sh"
+    "verify:ci": "pnpm format:check && pnpm lint && pnpm check && pnpm check:i18n && pnpm test && pnpm test:e2e && pnpm test:links",
+    "verify:ci:linux": "sh scripts/verify-ci-linux.sh",
+    "check:i18n": "vitest run tests/unit/localization-validation.test.ts tests/unit/localization-resources.test.ts tests/unit/i18n.test.ts tests/unit/releases.test.ts"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",

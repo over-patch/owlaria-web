@@ -33,6 +33,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Validate localized public content
+        run: pnpm check && pnpm check:i18n
+
       - name: Build production site
         run: pnpm build
 
