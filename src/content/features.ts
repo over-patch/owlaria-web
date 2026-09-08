@@ -460,11 +460,11 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         items: [
           {
             title: '探す・絞り込む・並べ替える',
-            body: 'タイトル・作者・シリーズ・タグで検索し、読書状態や評価で絞り込み、並べ替えられます。',
+            body: 'タイトル・著者・シリーズ・タグで検索し、読書状態や評価で絞り込み、並べ替えられます。',
           },
           {
             title: 'ファイル名から情報を取り込む',
-            body: 'ファイル名から、命名規則に沿ってタイトル・作者・タグを読み取ります。',
+            body: 'ファイル名から、命名規則に沿ってタイトル・著者・タグを読み取ります。',
           },
           {
             title: '移動・名前変更を追跡',
@@ -498,7 +498,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
           },
           {
             title: 'フォルダ単位でシリーズ化',
-            body: 'フォルダ読み込み時に、サブフォルダ単位でシリーズ化することもできます。',
+            body: '新しく見つかったコミックを、末端フォルダ単位でシリーズにまとめることもできます。',
           },
           {
             title: '表紙を設定・トリミング',
@@ -521,7 +521,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         heading: '読み込みも、読み方も、快適に。',
         desktopLines: ['読み込みも、', '読み方も、快適に。'],
         mobileLines: ['読み込みも、', '読み方も、快適に。'],
-        body: 'すばやく読み始められ、ページめくり方向や表示方法を選べます。オフラインでも読めます。',
+        body: 'すばやく開き、読書方向や表示方法を選べます。ブックを選んで保存し、オフラインでも読めます。',
         platforms: ['mac', 'iphone'],
         visual: 'reader',
         preview: {
@@ -531,8 +531,8 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         },
         modeGroups: [
           {
-            title: 'ページめくり方向',
-            values: ['右開き', '左開き', '縦読み'],
+            title: '読書方向',
+            values: ['右から左', '左から右', '縦スクロール'],
           },
           {
             title: 'ページの表示方法',
@@ -582,7 +582,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
           },
           {
             title: '見開きを自然に表示',
-            body: '表紙と横長画像を自動判別し、表紙は単ページ、横長画像は一枚で表示します。',
+            body: '表紙を単ページ、横長画像を一枚で表示し、見開きの配置を調整できます。',
           },
           {
             title: 'すばやいページ移動',

@@ -242,11 +242,11 @@ describe('feature page content', () => {
     });
     expect(japaneseViewer).toMatchObject({
       heading: '読み込みも、読み方も、快適に。',
-      body: 'すばやく読み始められ、ページめくり方向や表示方法を選べます。オフラインでも読めます。',
+      body: 'すばやく開き、読書方向や表示方法を選べます。ブックを選んで保存し、オフラインでも読めます。',
     });
     expect(japaneseViewer?.modeGroups?.[0]).toEqual({
-      title: 'ページめくり方向',
-      values: ['右開き', '左開き', '縦読み'],
+      title: '読書方向',
+      values: ['右から左', '左から右', '縦スクロール'],
     });
     expect(englishViewer?.items[0]).toEqual({
       title: 'Smooth streaming, less waiting',
@@ -260,7 +260,7 @@ describe('feature page content', () => {
     expect(japaneseViewer?.items[1]?.title).toBe('キャッシュとオフライン保存');
     expect(japaneseViewer?.items[3]).toEqual({
       title: '見開きを自然に表示',
-      body: '表紙と横長画像を自動判別し、表紙は単ページ、横長画像は一枚で表示します。',
+      body: '表紙を単ページ、横長画像を一枚で表示し、見開きの配置を調整できます。',
     });
     expect(japaneseViewer?.items.at(-1)?.title).toBe('次のページを先読み');
   });
@@ -355,11 +355,11 @@ describe('feature page content', () => {
       [
         {
           title: '探す・絞り込む・並べ替える',
-          body: 'タイトル・作者・シリーズ・タグで検索し、読書状態や評価で絞り込み、並べ替えられます。',
+          body: 'タイトル・著者・シリーズ・タグで検索し、読書状態や評価で絞り込み、並べ替えられます。',
         },
         {
           title: 'ファイル名から情報を取り込む',
-          body: 'ファイル名から、命名規則に沿ってタイトル・作者・タグを読み取ります。',
+          body: 'ファイル名から、命名規則に沿ってタイトル・著者・タグを読み取ります。',
         },
         {
           title: '移動・名前変更を追跡',
@@ -378,7 +378,7 @@ describe('feature page content', () => {
       },
       {
         title: 'フォルダ単位でシリーズ化',
-        body: 'フォルダ読み込み時に、サブフォルダ単位でシリーズ化することもできます。',
+        body: '新しく見つかったコミックを、末端フォルダ単位でシリーズにまとめることもできます。',
       },
       {
         title: '表紙を設定・トリミング',
@@ -393,5 +393,29 @@ describe('feature page content', () => {
         body: '最後に読んだページを保存し、次回はその続きから再開できます。',
       },
     ]);
+  });
+});
+
+describe('Japanese feature guidance matches the English conditions', () => {
+  it('limits automatic series grouping to newly found comics in leaf folders', () => {
+    const library = featurePageCopy.ja.sections.find(
+      ({ id }) => id === 'library',
+    );
+    const grouping = library?.items.find(
+      ({ title }) => title === 'フォルダ単位でシリーズ化',
+    );
+    expect(grouping?.body).toContain('新しく見つかった');
+    expect(grouping?.body).toContain('末端フォルダ');
+  });
+
+  it('describes adjustable spread alignment without promising cover detection', () => {
+    const viewer = featurePageCopy.ja.sections.find(
+      ({ id }) => id === 'viewer',
+    );
+    const spreads = viewer?.items.find(
+      ({ title }) => title === '見開きを自然に表示',
+    );
+    expect(spreads?.body).toContain('見開きの配置を調整');
+    expect(spreads?.body).not.toContain('自動判別');
   });
 });

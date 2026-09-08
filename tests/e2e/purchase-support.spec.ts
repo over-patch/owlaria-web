@@ -49,7 +49,7 @@ const locales = [
     problemReportLink: 'アプリの問題を報告する',
     problemReportQuestion:
       '購入・復元・Appleで処理済みの返金がOwlariaへ反映されない場合はどうすればよいですか？',
-    reportRoute: 'Settings > Information > Report a problem',
+    reportRoute: '設定 > 情報 > 問題を報告する',
     oneWay: '一方向の問題報告・フィードバック受付',
     supportId: '現在のRevenueCat App User ID',
     platformWarning: '移行・復元することはできません',

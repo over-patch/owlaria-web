@@ -60,13 +60,49 @@ describe('legal public copy', () => {
       'we do not transfer the Support ID or any other field from the optional diagnostic payload to GitHub',
     );
     expect(ja).toContain('固定の保存期間や自動削除を設定しません');
-    expect(ja).toContain('Private GitHub Issue');
+    expect(ja).toContain('非公開GitHub Issue');
     expect(ja).toContain(
-      '問題報告本文、platform、OS version、app version、課金状態',
+      '問題報告本文、プラットフォーム、OSバージョン、アプリバージョン、課金状態',
     );
     expect(ja).toContain(
-      'Support IDその他の任意のdiagnostic payload項目はGitHubへ転記しません',
+      'Support IDその他の任意の診断情報の送信項目はGitHubへ転記しません',
     );
+  });
+
+  it.each([
+    [
+      'en',
+      'In the Owlaria app, diagnostic inclusion is on by default when the form opens. You can review the information and turn it off before submitting.',
+    ],
+    [
+      'ja',
+      'Owlariaアプリでは、フォームを開いた時点で診断情報の添付がONになっています。送信前に内容を確認し、OFFへ変更できます。',
+    ],
+  ] as const)(
+    'explains the app diagnostic default and opt-out in %s',
+    (locale, explanation) => {
+      const collection = privacyPolicyCopy[locale].sections.find(
+        ({ id }) => id === 'information',
+      );
+      expect(collection).toBeDefined();
+      expect(collection?.blocks.map(blockText).join(' ')).toContain(
+        explanation,
+      );
+    },
+  );
+
+  it('translates Japanese legal instructions while retaining product names and identifiers', () => {
+    const ja = [privacyPolicyCopy.ja, termsCopy.ja].map(documentText).join(' ');
+
+    expect(ja).toContain('生ログ');
+    expect(ja).toContain('無料版とOwlaria Plus');
+    expect(ja).toContain('買い切りのアプリ内購入');
+    expect(ja).toContain('購入の復元');
+    expect(ja).not.toMatch(
+      /diagnostic|license|\bRestore\b|\bFree\b|\bbackup\b|\bdata source\b/,
+    );
+    expect(ja).toContain('Support ID');
+    expect(ja).toContain('Apple Account');
   });
 
   it('names the operator, providers, privacy contact, and request disclosure', () => {
@@ -115,4 +151,19 @@ describe('legal public copy', () => {
 
     expect(publicCopy).not.toMatch(/legal review|法務review|予算上の理由/i);
   });
+});
+
+it('keeps translated provider destinations independent of the browser language', () => {
+  expect(documentText(privacyPolicyCopy.en)).toContain(
+    'https://policies.google.com/privacy?hl=en',
+  );
+  expect(documentText(privacyPolicyCopy.en)).toContain(
+    'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement',
+  );
+  expect(documentText(privacyPolicyCopy.ja)).toContain(
+    'https://policies.google.com/privacy?hl=ja',
+  );
+  expect(documentText(privacyPolicyCopy.ja)).toContain(
+    'https://docs.github.com/ja/site-policy/privacy-policies/github-general-privacy-statement',
+  );
 });

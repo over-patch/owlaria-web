@@ -119,20 +119,20 @@ export const problemReportCopy: Record<Locale, ProblemReportCopy> = {
     oneWayNotice:
       'これは一方向の問題報告・フィードバック受付です。個別返信や調査結果の通知は行わず、修正の実施や時期を保証しません。',
     prohibitedInformation:
-      '氏名、メールアドレス、Apple Account、Support ID、ファイルパス、書籍・ライブラリ情報、raw log、receipt、transaction ID、credential、その他の秘密情報は入力しないでください。',
+      '氏名、メールアドレス、Apple Account、Support ID、ファイルパス、書籍・ライブラリ情報、生ログ、レシート、取引ID、認証情報、その他の秘密情報は入力しないでください。',
     privacy: {
       prefix: '送信前に',
       linkLabel: 'プライバシーポリシー',
       suffix: 'をご確認ください。',
     },
     appAlternative:
-      'Owlariaを利用できる場合は、Settings > Information > Report a problemから、任意の診断情報を確認し、含めるか選択できるアプリ内フォームも利用できます。',
+      'Owlariaを利用できる場合は、「設定 > 情報 > 問題を報告する」から、任意の診断情報を確認し、含めるか選択できるアプリ内フォームも利用できます。',
     categoryLabel: 'カテゴリー',
     categoryPlaceholder: 'カテゴリーを選択',
     categories: {
       billing: 'Owlaria Plus・購入',
       crash: '起動・クラッシュ',
-      library: 'ライブラリ・本の取り込み',
+      library: 'ライブラリ・ブックの取り込み',
       viewer: '閲覧・表示',
       feature_request: '機能の要望',
       other: 'その他',
@@ -178,6 +178,6 @@ export const problemReportCopy: Record<Locale, ProblemReportCopy> = {
       sendAnother: '別の問題を報告する',
     },
     noScript:
-      'このWebフォームの送信にはJavaScriptが必要です。Owlariaを利用できる場合はSettings > Information > Report a problemを開いてください。利用できない場合はJavaScriptを有効にして、このページを再読み込みしてください。',
+      'このWebフォームの送信にはJavaScriptが必要です。Owlariaを利用できる場合は「設定 > 情報 > 問題を報告する」を開いてください。利用できない場合はJavaScriptを有効にして、このページを再読み込みしてください。',
   },
 };

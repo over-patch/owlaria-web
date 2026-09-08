@@ -100,6 +100,10 @@ for (const locale of [
       ).toHaveAttribute('href', action.href);
     }
     await expect(page.locator('.product-story-section')).toHaveCount(0);
+    // The shared ancestor moves during reveal; measure both boxes after it settles.
+    const heroCopy = page.locator('.hero-copy');
+    await expect(heroCopy).toHaveClass(/is-revealed/);
+    await expect(heroCopy).toHaveCSS('transform', 'none');
     const desktopPreviewBox = await heroPreview
       .locator('.hero-preview-desktop')
       .boundingBox();

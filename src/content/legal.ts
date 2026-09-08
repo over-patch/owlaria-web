@@ -48,11 +48,11 @@ const providerLinks = {
     },
     {
       label: 'Google Privacy Policy',
-      href: 'https://policies.google.com/privacy',
+      href: 'https://policies.google.com/privacy?hl=en',
     },
     {
       label: 'GitHub Privacy Statement',
-      href: 'https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement',
+      href: 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement',
     },
   ],
   ja: [
@@ -61,7 +61,7 @@ const providerLinks = {
       href: 'https://www.apple.com/jp/legal/privacy/',
     },
     {
-      label: 'RevenueCat Privacy Policy',
+      label: 'RevenueCatプライバシーポリシー（英語）',
       href: 'https://www.revenuecat.com/privacy/',
     },
     {
@@ -69,7 +69,7 @@ const providerLinks = {
       href: 'https://policies.google.com/privacy?hl=ja',
     },
     {
-      label: 'GitHub Privacy Statement',
+      label: 'GitHubプライバシーステートメント',
       href: 'https://docs.github.com/ja/site-policy/privacy-policies/github-general-privacy-statement',
     },
   ],
@@ -158,6 +158,9 @@ export const privacyPolicyCopy: Record<Locale, LegalDocumentCopy> = {
             ),
             paragraph(
               'We do not request a reply preference, name, email address, subject, or attachment.',
+            ),
+            paragraph(
+              'In the Owlaria app, diagnostic inclusion is on by default when the form opens. You can review the information and turn it off before submitting.',
             ),
             paragraph(
               'Only when the user reviews the information and chooses to include diagnostics for that submission, we also receive:',
@@ -343,7 +346,7 @@ export const privacyPolicyCopy: Record<Locale, LegalDocumentCopy> = {
             'Owlariaは、ユーザーが指定したローカルフォルダやSMB等のデータソースにある書籍を管理・閲覧するアプリです。書籍やライブラリの内容、ファイルパス、閲覧情報、データソースの認証情報は、原則としてユーザーの端末または指定したデータソースとの間で処理され、当方のサーバーへアップロードされません。',
           ),
           paragraph(
-            '問題報告の自由記述欄へユーザーが任意に入力した情報は、当方が受領・保存します。個人情報、ファイルパス、書籍やライブラリの名称・内容、raw log、receipt、transaction ID、認証情報を入力しないでください。',
+            '問題報告の自由記述欄へユーザーが任意に入力した情報は、当方が受領・保存します。個人情報、ファイルパス、書籍やライブラリの名称・内容、生ログ、レシート、取引ID、認証情報を入力しないでください。',
           ),
         ],
       },
@@ -357,61 +360,64 @@ export const privacyPolicyCopy: Record<Locale, LegalDocumentCopy> = {
               'Owlaria Plusの購入、購入の復元、返金・取消の反映にはApple App StoreとRevenueCatを利用します。',
             ),
             list(
-              'RevenueCatが生成するアプリ固有のanonymous App User ID',
-              '商品、購入状態、entitlement、Restore、返金・取消に関する情報',
+              'RevenueCatが生成するアプリ固有の匿名App User ID',
+              '商品、購入状態、利用権限、購入の復元、返金・取消に関する情報',
               '購入管理に必要な端末・OS等の技術情報',
             ),
             paragraph(
               'Owlariaは独自のユーザーアカウントを作成せず、この識別子を氏名、メールアドレスまたはApple Accountへ紐づけません。iOS版とmacOS版は別商品であり、購入権利をOS間で共有しません。',
             ),
             paragraph(
-              'OwlariaはRevenueCatから確認したFree、Plusまたは一時的に判定できないlicense状態を端末内へ保存する場合があります。receipt全文やtransaction IDを保存する独自の課金backendは運営しません。',
+              'OwlariaはRevenueCatから確認した無料版、Plusまたは一時的に判定できないライセンス状態を端末内へ保存する場合があります。レシート全文や取引IDを保存する独自の課金バックエンドは運営しません。',
             ),
           ),
           subsection(
-            '3.2 Apple標準のdiagnostic情報',
+            '3.2 Apple標準の診断情報',
             paragraph(
-              'Owlariaには独自のproduct analytics SDKや外部crash reporting SDKを組み込みません。ユーザーのApple側の設定やAppleの提供条件に応じて、crash、hang、performance、version、build、OS、signature、backtrace等のdiagnostic情報がAppleから提供される場合があります。',
+              'Owlariaには独自の製品利用状況分析SDKや外部クラッシュ報告SDKを組み込みません。ユーザーのApple側の設定やAppleの提供条件に応じて、クラッシュ、ハング、パフォーマンス、バージョン、ビルド、OS、署名、バックトレース等の診断情報がAppleから提供される場合があります。',
             ),
             paragraph(
-              'Apple diagnosticは障害調査と品質・安定性改善だけに利用します。raw diagnosticは分析に必要な間だけ処理し、恒久保存しません。個人や端末を識別し得る情報とraw logを除いたsanitized summaryだけを保存します。',
+              'Appleの診断情報は障害調査と品質・安定性改善だけに利用します。未加工の診断情報は分析に必要な間だけ処理し、恒久保存しません。個人や端末を識別し得る情報と生ログを取り除いた要約だけを保存します。',
             ),
           ),
           subsection(
             '3.3 一方向の問題報告・フィードバック',
             paragraph(
-              'Owlariaまたは公式Webサイトから問題報告やフィードバックを送信できます。これは品質改善のための一方向の受付であり、個別supportではありません。個別回答、調査結果の通知、修正、修正時期を約束しません。',
+              'Owlariaまたは公式Webサイトから問題報告やフィードバックを送信できます。これは品質改善のための一方向の受付であり、個別サポートではありません。個別回答、調査結果の通知、修正、修正時期を約束しません。',
             ),
             paragraph('すべての送信で次の情報を受領します。'),
             list(
-              'ユーザーが選択したcategoryと入力した問題の説明',
-              '重複送信を防止するrequest ID',
-              '受付番号、受付日時、application identifierおよび送信元',
-              'フォームに表示したprivacy noticeのversion',
+              'ユーザーが選択したカテゴリーと入力した問題の説明',
+              '重複送信を防止するリクエストID',
+              '受付番号、受付日時、アプリ識別子および送信元',
+              'フォームに表示したプライバシーに関する説明のバージョン',
             ),
             paragraph(
               '返信希望、氏名、メールアドレス、件名、添付ファイルは求めません。',
             ),
             paragraph(
-              'ユーザーが送信ごとに内容を確認し、diagnosticを含めることを選択した場合だけ、次の情報も受領します。',
-            ),
-            list(
-              'Support ID（current anonymous RevenueCat App User ID）',
-              'アプリのversion・build、platform、OS version、locale、配布経路、Store環境、発生日時',
-              '構造化されたerror code、severityおよび許可されたerror context',
-              '課金問題では操作、結果、license状態、設定済みStore ID等の技術情報',
+              'Owlariaアプリでは、フォームを開いた時点で診断情報の添付がONになっています。送信前に内容を確認し、OFFへ変更できます。',
             ),
             paragraph(
-              'diagnosticを含めず、categoryと問題の説明だけでも送信できます。Support IDはApple Account、Owlariaアカウントまたは本人認証情報ではありません。',
+              'ユーザーが送信ごとに内容を確認し、診断情報を含めることを選択した場合だけ、次の情報も受領します。',
+            ),
+            list(
+              'Support ID（現在の匿名RevenueCat App User ID）',
+              'アプリのバージョン・ビルド、プラットフォーム、OSバージョン、ロケール、配布経路、ストア環境、発生日時',
+              '構造化されたエラーコード、重大度および許可されたエラーの関連情報',
+              '課金問題では操作、結果、ライセンス状態、設定済みストア識別子等の技術情報',
+            ),
+            paragraph(
+              '診断情報を含めず、カテゴリーと問題の説明だけでも送信できます。Support IDはApple Account、Owlariaアカウントまたは本人認証情報ではありません。',
             ),
           ),
           subsection(
             '3.4 APIおよびWebサイトの技術情報',
             paragraph(
-              '問題報告API、Web hosting、CDNおよびsecurity基盤は、service提供、rate limit、不正利用・security対策、障害調査のため、IPアドレス、User-Agent、request日時・path、error等を一時的に処理・記録する場合があります。',
+              '問題報告API、Webホスティング、CDNおよびセキュリティ基盤は、サービス提供、送信頻度の制限、不正利用・セキュリティ対策、障害調査のため、IPアドレス、User-Agent、リクエスト日時・パス、エラー等を一時的に処理・記録する場合があります。',
             ),
             paragraph(
-              'IPアドレスを問題報告recordやSupport IDへ保存・関連付けず、広告、profiling、trackingまたはproduct analyticsに利用しません。',
+              'IPアドレスを問題報告記録やSupport IDへ保存・関連付けず、広告、プロファイリング、追跡または製品の利用状況分析に利用しません。',
             ),
           ),
         ],
@@ -422,27 +428,27 @@ export const privacyPolicyCopy: Record<Locale, LegalDocumentCopy> = {
         blocks: [
           paragraph('情報を次の目的で利用します。'),
           list(
-            'Owlaria Plusの状態判定と購入、Restore、返金・取消の反映',
+            'Owlaria Plusの状態判定と購入、購入の復元、返金・取消の反映',
             '問題報告の受付、重複防止、分類および調査',
-            '不具合、crash、performanceおよび課金問題の原因調査',
+            '不具合、クラッシュ、パフォーマンスおよび課金問題の原因調査',
             'Owlariaの品質、安定性、安全性および機能の改善',
-            '不正利用・security incidentの防止、検知および対応',
+            '不正利用・セキュリティ上の問題の防止、検知および対応',
             '法令上の義務と権利の確立、行使または防御への対応',
           ),
           paragraph(
-            '第三者広告、情報の販売、marketing、profiling、cross-appまたはcross-site trackingには利用しません。',
+            '第三者広告、情報の販売、マーケティング、プロファイリング、アプリ間またはサイト間の追跡には利用しません。',
           ),
         ],
       },
       {
         id: 'analytics',
-        title: '5. Analytics、広告およびtracking',
+        title: '5. 利用状況の分析、広告および追跡',
         blocks: [
           paragraph(
-            '初回公開では、Owlariaと公式Webサイトに独自のproduct analytics、Web analytics、広告SDK、広告cookieまたはcross-site trackingを導入しません。session、画面遷移、機能利用、読書・閲覧履歴、独自visitor IDを収集しません。',
+            '初回公開では、Owlariaと公式Webサイトに独自の製品利用状況分析、Webアクセス解析、広告SDK、広告Cookieまたはサイト間の追跡を導入しません。セッション、画面遷移、機能利用、読書・閲覧履歴、独自の訪問者識別子を収集しません。',
           ),
           paragraph(
-            '将来導入する場合は、実装前に本ポリシー、必要な同意およびStore表示を更新します。',
+            '将来導入する場合は、実装前に本ポリシー、必要な同意およびストア表示を更新します。',
           ),
         ],
       },
@@ -451,13 +457,13 @@ export const privacyPolicyCopy: Record<Locale, LegalDocumentCopy> = {
         title: '6. 第三者サービス',
         blocks: [
           list(
-            'Apple: App Storeでの購入、Restore、返金・取消およびApple diagnostic',
-            'RevenueCat: Owlaria Plusの購入状態とentitlementの管理',
-            'Google / Firebase: 問題報告の受付、保存、securityおよび管理',
-            'GitHub: Private GitHub Issueへの開発handoffとGitHub Pagesによる公式Web hosting',
+            'Apple: App Storeでの購入、購入の復元、返金・取消およびAppleの診断情報',
+            'RevenueCat: Owlaria Plusの購入状態と利用権限の管理',
+            'Google / Firebase: 問題報告の受付、保存、セキュリティおよび管理',
+            'GitHub: 開発のための非公開GitHub Issueへの引き渡しとGitHub Pagesによる公式Webホスティング',
           ),
           paragraph(
-            '本ポリシーに記載した目的に必要な範囲でserviceを利用します。法令に基づく場合、人の生命・財産・権利を保護するために必要な場合、または適切な保護を伴う事業承継等の場合を除き、情報を販売したり、目的と無関係な第三者へ提供したりしません。',
+            '本ポリシーに記載した目的に必要な範囲でサービスを利用します。法令に基づく場合、人の生命・財産・権利を保護するために必要な場合、または適切な保護を伴う事業承継等の場合を除き、情報を販売したり、目的と無関係な第三者へ提供したりしません。',
           ),
           links(...providerLinks.ja),
         ],
@@ -467,7 +473,7 @@ export const privacyPolicyCopy: Record<Locale, LegalDocumentCopy> = {
         title: '7. 国外での処理',
         blocks: [
           paragraph(
-            'Owlariaは複数の国・地域で提供します。providerの所在地やsystem構成により、情報がユーザーの居住国以外で処理・保存される場合があります。当方は適用法令およびproviderとの契約に基づいて必要な措置を講じます。',
+            'Owlariaは複数の国・地域で提供します。事業者の所在地やシステム構成により、情報がユーザーの居住国以外で処理・保存される場合があります。当方は適用法令および事業者との契約に基づいて必要な措置を講じます。',
           ),
         ],
       },
@@ -476,13 +482,13 @@ export const privacyPolicyCopy: Record<Locale, LegalDocumentCopy> = {
         title: '8. 保存期間と削除',
         blocks: [
           paragraph(
-            '問題報告、diagnostic、受付・管理情報には固定の保存期間や自動削除を設定しません。報告の確認・調査、品質改善、再発傾向の確認、不正利用防止、法的義務、権利の確立・行使・防御等のため合理的に必要な間、長期間保存する場合があります。',
+            '問題報告、診断情報、受付・管理情報には固定の保存期間や自動削除を設定しません。報告の確認・調査、品質改善、再発傾向の確認、不正利用防止、法的義務、権利の確立・行使・防御等のため合理的に必要な間、長期間保存する場合があります。',
           ),
           paragraph(
-            '保有する合理的な必要がなくなった場合、または対象となるprivacy請求へ対応する場合は、Firebase recordと報告から作成したPrivate GitHub Issueを手動で削除するか、識別可能な関連を取り除きます。',
+            '保有する合理的な必要がなくなった場合、または対象となるプライバシーに関する請求へ対応する場合は、Firebaseの記録と報告から作成した非公開GitHub Issueを手動で削除するか、識別可能な関連を取り除きます。',
           ),
           paragraph(
-            '問題報告本文は送信成功後にOwlaria端末内へ保持しません。Apple、RevenueCat、Google、GitHubその他のproviderが独自に保持する情報には、各providerの保存・削除方針が適用されます。',
+            '問題報告本文は送信成功後にOwlaria端末内へ保持しません。Apple、RevenueCat、Google、GitHubその他の事業者が独自に保持する情報には、各事業者の保存・削除方針が適用されます。',
           ),
         ],
       },
@@ -491,31 +497,31 @@ export const privacyPolicyCopy: Record<Locale, LegalDocumentCopy> = {
         title: '9. ユーザーの選択と請求',
         blocks: [
           list(
-            '問題報告ごとにdiagnosticを確認し、含めるか選択できます',
-            'diagnosticを含めずcategoryと問題の説明だけでも送信できます',
-            'Apple diagnosticの共有はAppleが提供する設定から管理できます',
+            '問題報告ごとに診断情報を確認し、含めるか選択できます',
+            '診断情報を含めずカテゴリーと問題の説明だけでも送信できます',
+            'Appleの診断情報の共有はAppleが提供する設定から管理できます',
             '当方が保有する情報の確認、訂正、削除または利用停止を相談できます',
           ),
           paragraph(
-            '受付番号等、recordを特定するために必要最小限の情報と合理的な確認を求める場合があります。法的な保存義務、不正防止、権利の確立・行使・防御等のため、請求どおりに対応できない場合があります。',
+            '受付番号等、記録を特定するために必要最小限の情報と合理的な確認を求める場合があります。法的な保存義務、不正防止、権利の確立・行使・防御等のため、請求どおりに対応できない場合があります。',
           ),
           paragraph(
-            'Apple、RevenueCat、Google、GitHubその他のproviderが独自に管理する情報については、各providerの窓口をご案内する場合があります。',
+            'Apple、RevenueCat、Google、GitHubその他の事業者が独自に管理する情報については、各事業者の窓口をご案内する場合があります。',
           ),
         ],
       },
       {
         id: 'security',
-        title: '10. 安全管理と開発handoff',
+        title: '10. 安全管理と開発への引き渡し',
         blocks: [
           paragraph(
-            '情報の性質とriskに応じ、access control、通信・保存時の保護、権限の制限、監査、data minimization等の合理的な安全管理措置を講じます。ただし、internet上の送信・保存について絶対的な安全性は保証できません。',
+            '情報の性質とリスクに応じ、アクセス制御、通信・保存時の保護、権限の制限、監査、データ最小化等の合理的な安全管理措置を講じます。ただし、インターネット上の送信・保存について絶対的な安全性は保証できません。',
           ),
           paragraph(
-            '開発や追加調査が必要な報告は、運営者の操作により、application設定済みのPrivate GitHub repositoryへIssue化する場合があります。受付番号、category、問題報告本文、platform、OS version、app version、課金状態およびprivate helpdesk recordへのlinkをhandoffする場合があります。',
+            '開発や追加調査が必要な報告は、運営者の操作により、アプリの設定で指定された非公開GitHubリポジトリへIssue化する場合があります。受付番号、カテゴリー、問題報告本文、プラットフォーム、OSバージョン、アプリバージョン、課金状態および非公開の問題報告管理記録へのリンクを引き渡す場合があります。',
           ),
           paragraph(
-            '上記に明記したplatform、OS version、app versionおよび課金状態を除き、Support IDその他の任意のdiagnostic payload項目はGitHubへ転記しません。Apple raw diagnostic、secret、個人・端末識別情報を公開GitHub Issueや公開通知へ記載しません。',
+            '上記に明記したプラットフォーム、OSバージョン、アプリバージョンおよび課金状態を除き、Support IDその他の任意の診断情報の送信項目はGitHubへ転記しません。Appleの未加工の診断情報、秘密情報、個人・端末識別情報を公開GitHub Issueや公開通知へ記載しません。',
           ),
         ],
       },
@@ -524,19 +530,19 @@ export const privacyPolicyCopy: Record<Locale, LegalDocumentCopy> = {
         title: '11. 本ポリシーの変更',
         blocks: [
           paragraph(
-            '機能、data flow、provider、法令または運用の変更に応じて本ポリシーを更新する場合があります。重要な変更は公式WebサイトまたはOwlariaでお知らせし、必要な場合は改めて同意を求めます。',
+            '機能、データの流れ、事業者、法令または運用の変更に応じて本ポリシーを更新する場合があります。重要な変更は公式WebサイトまたはOwlariaでお知らせし、必要な場合は改めて同意を求めます。',
           ),
         ],
       },
       {
         id: 'contact',
-        title: '12. Privacy窓口と運営者情報',
+        title: '12. プライバシー窓口と運営者情報',
         blocks: [
           paragraph(
-            'Privacyに関する連絡先: overpatch.ch@gmail.com。問題報告フォームは一方向の受付であり、privacy請求の連絡先ではありません。',
+            'プライバシーに関する連絡先: overpatch.ch@gmail.com。問題報告フォームは一方向の受付であり、プライバシーに関する請求の連絡先ではありません。',
           ),
           paragraph(
-            'Owlariaを提供する運営者の氏名、住所および電話番号は、適用法令上この開示方法が認められる場合、この連絡先への有効な請求に応じて遅滞なく提供します。法令により必要な場合は、App Storeの商品ページにも追加のtrader情報が表示されることがあります。',
+            'Owlariaを提供する運営者の氏名、住所および電話番号は、適用法令上この開示方法が認められる場合、この連絡先への有効な請求に応じて遅滞なく提供します。法令により必要な場合は、App Storeの商品ページにも追加の販売事業者情報が表示されることがあります。',
           ),
         ],
       },
@@ -775,7 +781,7 @@ export const termsCopy: Record<Locale, LegalDocumentCopy> = {
     metadata: {
       title: '利用規約 · Owlaria',
       description:
-        'ライセンス、Read-Only、backup、Owlaria Plus、問題報告を含むOwlariaの利用条件です。',
+        'ライセンス、読み取り専用、バックアップ、Owlaria Plus、問題報告を含むOwlariaの利用条件です。',
     },
     eyebrow: '法的情報 / 利用規約',
     title: 'Owlaria 利用規約',
@@ -790,93 +796,93 @@ export const termsCopy: Record<Locale, LegalDocumentCopy> = {
         title: '1. 適用と同意',
         blocks: [
           paragraph(
-            '本利用規約（以下「本規約」）は、共同運営団体overpatch（以下「overpatch」）が提供するOwlariaアプリの利用条件を定めます。Owlariaをdownload、installまたは利用することで、本規約に同意したものと扱います。',
+            '本利用規約（以下「本規約」）は、共同運営団体overpatch（以下「overpatch」）が提供するOwlariaアプリの利用条件を定めます。Owlariaをダウンロード、インストールまたは利用することで、本規約に同意したものと扱います。',
           ),
           paragraph(
-            'Owlariaは、overpatchを共同運営する構成員の一人が個人として保有するApple Developer Program accountを通じてApple App Storeで配信されます。Apple Standard Licensed Application End User License Agreement（Apple Standard EULA）が適用され、本規約はOwlaria固有条件を補足し、置き換えません。矛盾する場合は適用法令とApple Standard EULAが優先します。',
+            'Owlariaは、overpatchを共同運営する構成員の一人が個人として保有するApple Developer Programアカウントを通じてApple App Storeで配信されます。Apple Standard Licensed Application End User License Agreement（Apple Standard EULA）が適用され、本規約はOwlaria固有条件を補足し、置き換えません。矛盾する場合は適用法令とApple Standard EULAが優先します。',
           ),
           paragraph('同意できない場合はOwlariaを利用しないでください。'),
         ],
       },
       {
         id: 'license',
-        title: '2. Licenseと許可される利用',
+        title: '2. ライセンスと許可される利用',
         blocks: [
           paragraph(
-            '利用licenseにはApple Standard EULAとApple Usage Rulesが適用されます。適法な個人利用または組織内利用のためにOwlariaを利用できます。',
+            '利用ライセンスにはApple Standard EULAとAppleの使用ルールが適用されます。適法な個人利用または組織内利用のためにOwlariaを利用できます。',
           ),
           paragraph(
-            'Owlaria、公式Webサイト、design、logo、文章、softwareその他の権利は、overpatch、その構成員または各権利者に帰属します。open-source componentには各licenseが適用され、本規約は法令またはopen-source licenseで認められた権利を制限しません。',
+            'Owlaria、公式Webサイト、デザイン、ロゴ、文章、ソフトウェアその他の権利は、overpatch、その構成員または各権利者に帰属します。オープンソースの構成要素には各ライセンスが適用され、本規約は法令またはオープンソースライセンスで認められた権利を制限しません。',
           ),
         ],
       },
       {
         id: 'content',
-        title: '3. ユーザーcontentとdata source',
+        title: '3. ユーザーコンテンツとデータソース',
         blocks: [
           paragraph(
-            'Owlariaは、ユーザーが指定したlocal folder、SMB shareその他のdata sourceにある書籍を管理・閲覧するsoftwareです。overpatchは書籍その他のcontentを提供しません。',
+            'Owlariaは、ユーザーが指定したローカルフォルダ、SMB共有フォルダその他のデータソースにある書籍を管理・閲覧するソフトウェアです。overpatchは書籍その他のコンテンツを提供しません。',
           ),
           paragraph(
-            'ユーザーはcontentとdata sourceを利用するために必要な権利・許可を有し、適用法令を守る責任を負います。違法な複製、権利侵害またはaccess control・DRMの違法な回避に利用してはなりません。',
+            'ユーザーはコンテンツとデータソースを利用するために必要な権利・許可を有し、適用法令を守る責任を負います。違法な複製、権利侵害またはアクセス制御・DRMの違法な回避に利用してはなりません。',
           ),
           paragraph(
-            '書籍、library、metadataその他のcontentの所有権はユーザーまたは各権利者に残り、Owlariaやoverpatchへ移転しません。',
+            '書籍、ライブラリ、メタデータその他のコンテンツの所有権はユーザーまたは各権利者に残り、Owlariaやoverpatchへ移転しません。',
           ),
         ],
       },
       {
         id: 'read-only',
-        title: '4. Read-Only原則',
+        title: '4. 読み取り専用原則',
         blocks: [
           paragraph(
-            'Owlariaは、ユーザーが指定した原本data sourceへ書き込まない設計を重要な原則とします。scan、閲覧、metadata編集、Owlaria上の登録解除は、原本fileのrename、移動、削除、変更またはsidecar file作成を行わないよう設計され、overpatchは合理的な安全性testを維持します。',
+            'Owlariaは、ユーザーが指定した原本データソースへ書き込まない設計を重要な原則とします。スキャン、閲覧、メタデータ編集、Owlaria上の登録解除は、原本ファイルの名前変更、移動、削除、変更または付随する管理ファイルの作成を行わないよう設計され、overpatchは合理的な安全性テストを維持します。',
           ),
           paragraph(
-            'Owlariaはlibrary record、metadata、tag、series、閲覧状態、履歴、設定、credential、bookmark、thumbnail、cache等のlocal application dataを端末内で作成、更新または削除する場合があります。Owlaria上の登録解除は原則として原本fileを削除しません。',
+            'Owlariaはライブラリの登録情報、メタデータ、タグ、シリーズ、閲覧状態、履歴、設定、認証情報、ブックマーク、サムネイル、キャッシュ等のアプリデータを端末内で作成、更新または削除する場合があります。Owlaria上の登録解除は原則として原本ファイルを削除しません。',
           ),
         ],
       },
       {
         id: 'backups',
-        title: '5. Backupとdata保全',
+        title: '5. バックアップとデータ保全',
         blocks: [
           paragraph(
-            'Read-Only設計は、破損、消失、変更または利用不能が一切発生しないことを保証しません。software defect、OS、端末、storage、NAS、SMB、network、permission、credential、第三者service、電源・hardware障害、user operation等が原本やlocal dataへ影響する可能性があります。',
+            '読み取り専用設計は、破損、消失、変更または利用不能が一切発生しないことを保証しません。ソフトウェアの不具合、OS、端末、ストレージ、NAS、SMB、ネットワーク、アクセス権限、認証情報、第三者サービス、電源・ハードウェア障害、ユーザーの操作等が原本や端末内データへ影響する可能性があります。',
           ),
           paragraph(
-            'Owlariaを利用する前や重要な変更の前に、原本data sourceと必要なlocal application dataの独立したbackupを作成し、復元できることを確認してください。重要なcontentの唯一のcopyをbackupなしで利用しないでください。',
+            'Owlariaを利用する前や重要な変更の前に、原本データソースと必要な端末内のアプリデータの独立したバックアップを作成し、復元できることを確認してください。重要なコンテンツの唯一のコピーをバックアップなしで利用しないでください。',
           ),
           paragraph(
-            'overpatchはbackup serviceを提供せず、ユーザーの原本、NAS、SMB share、端末または第三者storageのavailability、integrity、securityを管理しません。',
+            'overpatchはバックアップサービスを提供せず、ユーザーの原本、NAS、SMB共有フォルダ、端末または第三者ストレージの利用可能性、完全性、セキュリティを管理しません。',
           ),
         ],
       },
       {
         id: 'environment',
-        title: '6. 利用環境と第三者service',
+        title: '6. 利用環境と第三者サービス',
         blocks: [
           paragraph(
-            'ユーザーは対応OS・端末、network、SMB 2.0 / 3.0以降のserver、permission、credential、storage容量等を用意し、安全に管理する責任を負います。SMB 1.0はsupport対象外です。',
+            'ユーザーは対応OS・端末、ネットワーク、SMB 2.0 / 3.0以降のサーバー、アクセス権限、認証情報、ストレージ容量等を用意し、安全に管理する責任を負います。SMB 1.0はサポート対象外です。',
           ),
           paragraph(
-            'OwlariaはApple App Store、RevenueCat、Apple diagnostic等を利用します。availability、仕様、policy、地域制限および変更はoverpatchの管理外であり、各serviceのtermsも適用されます。',
+            'OwlariaはApple App Store、RevenueCat、Appleの診断情報等を利用します。利用可能性、仕様、方針、地域制限および変更はoverpatchの管理外であり、各サービスの規約も適用されます。',
           ),
           links({ label: 'Owlariaプライバシーポリシー', href: '/ja/privacy/' }),
         ],
       },
       {
         id: 'plus',
-        title: '7. FreeとOwlaria Plus',
+        title: '7. 無料版とOwlaria Plus',
         blocks: [
           paragraph(
-            '無料版ではすべての機能を1 library・100冊まで利用できます。Owlaria Plusは上限を解除するOS別のone-time in-app purchaseであり、subscriptionではありません。',
+            '無料版ではすべての機能を1ライブラリ・100冊まで利用できます。Owlaria Plusは上限を解除するOS別の買い切りのアプリ内購入であり、サブスクリプションではありません。',
           ),
           paragraph(
-            'iOS版とmacOS版は別商品・別購入です。Restoreは購入時と同じOS・Apple Accountで行い、OS間で権利を共有、移行またはRestoreできません。',
+            'iOS版とmacOS版は別商品・別購入です。購入の復元は購入時と同じOS・Apple Accountで行い、OS間で購入権利を共有、移行または復元することはできません。',
           ),
           paragraph(
-            '購入、請求、返金の受付・審査・処理はAppleが行います。返金・取消が反映されるとFreeへ戻ります。既存のlibraryやbookは削除・閲覧不能になりませんが、Free上限を超えている間は追加できません。',
+            '購入、請求、返金の受付・審査・処理はAppleが行います。返金・取消が反映されると無料版へ戻ります。既存のライブラリやブックは削除・閲覧不能になりませんが、無料版の上限を超えている間は追加できません。',
           ),
           links({
             label: 'Owlaria Plusの購入・復元・返金案内',
@@ -886,13 +892,13 @@ export const termsCopy: Record<Locale, LegalDocumentCopy> = {
       },
       {
         id: 'updates',
-        title: '8. Update、変更および提供継続',
+        title: '8. 更新、変更および提供継続',
         blocks: [
           paragraph(
-            'overpatchはsecurity、法令、Store要件、platform・第三者serviceの変更、品質改善、運用・技術上の必要性に応じ、機能、仕様、対応環境、UIまたはFree / Plusの提供内容を変更、追加、停止または終了する場合があります。',
+            'overpatchはセキュリティ、法令、ストア要件、プラットフォーム・第三者サービスの変更、品質改善、運用・技術上の必要性に応じ、機能、仕様、対応環境、UIまたは無料版 / Plusの提供内容を変更、追加、停止または終了する場合があります。',
           ),
           paragraph(
-            'one-time purchaseは将来の全機能、すべてのplatform・serviceへの永久対応、無期限のupdate・supportまたは永久提供を約束しません。強行的な法定権利は制限せず、可能かつ合理的な場合は重大な変更をお知らせします。',
+            '買い切り購入は将来の全機能、すべてのプラットフォーム・サービスへの永久対応、無期限の更新・サポートまたは永久提供を約束しません。強行的な法定権利は制限せず、可能かつ合理的な場合は重大な変更をお知らせします。',
           ),
         ],
       },
@@ -901,37 +907,37 @@ export const termsCopy: Record<Locale, LegalDocumentCopy> = {
         title: '9. 禁止事項',
         blocks: [
           list(
-            '法令、本規約、Apple Standard EULAまたは第三者termsへの違反',
-            '著作権、privacy、securityその他の第三者の権利侵害',
-            '不正access、malware配布、脆弱性の悪用またはservice妨害',
-            '問題報告API、Webサイト、Store等へのspam、自動大量送信、rate limit回避または濫用',
-            'Owlariaの無断販売、再配布、sublicenseまたは不正提供',
-            '法令やopen-source licenseの範囲を超えるreverse engineering、decompile、改変または派生物作成',
-            '核兵器、missile、化学・生物兵器その他、輸出管理法令で禁止される用途への利用',
+            '法令、本規約、Apple Standard EULAまたは第三者規約への違反',
+            '著作権、プライバシー、セキュリティその他の第三者の権利侵害',
+            '不正アクセス、マルウェア配布、脆弱性の悪用またはサービス妨害',
+            '問題報告API、Webサイト、ストア等へのスパム、自動大量送信、送信頻度の制限回避または濫用',
+            'Owlariaの無断販売、再配布、再許諾または不正提供',
+            '法令やオープンソースライセンスの範囲を超えるリバースエンジニアリング、逆コンパイル、改変または派生物作成',
+            '核兵器、ミサイル、化学・生物兵器その他、輸出管理法令で禁止される用途への利用',
           ),
         ],
       },
       {
         id: 'reports',
-        title: '10. 問題報告とsupport',
+        title: '10. 問題報告とサポート',
         blocks: [
           paragraph(
-            'Owlariaと公式Webサイトの問題報告フォームは品質改善のための一方向の受付です。overpatchは個別回答、調査結果通知、修正、時期、回避策または継続的な個別supportを約束しません。',
+            'Owlariaと公式Webサイトの問題報告フォームは品質改善のための一方向の受付です。overpatchは個別回答、調査結果通知、修正、時期、回避策または継続的な個別サポートを約束しません。',
           ),
           paragraph(
-            'AppleはOwlaria固有のmaintenanceまたはsupportを提供する義務を負いません。情報の確認・訂正・削除等はPrivacy Policyのprivacy窓口で受け付けます。',
+            'AppleはOwlaria固有の保守またはサポートを提供する義務を負いません。情報の確認・訂正・削除等はプライバシーポリシーのプライバシー窓口で受け付けます。',
           ),
         ],
       },
       {
         id: 'warranty',
-        title: '11. Warrantyの制限',
+        title: '11. 保証の制限',
         blocks: [
           paragraph(
-            '適用法令で認められる最大限の範囲で、Owlariaは現状有姿かつ提供可能な範囲で提供されます。中断・error・security defectがないこと、すべての環境で動作すること、特定目的への適合またはdataの完全性・availabilityを保証しません。',
+            '適用法令で認められる最大限の範囲で、Owlariaは現状有姿かつ提供可能な範囲で提供されます。中断・エラー・セキュリティ上の欠陥がないこと、すべての環境で動作すること、特定目的への適合またはデータの完全性・利用可能性を保証しません。',
           ),
           paragraph(
-            '適用法令上排除・制限できないwarranty、救済または消費者の強行的な法定権利は制限しません。',
+            '適用法令上排除・制限できない保証、救済または消費者の強行的な法定権利は制限しません。',
           ),
         ],
       },
@@ -940,7 +946,7 @@ export const termsCopy: Record<Locale, LegalDocumentCopy> = {
         title: '12. 責任の範囲',
         blocks: [
           paragraph(
-            'overpatchの責めに帰さない損害、またはuser content・操作、backup不備、対応外環境、端末、storage、network、credential、第三者service、他software、hardware故障その他合理的な管理外の原因による損害について責任を負いません。',
+            'overpatchの責めに帰さない損害、またはユーザーのコンテンツ・操作、バックアップ不備、対応外環境、端末、ストレージ、ネットワーク、認証情報、第三者サービス、他のソフトウェア、ハードウェア故障その他合理的な管理外の原因による損害について責任を負いません。',
           ),
           paragraph(
             '適用法令で認められる範囲で、軽過失による責任は現実に発生した通常かつ直接の損害に限定され、間接、特別、結果損害、逸失利益および事業中断を除きます。',
@@ -988,10 +994,10 @@ export const termsCopy: Record<Locale, LegalDocumentCopy> = {
         title: '16. 連絡先と運営者情報',
         blocks: [
           paragraph(
-            '本規約に関する連絡先: overpatch.ch@gmail.com。この連絡先は個別の製品supportや修正依頼への回答を保証しません。',
+            '本規約に関する連絡先: overpatch.ch@gmail.com。この連絡先は個別の製品サポートや修正依頼への回答を保証しません。',
           ),
           paragraph(
-            'Owlariaを提供する運営者の氏名、住所および電話番号は、適用法令上この開示方法が認められる場合、この連絡先への有効な請求に応じて遅滞なく提供します。法令により必要な場合はApp Storeの商品ページにも追加のtrader情報が表示されることがあります。',
+            'Owlariaを提供する運営者の氏名、住所および電話番号は、適用法令上この開示方法が認められる場合、この連絡先への有効な請求に応じて遅滞なく提供します。法令により必要な場合はApp Storeの商品ページにも追加の販売事業者情報が表示されることがあります。',
           ),
         ],
       },

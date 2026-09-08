@@ -71,7 +71,7 @@ export const supportHubCopy: Record<Locale, SupportHubCopy> = {
       label: 'アプリ内',
       title: 'アプリの問題を報告する',
       paragraphs: [
-        'アプリ側の問題を報告するには、OwlariaでSettings > Information > Report a problemを開いてください。対応する課金エラーでは、Report this problemが表示される場合もあります。',
+        'アプリ側の問題を報告するには、Owlariaで「設定 > 情報 > 問題を報告する」を開いてください。対応する課金エラーでは、「この問題を報告」が表示される場合もあります。',
         'これは一方向の問題報告・フィードバック受付です。連絡先情報を収集せず、個別返信や調査結果の通知、修正の実施や時期を約束しません。',
         '診断情報は送信前に確認し、送信ごとに含めるか選択できます。診断情報を含めず、カテゴリーと問題の説明だけでも報告できます。',
       ],

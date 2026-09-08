@@ -9,6 +9,8 @@ const legalPages = [
     termsHeading: 'Owlaria Terms of Use',
     effectiveDate: 'August 15, 2026',
     privacyContact: 'overpatch.ch@gmail.com',
+    diagnosticDefault:
+      'In the Owlaria app, diagnostic inclusion is on by default when the form opens. You can review the information and turn it off before submitting.',
     purchasesPath: '/support/purchases/',
     alternatePrivacyPath: '/ja/privacy/',
     alternateTermsPath: '/ja/terms/',
@@ -21,6 +23,8 @@ const legalPages = [
     termsHeading: 'Owlaria 利用規約',
     effectiveDate: '2026年8月15日',
     privacyContact: 'overpatch.ch@gmail.com',
+    diagnosticDefault:
+      'Owlariaアプリでは、フォームを開いた時点で診断情報の添付がONになっています。送信前に内容を確認し、OFFへ変更できます。',
     purchasesPath: '/ja/support/purchases/',
     alternatePrivacyPath: '/privacy/',
     alternateTermsPath: '/terms/',
@@ -46,6 +50,9 @@ for (const legalPage of legalPages) {
     ).toBeVisible();
     await expect(page.getByText(legalPage.effectiveDate)).toHaveCount(2);
     await expect(page.getByText(legalPage.privacyContact)).toBeVisible();
+    await expect(
+      page.getByText(legalPage.diagnosticDefault, { exact: true }),
+    ).toBeVisible();
     await expect(page.locator('[data-legal-section]')).toHaveCount(12);
     await expect(page.getByText(/being prepared|準備しています/)).toHaveCount(
       0,
@@ -92,7 +99,7 @@ test('legal pages remain readable on mobile without horizontal overflow', async 
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
 
-  for (const path of ['/privacy/', '/terms/']) {
+  for (const path of ['/privacy/', '/ja/privacy/', '/terms/', '/ja/terms/']) {
     await page.goto(path);
     const hasHorizontalOverflow = await page.evaluate(
       () =>
