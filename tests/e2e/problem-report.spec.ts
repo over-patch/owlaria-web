@@ -22,7 +22,7 @@ const locales = [
     submit: '問題報告を送信',
     privacy: 'プライバシーポリシー',
     privacyPath: '/ja/privacy/',
-    appRoute: 'Settings > Information > Report a problem',
+    appRoute: '設定 > 情報 > 問題を報告する',
     noScript: 'このWebフォームの送信にはJavaScriptが必要です',
   },
 ] as const;

@@ -253,7 +253,7 @@ export const purchaseSupportCopy: Record<Locale, PurchaseSupportCopy> = {
         paragraphs: [
           [
             text(
-              '購入したときと同じOS、同じApple Accountを使用していることを確認し、Owlariaの設定画面または購入画面から「購入を復元（Restore Purchases）」を選択してください。',
+              '購入したときと同じOS、同じApple Accountを使用していることを確認し、Owlariaの設定画面または購入画面から「購入を復元」を選択してください。',
             ),
           ],
           [
@@ -302,12 +302,12 @@ export const purchaseSupportCopy: Record<Locale, PurchaseSupportCopy> = {
         paragraphs: [
           [
             text(
-              '購入、復元、またはAppleで処理済みの返金がOwlariaへ反映されない場合は、アプリ内から問題を報告できます。Settings > Information > Report a problemを開いてください。',
+              '購入、復元、またはAppleで処理済みの返金がOwlariaへ反映されない場合は、アプリ内から問題を報告できます。「設定 > 情報 > 問題を報告する」を開いてください。',
             ),
           ],
           [
             text(
-              '対応する課金エラーでは、エラー表示の「Report this problem」を選ぶと、課金カテゴリーと診断コンテキストが設定されたフォームを開けます。',
+              '対応する課金エラーでは、エラー表示の「この問題を報告」を選ぶと、課金カテゴリーと診断コンテキストが設定されたフォームを開けます。',
             ),
           ],
           [

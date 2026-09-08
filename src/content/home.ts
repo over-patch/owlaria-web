@@ -337,8 +337,8 @@ export const homeCopy: Record<Locale, HomeCopy> = {
         body: '作品やその日の読み方に合わせて、表示スタイルをいつでも切り替えられます。',
         modes: [
           {
-            title: '作品に合わせた読み方向',
-            options: ['右開き', '左開き', '縦読み'],
+            title: '作品に合わせた読書方向',
+            options: ['右から左', '左から右', '縦スクロール'],
           },
           {
             title: 'ページの表示方法',
@@ -381,7 +381,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
         {
           icon: 'search',
           title: '細かな検索と絞り込み',
-          body: 'タイトル、作者、シリーズ、タグ、評価、読書状態などから探せます。',
+          body: 'タイトル、著者、シリーズ、タグ、評価、読書状態などから探せます。',
         },
         {
           icon: 'tracking',

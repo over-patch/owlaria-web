@@ -101,12 +101,25 @@ describe('purchase support content', () => {
   });
 
   it('publishes the implemented in-app problem-report routes in both locales', () => {
-    for (const locale of ['en', 'ja'] as const) {
-      expect(localeText(locale)).toContain(
+    for (const [locale, route, action] of [
+      [
+        'en',
         'Settings > Information > Report a problem',
-      );
-      expect(localeText(locale)).toContain('Report this problem');
+        'Report this problem',
+      ],
+      ['ja', '設定 > 情報 > 問題を報告する', 'この問題を報告'],
+    ] as const) {
+      expect(localeText(locale)).toContain(route);
+      expect(localeText(locale)).toContain(action);
+      expect(
+        supportHubCopy[locale].problemReport.paragraphs.join(' '),
+      ).toContain(route);
+      expect(
+        supportHubCopy[locale].problemReport.paragraphs.join(' '),
+      ).toContain(action);
     }
+    expect(localeText('ja')).toContain('「購入を復元」');
+    expect(localeText('ja')).not.toContain('Restore Purchases');
 
     expect(localeText('en')).toContain(
       'billing category and diagnostic context already selected',

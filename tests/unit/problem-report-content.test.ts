@@ -48,10 +48,10 @@ describe('Web problem-report content', () => {
       'Support ID',
       'ファイルパス',
       '書籍・ライブラリ',
-      'raw log',
-      'receipt',
-      'transaction ID',
-      'credential',
+      '生ログ',
+      'レシート',
+      '取引ID',
+      '認証情報',
     ]) {
       expect(allText('ja')).toContain(phrase);
     }
@@ -65,8 +65,11 @@ describe('Web problem-report content', () => {
       'Settings > Information > Report a problem',
     );
     expect(allText('ja')).toContain('診断情報');
-    expect(allText('ja')).toContain(
-      'Settings > Information > Report a problem',
+    expect(problemReportCopy.ja.appAlternative).toContain(
+      '設定 > 情報 > 問題を報告する',
+    );
+    expect(problemReportCopy.ja.noScript).toContain(
+      '設定 > 情報 > 問題を報告する',
     );
   });
 
