@@ -4,6 +4,7 @@ import SiteHeader from '../components/SiteHeader.astro';
 import { siteCopy } from '../content/site';
 import { absoluteLocaleUrl, locales, type Locale } from '../i18n/config';
 import { LOCALE_PREFERENCE_COOKIE } from '../i18n/locale-preference';
+import { getLocaleFontPreloads } from '../styles/fontPreloads';
 import '../styles/global.css';
 import interFontStylesheet from '@fontsource-variable/inter/wght.css?url';
 import japaneseFontStylesheet from '@fontsource-variable/noto-sans-jp/wght.css?url';
@@ -21,6 +22,7 @@ const japaneseUrl = absoluteLocaleUrl('ja', pathname);
 const canonicalUrl = absoluteLocaleUrl(locale, pathname);
 const fontStylesheet =
   locale === 'ja' ? japaneseFontStylesheet : interFontStylesheet;
+const fontPreloads = getLocaleFontPreloads(locale, pathname);
 const detectBrowserLocale = locale === 'en' && pathname === '/';
 const browserLocaleRedirectScript = `
   const supportedLocales = ${JSON.stringify(locales)};
@@ -69,6 +71,17 @@ const browserLocaleRedirectScript = `
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#030611" />
+    {
+      fontPreloads.map((fontUrl) => (
+        <link
+          rel="preload"
+          href={fontUrl}
+          as="font"
+          type="font/woff2"
+          crossorigin="anonymous"
+        />
+      ))
+    }
     <link rel="stylesheet" href={fontStylesheet} />
     <link rel="icon" type="image/png" href="/owlaria-app-icon.png" />
     <link rel="canonical" href={canonicalUrl} />

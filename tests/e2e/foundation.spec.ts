@@ -11,16 +11,187 @@ const routePairs = [
 
 const origin = 'https://owlaria.overpatch.dev';
 
+const japanesePreloadFiles = (...subsets: number[]) => [
+  ...subsets.map((subset) => `noto-sans-jp-${subset}-wght-normal`),
+  'noto-sans-jp-latin-wght-normal',
+];
+
 const bundledFonts = [
   {
     path: '/',
     family: 'Inter Variable',
     absentFamily: 'Noto Sans JP Variable',
+    preloadFiles: ['inter-latin-wght-normal'],
   },
   {
     path: '/ja/',
     family: 'Noto Sans JP Variable',
     absentFamily: 'Inter Variable',
+    preloadFiles: japanesePreloadFiles(
+      90,
+      93,
+      106,
+      107,
+      108,
+      109,
+      110,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+    ),
+  },
+  {
+    path: '/ja/features/',
+    family: 'Noto Sans JP Variable',
+    absentFamily: 'Inter Variable',
+    preloadFiles: japanesePreloadFiles(
+      88,
+      93,
+      96,
+      100,
+      102,
+      103,
+      104,
+      105,
+      106,
+      109,
+      110,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+    ),
+  },
+  {
+    path: '/ja/support/',
+    family: 'Noto Sans JP Variable',
+    absentFamily: 'Inter Variable',
+    preloadFiles: japanesePreloadFiles(
+      94,
+      100,
+      101,
+      102,
+      103,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+    ),
+  },
+  {
+    path: '/ja/support/purchases/',
+    family: 'Noto Sans JP Variable',
+    absentFamily: 'Inter Variable',
+    preloadFiles: japanesePreloadFiles(
+      88,
+      100,
+      103,
+      104,
+      108,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+    ),
+  },
+  {
+    path: '/ja/privacy/',
+    family: 'Noto Sans JP Variable',
+    absentFamily: 'Inter Variable',
+    preloadFiles: japanesePreloadFiles(
+      93,
+      95,
+      97,
+      98,
+      102,
+      103,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+    ),
+  },
+  {
+    path: '/ja/terms/',
+    family: 'Noto Sans JP Variable',
+    absentFamily: 'Inter Variable',
+    preloadFiles: japanesePreloadFiles(
+      69,
+      74,
+      81,
+      92,
+      93,
+      94,
+      99,
+      103,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+    ),
+  },
+  {
+    path: '/ja/releases/',
+    family: 'Noto Sans JP Variable',
+    absentFamily: 'Inter Variable',
+    preloadFiles: japanesePreloadFiles(
+      100,
+      107,
+      110,
+      113,
+      115,
+      116,
+      117,
+      118,
+      119,
+    ),
   },
 ] as const;
 
@@ -166,20 +337,45 @@ test('a first visit from a Japanese browser opens the Japanese homepage', async 
   expect(preference).toMatchObject({ value: 'ja', path: '/', sameSite: 'Lax' });
 });
 
-for (const { path, family, absentFamily } of bundledFonts) {
+for (const { path, family, absentFamily, preloadFiles } of bundledFonts) {
   test(`${path} loads only its localized bundled font`, async ({ page }) => {
     await page.goto(path);
     await page.evaluate(() => document.fonts.ready);
 
     const fontState = await page.evaluate((expectedFamily) => {
       const computedFamily = getComputedStyle(document.body).fontFamily;
+      const sampleText = document.querySelector('main h1')?.textContent ?? '';
+      const matchingFontFaceRules = Array.from(document.styleSheets).flatMap(
+        (stylesheet) =>
+          Array.from(stylesheet.cssRules).filter(
+            (rule): rule is CSSFontFaceRule =>
+              rule instanceof CSSFontFaceRule &&
+              rule.style
+                .getPropertyValue('font-family')
+                .includes(expectedFamily),
+          ),
+      );
 
       return {
         computedFamily,
+        fontDisplays: matchingFontFaceRules.map((rule) =>
+          rule.style.getPropertyValue('font-display'),
+        ),
+        fontPreloads: Array.from(
+          document.querySelectorAll<HTMLLinkElement>(
+            'link[rel="preload"][as="font"]',
+          ),
+          (link) => ({
+            href: link.href,
+            type: link.type,
+            crossOrigin: link.crossOrigin,
+          }),
+        ),
         registeredFamilies: [
           ...new Set(Array.from(document.fonts, (font) => font.family)),
         ],
-        loaded: document.fonts.check(`16px "${expectedFamily}"`),
+        sampleText,
+        loaded: document.fonts.check(`16px "${expectedFamily}"`, sampleText),
       };
     }, family);
 
@@ -187,9 +383,23 @@ for (const { path, family, absentFamily } of bundledFonts) {
       fontState.computedFamily,
       `${path} resolved to ${fontState.computedFamily}`,
     ).toContain(family);
+    expect(fontState.sampleText).not.toBe('');
     expect(fontState.loaded, `${family} did not finish loading`).toBe(true);
     expect(fontState.registeredFamilies).toContain(family);
     expect(fontState.registeredFamilies).not.toContain(absentFamily);
+    expect(fontState.fontDisplays.length).toBeGreaterThan(0);
+    expect(new Set(fontState.fontDisplays)).toEqual(new Set(['optional']));
+    expect(fontState.fontPreloads).toEqual(
+      expect.arrayContaining(
+        preloadFiles.map((filename) =>
+          expect.objectContaining({
+            href: expect.stringContaining(filename),
+            type: 'font/woff2',
+            crossOrigin: 'anonymous',
+          }),
+        ),
+      ),
+    );
   });
 }
 
