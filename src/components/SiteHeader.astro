@@ -10,7 +10,8 @@ interface Props {
 const { locale, pathname } = Astro.props;
 const copy = siteCopy[locale];
 const homePath = localePath(locale, '/');
-const languagePath = localePath(alternateLocale(locale), pathname);
+const targetLocale = alternateLocale(locale);
+const languagePath = localePath(targetLocale, pathname);
 ---
 
 <header class="site-header" data-site-header>
@@ -67,7 +68,8 @@ const languagePath = localePath(alternateLocale(locale), pathname);
       <a
         class="locale-link"
         href={languagePath}
-        hreflang={alternateLocale(locale)}
+        hreflang={targetLocale}
+        data-locale-preference={targetLocale}
         data-testid="header-locale-switch"
       >
         {copy.languageName}

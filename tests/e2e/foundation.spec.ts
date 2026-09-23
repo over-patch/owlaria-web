@@ -123,6 +123,28 @@ for (const [englishPath, japanesePath] of routePairs) {
   });
 }
 
+test('locale switches remember each explicit language choice', async ({
+  context,
+  page,
+}) => {
+  await page.goto('/');
+  await page.getByTestId('header-locale-switch').click();
+  await expect(page).toHaveURL('/ja/');
+
+  let preference = (await context.cookies()).find(
+    ({ name }) => name === 'owlaria_locale',
+  );
+  expect(preference).toMatchObject({ value: 'ja', path: '/', sameSite: 'Lax' });
+
+  await page.getByTestId('header-locale-switch').click();
+  await expect(page).toHaveURL('/');
+
+  preference = (await context.cookies()).find(
+    ({ name }) => name === 'owlaria_locale',
+  );
+  expect(preference).toMatchObject({ value: 'en', path: '/', sameSite: 'Lax' });
+});
+
 for (const { path, family, absentFamily } of bundledFonts) {
   test(`${path} loads only its localized bundled font`, async ({ page }) => {
     await page.goto(path);
@@ -152,6 +174,15 @@ for (const { path, family, absentFamily } of bundledFonts) {
 
 test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
+
+  test('locale links remain ordinary navigation', async ({ page }) => {
+    await page.goto('/ja/');
+
+    await page.getByTestId('header-locale-switch').click();
+
+    await expect(page).toHaveURL('/');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  });
 
   test('mobile navigation stays in flow and usable', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });

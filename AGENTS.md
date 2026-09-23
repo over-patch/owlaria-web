@@ -6,6 +6,7 @@ This repository contains the public product website for Owlaria. These rules app
 
 - Build a static Astro website for `https://owlaria.overpatch.dev/`.
 - Deploy the production build to GitHub Pages from GitHub Actions after changes are merged to `main`.
+- Keep the Cloudflare Worker limited to the country-based homepage locale redirect; GitHub Pages remains the static origin.
 - Keep the initial architecture small enough for a two-person team to maintain.
 - Do not add a CMS, dedicated backend, external preview service, or runtime database unless a later issue explicitly approves it.
 - Track planning and implementation work in `over-patch/owlaria`, primarily under issue #1417 and its sub-issues.
@@ -51,6 +52,7 @@ This repository contains the public product website for Owlaria. These rules app
 - Japanese uses the `/ja/` prefix.
 - Canonical URLs use trailing slashes.
 - Do not redirect automatically based on browser language.
+- The approved country-based exception may redirect only a first-time `GET` or `HEAD` request for `/` from Japan to `/ja/`; an explicit locale preference must always win.
 - Do not render English body content at a Japanese URL as a fallback.
 - Publish English and Japanese together by default. English-only publication is reserved for explicitly approved urgent cases.
 - Generate self-referencing canonical metadata, reciprocal `hreflang` metadata, and an English `x-default`.
@@ -98,7 +100,7 @@ This repository contains the public product website for Owlaria. These rules app
 - Never read, print, commit, summarize, or publish secret values.
 - Treat `.env*`, credentials, private keys, tokens, certificates, and local release material as secret.
 - It is acceptable to check that a required variable or file exists without displaying its value.
-- Keep build and deploy free of secrets unless GitHub Pages later requires a narrowly scoped, documented credential.
+- Keep the GitHub Pages build and deploy free of secrets. Cloudflare credentials are used only by an authorized operator or narrowly scoped deployment integration and must remain outside the repository.
 
 ## Git And Pull Requests
 

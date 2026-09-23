@@ -31,6 +31,7 @@ mise exec -- pnpm lint
 mise exec -- pnpm lint:actions
 mise exec -- pnpm check
 mise exec -- pnpm check:i18n
+mise exec -- pnpm check:edge
 mise exec -- pnpm test
 mise exec -- pnpm exec playwright install chromium webkit
 mise exec -- pnpm build
@@ -84,6 +85,24 @@ Record the merge commit, CI run, deploy run, Pages URL, and timestamp in the
 preflight evidence. If the deploy workflow fails, investigate the workflow log
 and fix it through a pull request; do not upload an artifact by hand.
 
+### 4a. Deploy the locale Worker
+
+GitHub Pages remains the origin, but the proxied Cloudflare DNS record runs the
+locale Worker before origin traffic. After Pages succeeds, an authorized
+Cloudflare operator runs:
+
+```sh
+mise exec -- pnpm check:edge
+mise exec -- pnpm deploy:edge
+```
+
+`wrangler.jsonc` owns the `owlaria.overpatch.dev/*` route. The operator must be
+authenticated outside the repository; never put an API token in a tracked file
+or command output. Confirm that Cloudflare DNS has a proxied `owlaria` CNAME
+targeting `over-patch.github.io`, that SSL/TLS mode validates the GitHub Pages
+origin certificate, and that no A/AAAA record competes with the CNAME. Record
+the Worker deployment identifier and timestamp in the preflight evidence.
+
 ## 5. Smoke-test production
 
 After Pages reports success, open the custom production URL and test every
@@ -105,6 +124,27 @@ smoke-test each published `/releases/<version>/` and
 metadata, including `/owlaria-app-icon.png` and
 `/social/owlaria-social.png`. Record the production URL, time, browser/device,
 and result.
+
+For the locale Worker, use a connection whose public IP resolves to Japan and
+verify the first response before following redirects:
+
+```sh
+curl --head --max-redirs 0 'https://owlaria.overpatch.dev/?locale-smoke=1'
+curl --head --max-redirs 0 'http://owlaria.overpatch.dev/?locale-smoke=1'
+curl --head --max-redirs 0 \
+  --cookie 'owlaria_locale=en' \
+  'https://owlaria.overpatch.dev/?locale-smoke=1'
+curl --head --max-redirs 0 'https://owlaria.overpatch.dev/support/'
+```
+
+The first request must return `307`, preserve `?locale-smoke=1` in the
+`Location` value, and set `owlaria_locale=ja`. The HTTP request must return
+`308` to the same HTTPS URL without setting a locale cookie. The explicit
+English preference and non-home route must not country-redirect. Also switch
+Japanese → English → Japanese in a browser and confirm each explicit choice
+remains in effect. Do not try to simulate country by supplying a client
+`CF-IPCountry` header; the Worker uses Cloudflare's trusted
+`request.cf.country` value.
 
 ## 6. Publish release notes safely
 
@@ -150,7 +190,7 @@ release directory or `internal.md` manually.
 
 ## 7. Roll back with a revert pull request
 
-If a production smoke test finds a faulty change:
+If a production smoke test finds a faulty static-site change:
 
 1. Identify the faulty pull request and its merge commit. Preserve the failed
    deploy run and smoke-test evidence.
@@ -165,3 +205,13 @@ If a production smoke test finds a faulty change:
 Never force-push `main` and never manually replace or delete the GitHub Pages
 artifact. If the underlying content needs a follow-up fix, make it in another
 pull request after the rollback is confirmed.
+
+If the Worker itself causes an incident, first disable the
+`owlaria.overpatch.dev/*` Worker route in Cloudflare so requests pass directly
+to GitHub Pages, then preserve the deployment and smoke-test evidence. Fix the
+Worker through a pull request and run `pnpm check:edge` plus the full quality
+gate. Because `wrangler.jsonc` owns the production route, `pnpm deploy:edge`
+restores it immediately; have the rollback owner ready, deploy during a
+monitored window, and run the HTTP, country, preference, and pass-through smoke
+tests at once. If any smoke test fails, disable the route again. Record the
+deployment identifier, test results, and any repeated disable action.
