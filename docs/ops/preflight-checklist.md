@@ -13,7 +13,7 @@ a deferred follow-up below.
       optional and is not a merge requirement.
 - [ ] `Verify website` is passing for the latest commit.
 - [ ] Local quality gate results are recorded: `format:check`, `lint`,
-      `lint:actions`, `check`, `check:i18n`, `check:edge`, `test`, build,
+      `lint:actions`, `check`, `check:i18n`, `test`, build,
       `test:links`, and `test:e2e`.
 
 - [ ] Source and every configured translation were reviewed together following
@@ -30,12 +30,12 @@ a deferred follow-up below.
 - [ ] Every published release-detail route is checked in both locales.
 - [ ] Locale switching stays on the equivalent logical route and never falls
       back to the wrong language.
-- [ ] A Japanese-network request for `/` without `owlaria_locale` receives a
-      307 redirect to `/ja/`, preserves its query string, and stores `ja`.
+- [ ] A browser whose first supported preferred language is Japanese visits
+      `/` without `owlaria_locale`, opens `/ja/`, preserves its query string,
+      and stores `ja`.
 - [ ] Explicit `owlaria_locale=en` and `owlaria_locale=ja` preferences suppress
-      automatic redirection, and `/support/` is never country-redirected.
-- [ ] Plain HTTP requests receive a 308 to the same HTTPS URL without a locale
-      cookie before country-based locale handling.
+      automatic redirection, and `/support/` is never language-redirected.
+- [ ] An English-first or unsupported browser language remains on `/`.
 - [ ] Desktop behavior is checked at 1440×1000.
 - [ ] Mobile behavior is checked at 390×844, including no horizontal overflow.
 
@@ -107,15 +107,10 @@ state until the follow-up evidence exists.
 
 - [ ] `Deploy to GitHub Pages` workflow succeeded, including the Pages artifact
       build and deployment step.
-- [ ] The `owlaria-locale-redirect` Worker deployment succeeded after the Pages
-      deployment, and its route is `owlaria.overpatch.dev/*`.
 - [ ] GitHub Pages project is configured for GitHub Actions and the custom
       domain is `owlaria.overpatch.dev`.
-- [ ] Cloudflare DNS has a proxied `owlaria` CNAME whose target is
-      `over-patch.github.io`; no A/AAAA record competes with it.
-- [ ] HTTPS is healthy for `https://owlaria.overpatch.dev/`; plain HTTP
-      canonicalizes to HTTPS with 308, and redirect loops or mixed-content
-      errors are absent.
+- [ ] HTTPS is healthy for `https://owlaria.overpatch.dev/`, and redirect loops
+      or mixed-content errors are absent.
 - [ ] Merge commit, CI run URL, deploy run URL, reviewer (if any), and
       production smoke test timestamp are recorded.
 - [ ] A rollback owner is named and can open the revert PR if needed.
@@ -128,7 +123,6 @@ state until the follow-up evidence exists.
 - Merge commit:
 - `Verify website` run:
 - `Deploy to GitHub Pages` run:
-- Cloudflare Worker deployment:
 - Production smoke-test timestamp and browser/device:
 - Reviewer (if any):
 - Rollback owner:

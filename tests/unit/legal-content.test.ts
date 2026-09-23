@@ -47,17 +47,19 @@ describe('legal public copy', () => {
     expect(copy).not.toMatch(/\[(?:YYYY|Month)|being prepared|準備しています/);
   });
 
-  it('discloses country-based locale selection and its preference cookie', () => {
+  it('discloses browser-language locale selection and its preference cookie', () => {
     const en = documentText(privacyPolicyCopy.en);
     const ja = documentText(privacyPolicyCopy.ja);
 
     expect(privacyPolicyCopy.en.updatedDate).toBe('September 23, 2026');
     expect(privacyPolicyCopy.ja.updatedDate).toBe('2026年9月23日');
-    expect(en).toContain('country code from the IP address');
+    expect(en).toContain('preferred browser languages');
+    expect(en).not.toContain('country code from the IP address');
     expect(en).toContain('owlaria_locale');
     expect(en).toContain('only en or ja for up to one year');
     expect(en).toContain('not used for analytics');
-    expect(ja).toContain('IPアドレスから2文字の国コード');
+    expect(ja).toContain('ブラウザの優先言語');
+    expect(ja).not.toContain('IPアドレスから2文字の国コード');
     expect(ja).toContain('owlaria_locale');
     expect(ja).toContain('enまたはjaのみで、最長1年間');
     expect(ja).toContain(

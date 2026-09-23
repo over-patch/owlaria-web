@@ -1,10 +1,52 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  browserLocaleRedirectUrl,
   LOCALE_PREFERENCE_COOKIE,
+  preferredSupportedLocale,
   readLocalePreference,
   serializeLocalePreference,
 } from '../../src/i18n/locale-preference';
+
+describe('browser locale preference', () => {
+  it.each([
+    [['ja-JP', 'en-US'], 'ja'],
+    [['en-US', 'ja-JP'], 'en'],
+    [['fr-FR', 'ja'], 'ja'],
+    [['fr-FR'], null],
+  ] as const)(
+    'selects the first supported locale from %j',
+    (languages, expected) => {
+      expect(preferredSupportedLocale(languages)).toBe(expected);
+    },
+  );
+
+  it('redirects a first Japanese-browser homepage visit and preserves the URL suffix', () => {
+    expect(
+      browserLocaleRedirectUrl(
+        'https://owlaria.overpatch.dev/?source=bookmark#hero',
+        null,
+        ['ja-JP', 'en-US'],
+      ),
+    ).toBe('https://owlaria.overpatch.dev/ja/?source=bookmark#hero');
+  });
+
+  it.each([
+    ['an explicit English preference', '/', 'owlaria_locale=en', ['ja-JP']],
+    ['an explicit Japanese preference', '/', 'owlaria_locale=ja', ['ja-JP']],
+    ['an English browser', '/', null, ['en-US', 'ja-JP']],
+    ['an unsupported browser', '/', null, ['fr-FR']],
+    ['a non-home route', '/support/', null, ['ja-JP']],
+  ] as const)('does not redirect %s', (_label, path, cookie, languages) => {
+    expect(
+      browserLocaleRedirectUrl(
+        `https://owlaria.overpatch.dev${path}`,
+        cookie,
+        languages,
+      ),
+    ).toBeNull();
+  });
+});
 
 describe('locale preference cookie', () => {
   it.each([
@@ -43,7 +85,7 @@ describe('locale preference cookie', () => {
     );
   });
 
-  it('exports the stable cookie name used by the edge and website', () => {
+  it('exports the stable cookie name used by the website', () => {
     expect(LOCALE_PREFERENCE_COOKIE).toBe('owlaria_locale');
   });
 });
