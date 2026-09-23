@@ -9,7 +9,8 @@ interface Props {
 
 const { locale, pathname } = Astro.props;
 const copy = siteCopy[locale];
-const localeHref = localePath(alternateLocale(locale), pathname);
+const targetLocale = alternateLocale(locale);
+const localeHref = localePath(targetLocale, pathname);
 const currentYear = new Date().getUTCFullYear();
 ---
 
@@ -68,7 +69,8 @@ const currentYear = new Date().getUTCFullYear();
       <a
         class="footer-locale"
         href={localeHref}
-        hreflang={alternateLocale(locale)}
+        hreflang={targetLocale}
+        data-locale-preference={targetLocale}
         data-testid="footer-locale-switch"
       >
         {copy.language}: {copy.languageName}

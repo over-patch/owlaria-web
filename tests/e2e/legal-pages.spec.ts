@@ -8,6 +8,7 @@ const legalPages = [
     privacyHeading: 'Owlaria Privacy Policy',
     termsHeading: 'Owlaria Terms of Use',
     effectiveDate: 'August 15, 2026',
+    privacyUpdatedDate: 'September 23, 2026',
     privacyContact: 'overpatch.ch@gmail.com',
     diagnosticDefault:
       'In the Owlaria app, diagnostic inclusion is on by default when the form opens. You can review the information and turn it off before submitting.',
@@ -22,6 +23,7 @@ const legalPages = [
     privacyHeading: 'Owlaria プライバシーポリシー',
     termsHeading: 'Owlaria 利用規約',
     effectiveDate: '2026年8月15日',
+    privacyUpdatedDate: '2026年9月23日',
     privacyContact: 'overpatch.ch@gmail.com',
     diagnosticDefault:
       'Owlariaアプリでは、フォームを開いた時点で診断情報の添付がONになっています。送信前に内容を確認し、OFFへ変更できます。',
@@ -48,7 +50,8 @@ for (const legalPage of legalPages) {
         name: legalPage.privacyHeading,
       }),
     ).toBeVisible();
-    await expect(page.getByText(legalPage.effectiveDate)).toHaveCount(2);
+    await expect(page.getByText(legalPage.effectiveDate)).toHaveCount(1);
+    await expect(page.getByText(legalPage.privacyUpdatedDate)).toHaveCount(1);
     await expect(page.getByText(legalPage.privacyContact)).toBeVisible();
     await expect(
       page.getByText(legalPage.diagnosticDefault, { exact: true }),
