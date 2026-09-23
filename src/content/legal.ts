@@ -181,7 +181,7 @@ export const privacyPolicyCopy: Record<Locale, LegalDocumentCopy> = {
               'The problem-report API, website hosting, CDN, and security infrastructure may temporarily process or log IP address, User-Agent, request time and path, and error information to provide the service, apply rate limits, prevent abuse, maintain security, and investigate failures.',
             ),
             paragraph(
-              'On a first visit to the English homepage, our edge provider may derive a two-letter country code from the IP address. If the country code is JP and no language preference is stored, the website redirects to the Japanese homepage. We do not store the IP address or derived country code for this feature.',
+              'On a first visit to the English homepage, the website reads the preferred browser languages. If Japanese is the first supported language and no language preference is stored, the browser redirects to the Japanese homepage. This check runs in the browser, and we do not store the full language list for this feature.',
             ),
             paragraph(
               'We do not store or associate IP addresses with a problem-report record or Support ID, and we do not use them for advertising, profiling, tracking, or product analytics.',
@@ -215,7 +215,7 @@ export const privacyPolicyCopy: Record<Locale, LegalDocumentCopy> = {
             'For the initial release, neither Owlaria nor the official website uses our own product analytics, web analytics, advertising SDKs, advertising cookies, or cross-site tracking. We do not collect sessions, screen navigation, feature usage, reading or viewing history, or our own visitor identifier.',
           ),
           paragraph(
-            'The official website uses a first-party functional cookie named owlaria_locale to remember an explicit language choice or an automatic Japanese redirect. It stores only en or ja for up to one year and is not used for analytics, advertising, profiling, or tracking.',
+            'The official website uses a first-party functional cookie named owlaria_locale to remember an explicit language choice or an automatic browser-language redirect to Japanese. It stores only en or ja for up to one year and is not used for analytics, advertising, profiling, or tracking.',
           ),
           paragraph(
             'If we introduce any of these practices, we will update this Policy and any required consent or Store disclosure before implementation.',
@@ -423,7 +423,7 @@ export const privacyPolicyCopy: Record<Locale, LegalDocumentCopy> = {
               '問題報告API、Webホスティング、CDNおよびセキュリティ基盤は、サービス提供、送信頻度の制限、不正利用・セキュリティ対策、障害調査のため、IPアドレス、User-Agent、リクエスト日時・パス、エラー等を一時的に処理・記録する場合があります。',
             ),
             paragraph(
-              '英語トップページへの初回アクセス時に、Edge事業者がIPアドレスから2文字の国コードを判定する場合があります。国コードがJPで言語設定が保存されていない場合、日本語トップページへリダイレクトします。この機能のために当方がIPアドレスまたは判定された国コードを保存することはありません。',
+              '英語トップページへの初回アクセス時に、Webサイトはブラウザの優先言語を読み取ります。対応言語のうち日本語が最初で、言語設定が保存されていない場合、ブラウザ内で日本語トップページへリダイレクトします。この判定はブラウザ内で行い、この機能のために優先言語の一覧を保存することはありません。',
             ),
             paragraph(
               'IPアドレスを問題報告記録やSupport IDへ保存・関連付けず、広告、プロファイリング、追跡または製品の利用状況分析に利用しません。',
@@ -457,7 +457,7 @@ export const privacyPolicyCopy: Record<Locale, LegalDocumentCopy> = {
             '初回公開では、Owlariaと公式Webサイトに独自の製品利用状況分析、Webアクセス解析、広告SDK、広告Cookieまたはサイト間の追跡を導入しません。セッション、画面遷移、機能利用、読書・閲覧履歴、独自の訪問者識別子を収集しません。',
           ),
           paragraph(
-            '公式Webサイトは、明示的な言語選択または日本語ページへの自動リダイレクトを記憶するため、owlaria_localeというファーストパーティの機能Cookieを使用します。保存する値はenまたはjaのみで、最長1年間保持し、利用状況分析、広告、プロファイリングまたは追跡には使用しません。',
+            '公式Webサイトは、明示的な言語選択またはブラウザの優先言語に基づく日本語ページへの自動リダイレクトを記憶するため、owlaria_localeというファーストパーティの機能Cookieを使用します。保存する値はenまたはjaのみで、最長1年間保持し、利用状況分析、広告、プロファイリングまたは追跡には使用しません。',
           ),
           paragraph(
             '将来導入する場合は、実装前に本ポリシー、必要な同意およびストア表示を更新します。',

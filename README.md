@@ -7,9 +7,9 @@ Public product website for [Owlaria](https://github.com/over-patch/owlaria), pub
 The deployed site provides a bilingual product homepage, Support and purchase,
 restore, and refund guidance, legal pages, release-note routes, and a
 Helpdesk-backed problem-report form. GitHub Pages remains the static origin for
-the custom domain declared by `public/CNAME`; a narrowly scoped Cloudflare
-Worker handles the first-visit locale redirect before requests reach the
-origin. DNS and HTTPS are part of the deployed hosting baseline. The product screenshot work is tracked in
+the custom domain declared by `public/CNAME`. A small browser script handles
+the first-visit locale redirect without an edge service. DNS and HTTPS are part
+of the deployed hosting baseline. The product screenshot work is tracked in
 [#1563](https://github.com/over-patch/owlaria/issues/1563). Store URL activation
 is a separate deferred task: macOS and iOS acquisition actions must remain
 non-link `Coming soon` states until both canonical URLs are supplied and
@@ -18,8 +18,8 @@ verified.
 ## Architecture
 
 - Astro static site
-- GitHub Pages static origin
-- Cloudflare Worker for the country-based homepage redirect
+- GitHub Pages hosting
+- Browser-native preferred-language detection for the homepage
 - GitHub Actions build and deployment
 - English source locale at `/`
 - Japanese translation under `/ja/`
@@ -36,10 +36,9 @@ mise exec -- pnpm install
 mise exec -- pnpm dev
 ```
 
-The development server prints its local URL. It does not emulate Cloudflare's
-country lookup: `/` remains English locally, while Japanese pages live below
-`/ja/`. The locale Worker is covered by unit tests and can be bundled locally
-with `mise exec -- pnpm check:edge`.
+The development server prints its local URL. On a first visit to `/`, a browser
+whose first supported preferred language is Japanese is sent to `/ja/`.
+Explicit language choices are remembered locally and take precedence.
 
 ## Quality checks
 
@@ -48,7 +47,6 @@ Run the same checks used by pull requests:
 ```sh
 mise exec -- pnpm exec playwright install chromium webkit
 mise exec -- pnpm lint:actions
-mise exec -- pnpm check:edge
 mise exec -- pnpm verify:ci
 ```
 
@@ -65,32 +63,14 @@ This command requires Docker. It keeps container dependencies separate from
 the host `node_modules` directory. Workflow YAML linting remains a separate
 host check because `actionlint` is provided by this repository's mise setup.
 
-## GitHub Pages and Edge deployment
+## GitHub Pages deployment
 
 Pull requests run the full production validation workflow. A merge to `main` starts a separate GitHub Pages workflow that builds `dist/`, uploads the Pages artifact, and deploys it with GitHub's built-in Pages and OIDC permissions. The deployment does not require repository secrets.
 
-`public/CNAME` declares `owlaria.overpatch.dev` as the custom domain. Cloudflare
-DNS keeps the following record proxied so the Worker can run before the request
-reaches GitHub Pages:
-
-```text
-Type:  CNAME
-Name:  owlaria
-Value: over-patch.github.io
-Proxy status: Proxied
-```
-
-Do not add an A/AAAA record for this subdomain. GitHub repository settings use
-GitHub Actions as the Pages source and `owlaria.overpatch.dev` as the custom
-domain. `wrangler.jsonc` binds the Worker route to
-`owlaria.overpatch.dev/*`. An authorized Cloudflare operator deploys it after
-the Pages deployment with `mise exec -- pnpm deploy:edge`; credentials remain
-outside the repository. Check Pages, Worker, DNS, and HTTPS state during every
-production preflight.
-
-The Worker canonicalizes plain HTTP requests to the same HTTPS URL with a 308
-before applying locale behavior, so preference cookies are issued only on a
-secure origin.
+`public/CNAME` declares `owlaria.overpatch.dev` as the custom domain. GitHub
+repository settings use GitHub Actions as the Pages source and
+`owlaria.overpatch.dev` as the custom domain. No edge runtime or deployment
+credential is required for locale selection.
 
 ## Operations
 
@@ -107,11 +87,11 @@ secure origin.
 - Every localized route publishes self-canonical, English/Japanese `hreflang`, and English `x-default` metadata.
 - Locale navigation keeps users on the equivalent logical route and stores the
   explicit choice for one year in the first-party `owlaria_locale` cookie.
-- The Edge redirects only a `GET` or `HEAD` request for `/` from Japan when no
-  locale preference exists. It uses HTTP 307, preserves the query string, and
-  never redirects based on browser language.
-- Plain HTTP requests are first canonicalized to the same HTTPS URL with HTTP
-  308 and without setting a locale cookie.
+- On a first visit to `/`, the browser selects the first supported locale from
+  its ordered language preferences. Japanese redirects to `/ja/`; English or
+  no supported language leaves `/` unchanged.
+- The redirect preserves the query string and fragment. Explicit locale
+  choices stored in `owlaria_locale` always take precedence.
 
 Before contributing, read [AGENTS.md](./AGENTS.md).
 

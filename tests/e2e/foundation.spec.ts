@@ -145,6 +145,27 @@ test('locale switches remember each explicit language choice', async ({
   expect(preference).toMatchObject({ value: 'en', path: '/', sameSite: 'Lax' });
 });
 
+test('a first visit from a Japanese browser opens the Japanese homepage', async ({
+  context,
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'languages', {
+      configurable: true,
+      value: ['ja-JP', 'en-US'],
+    });
+  });
+
+  await page.goto('/?source=browser-language');
+
+  await expect(page).toHaveURL('/ja/?source=browser-language');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'ja');
+  const preference = (await context.cookies()).find(
+    ({ name }) => name === 'owlaria_locale',
+  );
+  expect(preference).toMatchObject({ value: 'ja', path: '/', sameSite: 'Lax' });
+});
+
 for (const { path, family, absentFamily } of bundledFonts) {
   test(`${path} loads only its localized bundled font`, async ({ page }) => {
     await page.goto(path);
