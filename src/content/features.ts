@@ -112,7 +112,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
     metadata: {
       title: 'Features · Owlaria',
       description:
-        'Explore how Owlaria organizes and reads comics across NAS and local folders without adding management files to your storage.',
+        'Discover how Owlaria helps you organize and read comics from NAS and local folders without adding management files to your storage.',
     },
     hero: {
       eyebrow: 'Owlaria features',
@@ -242,7 +242,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
         modeGroups: [
           {
             title: 'Reading direction',
-            values: ['Right-to-left', 'Left-to-right', 'Vertical'],
+            values: ['Right-to-left', 'Left-to-right', 'Vertical scrolling'],
           },
           {
             title: 'Page display',
@@ -325,7 +325,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
           },
           {
             title: 'Tag breakdown',
-            body: 'See how many owned comics are assigned to each tag.',
+            body: 'See how many comics in your collection use each tag.',
           },
         ],
       },
@@ -363,7 +363,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
     },
     formats: {
       eyebrow: 'Compatibility',
-      headingPhrases: ['Open the formats', 'comic libraries actually use.'],
+      headingPhrases: ['Open the file formats', 'commonly used for comics.'],
       body: 'Register and read without converting or extracting first.',
       archiveLabel: 'Supported files',
       archive: ['ZIP', 'CBZ', 'RAR', 'CBR', '7Z', 'CB7', 'LZH', 'PDF'],
@@ -574,7 +574,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
           },
           {
             title: 'キャッシュとオフライン保存',
-            body: '容量を管理できるキャッシュと、オフライン保存に対応します。',
+            body: 'キャッシュ容量を管理し、選んだコミックをオフライン読書用に保存できます。',
           },
           {
             title: '細部まで、自然に拡大',
