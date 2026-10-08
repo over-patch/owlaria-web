@@ -179,12 +179,12 @@ export const homeCopy: Record<Locale, HomeCopy> = {
       ],
       reader: {
         number: '03',
-        title: 'Choose how every comic reads.',
+        title: 'Read every comic your way.',
         body: 'Switch viewing styles at any time to match the comic and how you want to read.',
         modes: [
           {
             title: 'Reading direction',
-            options: ['Right-to-left', 'Left-to-right', 'Vertical'],
+            options: ['Right-to-left', 'Left-to-right', 'Vertical scrolling'],
           },
           {
             title: 'Page display',
