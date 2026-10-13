@@ -1,4 +1,4 @@
-import { readFile, stat } from 'node:fs/promises';
+import { readFile, readdir, stat } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { expect, test } from '@playwright/test';
 
@@ -193,43 +193,76 @@ test('release pages stay readable at a mobile viewport', async ({ page }) => {
   expect(columns.split(' ')).toHaveLength(1);
 });
 
-test('the production-empty build has a polished bilingual index and no detail pages', async ({
+test('the production build reflects real release content without test fixtures', async ({
   page,
 }) => {
-  const englishIndex = await readFile(
-    resolve('dist/releases/index.html'),
-    'utf8',
-  );
-  const japaneseIndex = await readFile(
-    resolve('dist/ja/releases/index.html'),
-    'utf8',
-  );
-
-  await page.setContent(englishIndex);
-  await expect(
-    page.getByRole('heading', { level: 2, name: 'No release notes yet' }),
-  ).toBeVisible();
-  await expect(
-    page.getByText('Reviewed updates will appear here'),
-  ).toBeVisible();
-
-  await page.setContent(japaneseIndex);
-  await expect(
-    page.getByRole('heading', {
-      level: 2,
-      name: '公開済みのリリースはまだありません',
-    }),
-  ).toBeVisible();
-  await expect(
-    page.getByText('レビュー済みの更新情報をこちらで公開します'),
-  ).toBeVisible();
-
-  await expect(stat(resolve('dist/releases/1.0.0'))).rejects.toMatchObject({
-    code: 'ENOENT',
-  });
-  await expect(stat(resolve('dist/ja/releases/1.0.0'))).rejects.toMatchObject({
-    code: 'ENOENT',
-  });
+  for (const locale of ['en', 'ja'] as const) {
+    const prefix = locale === 'ja' ? '/ja' : '';
+    const sourceFiles = (
+      await readdir(resolve(`src/content/releases/${locale}`))
+    ).filter((filename) => filename.endsWith('.md'));
+    const indexHtml = await readFile(
+      resolve(`dist${prefix}/releases/index.html`),
+      'utf8',
+    );
+    await page.setContent(indexHtml);
+    if (sourceFiles.length === 0) {
+      await expect(
+        page.getByRole('heading', {
+          level: 2,
+          name:
+            locale === 'en'
+              ? 'No release notes yet'
+              : '公開済みのリリースはまだありません',
+        }),
+      ).toBeVisible();
+      await expect(
+        stat(resolve(`dist${prefix}/releases/1.0.0`)),
+      ).rejects.toMatchObject({
+        code: 'ENOENT',
+      });
+      continue;
+    }
+    const links = page
+      .getByRole('list', {
+        name: locale === 'en' ? 'Published releases' : '公開済みリリース',
+      })
+      .getByRole('link');
+    await expect(links).toHaveCount(sourceFiles.length);
+    for (const filename of sourceFiles) {
+      const version = filename.replace(/\.md$/, '');
+      const detailPath = `${prefix}/releases/${version}/`;
+      await expect(
+        page
+          .getByRole('list', {
+            name: locale === 'en' ? 'Published releases' : '公開済みリリース',
+          })
+          .getByRole('link', {
+            name: `${locale === 'en' ? 'Version' : 'バージョン'} ${version}`,
+            exact: true,
+          }),
+      ).toHaveAttribute('href', detailPath);
+      const detailHtml = await readFile(
+        resolve(`dist${detailPath}index.html`),
+        'utf8',
+      );
+      await page.setContent(detailHtml);
+      await expect(page.locator('html')).toHaveAttribute('lang', locale);
+      await expect(
+        page.getByRole('heading', { level: 1, name: `Owlaria ${version}` }),
+      ).toBeVisible();
+      await expect(page.getByTestId('header-locale-switch')).toHaveAttribute(
+        'href',
+        `${locale === 'en' ? '/ja' : ''}/releases/${version}/`,
+      );
+      expect(detailHtml).not.toContain('Public route verification fixture.');
+      expect(detailHtml).not.toContain('公開ルート確認用のfixtureです。');
+      for (const sentinel of nonPublicSentinels)
+        expect(detailHtml).not.toContain(sentinel);
+      // Return to the index before verifying the next release's link.
+      await page.setContent(indexHtml);
+    }
+  }
 });
 
 test('generated release pages exclude non-public metadata and copy', async ({
