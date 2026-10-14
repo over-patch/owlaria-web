@@ -174,3 +174,47 @@ If a production smoke test finds a faulty static-site change:
 Never force-push `main` and never manually replace or delete the GitHub Pages
 artifact. If the underlying content needs a follow-up fix, make it in another
 pull request after the rollback is confirmed.
+
+## 8. Set up Google Search discovery
+
+Every production build generates `/sitemap-index.xml` and its child sitemap
+files using `@astrojs/sitemap`. Generated static pages, including release-detail
+pages, are included automatically. The integration uses the locale configuration
+in `src/i18n/config.ts` to associate English and Japanese URLs. No manual URL list
+or per-deployment submission is needed. `public/robots.txt` permits crawling and
+advertises the production sitemap index.
+
+After the change is merged and GitHub Pages deployment succeeds:
+
+1. Open `https://owlaria.overpatch.dev/robots.txt` and
+   `https://owlaria.overpatch.dev/sitemap-index.xml`. Confirm both return the
+   expected text/XML, and that the child sitemap URLs can be opened.
+2. Sign in to [Google Search Console](https://search.google.com/search-console/).
+   Use an existing verified property that covers this site, or add a Domain
+   property for `overpatch.dev`, which also covers `owlaria.overpatch.dev`. Add
+   Google's TXT verification record at the domain's DNS provider, then click
+   **Verify**. Keep the record after verification; the website build does not need
+   a token. Preserve the existing GitHub Pages DNS records.
+3. If DNS verification is unavailable, add a URL-prefix property for
+   `https://owlaria.overpatch.dev/` instead. Select HTML file verification and
+   download Google's file. Add it unchanged under `public/` through a separate
+   pull request, deploy it, confirm the exact verification URL is accessible,
+   and click **Verify**. Retain the file in subsequent deployments. The URL-prefix
+   property covers both the English routes and `/ja/`.
+4. In **Sitemaps**, submit
+   `https://owlaria.overpatch.dev/sitemap-index.xml`. If the field already displays
+   the site's URL prefix, enter only `sitemap-index.xml`. Confirm the submission
+   eventually reports success; submit the index rather than each child sitemap.
+5. Use **URL inspection** for the homepage and features page in both languages:
+   `/`, `/ja/`, `/features/`, and `/ja/features/`. For unindexed pages, test the
+   live URL, resolve any reported indexing blockers, then request indexing.
+6. Over the following days and weeks, review **Page indexing** for excluded-page
+   reasons and **Performance** for impressions, clicks, and queries. New pages
+   enter the sitemap at the next deployment. Do not repeatedly submit unchanged
+   sitemaps or request indexing of the same unchanged URL.
+
+Search Console verification, sitemap submission, and indexing requests do not
+guarantee indexing or higher rankings. See Google's documentation for
+[ownership verification](https://support.google.com/webmasters/answer/9008080),
+[sitemap submission](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap),
+and [indexing requests](https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl).
