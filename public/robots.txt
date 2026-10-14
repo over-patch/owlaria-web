@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://owlaria.overpatch.dev/sitemap-index.xml
