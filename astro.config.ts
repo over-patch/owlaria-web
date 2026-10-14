@@ -1,4 +1,6 @@
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
+import { defaultLocale, locales, SITE_ORIGIN } from './src/i18n/config';
 
 const useReleaseFixtures = process.env.OWLARIA_RELEASE_NOTES_FIXTURES === '1';
 const localeFontStylesheetPattern =
@@ -43,8 +45,16 @@ export function stabilizeLocaleFontDisplay(
 
 export default defineConfig({
   output: 'static',
-  site: 'https://owlaria.overpatch.dev',
+  site: SITE_ORIGIN,
   trailingSlash: 'always',
+  integrations: [
+    sitemap({
+      i18n: {
+        defaultLocale,
+        locales: Object.fromEntries(locales.map((locale) => [locale, locale])),
+      },
+    }),
+  ],
   cacheDir: useReleaseFixtures
     ? './test-results/release-fixtures-cache'
     : './node_modules/.astro',
