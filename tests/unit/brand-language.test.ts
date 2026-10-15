@@ -33,9 +33,13 @@ describe('brand language', () => {
     );
   });
 
-  it('uses concise localized browser titles for the feature page', () => {
-    expect(featurePageCopy.en.metadata.title).toBe('Features · Owlaria');
-    expect(featurePageCopy.ja.metadata.title).toBe('機能 · Owlaria');
+  it('describes NAS and local comic features in localized browser titles', () => {
+    expect(featurePageCopy.en.metadata.title).toBe(
+      'Features for Organizing & Reading NAS and Local Comics | Owlaria',
+    );
+    expect(featurePageCopy.ja.metadata.title).toBe(
+      'NAS・ローカルのコミックを整理して読む機能 | Owlaria',
+    );
   });
 
   it('uses コミック consistently in Japanese source copy', () => {

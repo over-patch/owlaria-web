@@ -110,9 +110,9 @@ export type FeaturePageCopy = {
 export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
   en: {
     metadata: {
-      title: 'Features · Owlaria',
+      title: 'Features for Organizing & Reading NAS and Local Comics | Owlaria',
       description:
-        'Discover how Owlaria helps you organize and read comics from NAS and local folders without adding management files to your storage.',
+        'Organize and read comics from NAS and local folders without modifying your source files. Explore search, series management, two-page spreads, and saved reading positions in Owlaria.',
     },
     hero: {
       eyebrow: 'Owlaria features',
@@ -400,9 +400,9 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
   },
   ja: {
     metadata: {
-      title: '機能 · Owlaria',
+      title: 'NAS・ローカルのコミックを整理して読む機能 | Owlaria',
       description:
-        'NASやローカルフォルダの保存先を汚さず、コミックを整理して読むためのOwlariaの機能をご紹介します。',
+        'NASやローカルフォルダのコミックを、元のファイルを変更せずに整理・閲覧。検索、シリーズ管理、見開き表示、読書位置の保存など、Owlariaの機能を紹介します。',
     },
     hero: {
       eyebrow: 'Owlariaの機能',
