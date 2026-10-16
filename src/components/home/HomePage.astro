@@ -3,6 +3,7 @@ import { homeCopy, platformAction, platforms } from '../../content/home';
 import { localePath, type Locale } from '../../i18n/config';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import HeadlineLines from '../HeadlineLines.astro';
+import SemanticPhraseText from '../SemanticPhraseText.astro';
 import HomeCapabilityIcon from './HomeCapabilityIcon.astro';
 import PlatformCard from './PlatformCard.astro';
 import PlatformIcon from './PlatformIcon.astro';
@@ -234,7 +235,16 @@ const copy = homeCopy[locale];
           <li data-reveal>
             <div class="capability-card-heading">
               <HomeCapabilityIcon name={item.icon} />
-              <h3>{item.title}</h3>
+              <h3>
+                {item.titlePhrases ? (
+                  <SemanticPhraseText
+                    phrases={item.titlePhrases}
+                    separator={locale === 'en' ? ' ' : ''}
+                  />
+                ) : (
+                  item.title
+                )}
+              </h3>
             </div>
             <p>{item.body}</p>
           </li>

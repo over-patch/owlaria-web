@@ -344,6 +344,11 @@ main:focus {
   text-wrap: balance;
 }
 
+/* A Latin zero-based measure is too narrow for Japanese legal titles. */
+html[lang='ja'] .legal-hero h1 {
+  max-width: none;
+}
+
 .legal-dates {
   display: flex;
   flex-wrap: wrap;
@@ -1094,6 +1099,14 @@ html[lang='ja'] .feature-category-heading h2 {
   font-size: clamp(1.35rem, 1.1rem + 0.8vw, 2rem);
   letter-spacing: -0.035em;
   line-height: 1.1;
+}
+
+/* Balance short card titles so a trailing word or kana is not stranded. */
+.feature-grid h3,
+.capability-grid h3,
+.feature-story-grid h3,
+.feature-source-diagram h3 {
+  text-wrap: balance;
 }
 
 .feature-grid p {
@@ -2644,6 +2657,7 @@ html[lang='en'] .features-hero h1 {
 
 .problem-report-boundaries h3 {
   margin: 0;
+  text-wrap: balance;
   font-size: clamp(1.25rem, 1.08rem + 0.55vw, 1.65rem);
   letter-spacing: -0.035em;
   line-height: 1.25;
