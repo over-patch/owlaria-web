@@ -522,8 +522,8 @@ test('feature page is responsive without overlap or horizontal overflow', async 
 }) => {
   for (const pathname of ['/features/', '/ja/features/']) {
     for (const viewport of [
-      { width: 390, height: 844, columns: 1, jumpColumns: 1 },
-      { width: 768, height: 1024, columns: 1, jumpColumns: 1 },
+      { width: 390, height: 844, columns: 1, jumpColumns: 2 },
+      { width: 768, height: 1024, columns: 1, jumpColumns: 2 },
       { width: 800, height: 1024, columns: 1, jumpColumns: 3 },
       { width: 805, height: 1024, columns: 1, jumpColumns: 3 },
       { width: 817, height: 1024, columns: 1, jumpColumns: 3 },
