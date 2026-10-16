@@ -50,6 +50,7 @@ test('the sitemap lists working canonical pages in both languages', async ({
   for (const path of [
     '/',
     '/features/',
+    '/plans/',
     '/support/',
     '/support/purchases/',
     '/privacy/',

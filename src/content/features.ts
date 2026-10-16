@@ -392,7 +392,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
       purchaseNote:
         'Owlaria Plus removes the limits with a one-time purchase for each operating system.',
       actions: {
-        purchases: 'See Free and Plus details',
+        purchases: 'Compare plans',
         releases: 'View release information',
         overview: 'Back to overview',
       },
@@ -680,7 +680,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
       purchaseNote:
         'Owlaria Plusは、OSごとの買い切りでライブラリ数と冊数の上限を解除します。',
       actions: {
-        purchases: '無料範囲とPlusを見る',
+        purchases: 'プランを比較する',
         releases: 'リリース情報を見る',
         overview: '概要へ戻る',
       },

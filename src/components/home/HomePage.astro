@@ -3,6 +3,7 @@ import { homeCopy, platformAction, platforms } from '../../content/home';
 import { localePath, type Locale } from '../../i18n/config';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import HeadlineLines from '../HeadlineLines.astro';
+import PlansTeaser from '../plans/PlansTeaser.astro';
 import HomeCapabilityIcon from './HomeCapabilityIcon.astro';
 import PlatformCard from './PlatformCard.astro';
 import PlatformIcon from './PlatformIcon.astro';
@@ -59,10 +60,7 @@ const copy = homeCopy[locale];
         <a class="primary-link" href={localePath(locale, '/features/')}>
           {copy.hero.actions.features}<span aria-hidden="true">→</span>
         </a>
-        <a
-          class="secondary-link"
-          href={localePath(locale, '/support/purchases/')}
-        >
+        <a class="secondary-link" href={localePath(locale, '/plans/')}>
           {copy.hero.actions.purchases}<span aria-hidden="true">→</span>
         </a>
       </div>
@@ -245,6 +243,8 @@ const copy = homeCopy[locale];
       >{copy.capabilities.action}<span aria-hidden="true">→</span></a
     >
   </section>
+
+  <PlansTeaser {locale} />
 
   <section class="platform-section shell" aria-labelledby="platform-heading">
     <div class="section-heading" data-reveal>

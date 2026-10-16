@@ -1,0 +1,489 @@
+---
+import { plansCopy } from '../../content/plans';
+import { homeCopy, platforms, platformAction } from '../../content/home';
+import { localePath, type Locale } from '../../i18n/config';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import PlatformCard from '../home/PlatformCard.astro';
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const copy = plansCopy[locale];
+const platformCopy = homeCopy[locale].platforms;
+---
+
+<SiteLayout
+  {locale}
+  pathname="/plans/"
+  title={copy.metadata.title}
+  description={copy.metadata.description}
+>
+  <div class="plans-page shell">
+    <header class="plans-intro">
+      <p class="eyebrow">Owlaria</p>
+      <h1>{copy.title}</h1>
+      <p class="plans-promise">{copy.heading}</p>
+      <p class="plans-description">{copy.intro}</p>
+    </header>
+    <div class="comparison-surface">
+      <table role="table" aria-describedby="comparison-note">
+        <caption class="visually-hidden">{copy.table.caption}</caption>
+        <thead role="rowgroup">
+          <tr role="row">
+            <th scope="col" role="columnheader" class="comparison-label"
+              >{copy.table.item}</th
+            >
+            {
+              (['free', 'plus'] as const).map((plan) => (
+                <th
+                  scope="col"
+                  role="columnheader"
+                  class={`plan-header plan-header--${plan}`}
+                  aria-label={copy.summaries[plan].name}
+                >
+                  <div class="plan-summary">
+                    <span class="plan-name">{copy.summaries[plan].name}</span>
+                    <p class="plan-audience">{copy.summaries[plan].audience}</p>
+                    <p class="plan-price">{copy.summaries[plan].price}</p>
+                    <p class="plan-detail">{copy.summaries[plan].detail}</p>
+                    <a
+                      class="plan-action"
+                      href={
+                        plan === 'free'
+                          ? '#availability-title'
+                          : '#conditions-title'
+                      }
+                    >
+                      {copy.summaries[plan].action}
+                      <span aria-hidden="true">→</span>
+                    </a>
+                  </div>
+                </th>
+              ))
+            }
+          </tr>
+        </thead>
+        <tbody role="rowgroup"
+          >{
+            copy.table.rows.map((row) => (
+              <tr role="row">
+                <>
+                  <th scope="row" role="rowheader">
+                    {row.label}
+                  </th>
+                  <td role="cell">{row.free}</td>
+                  <td role="cell">{row.plus}</td>
+                </>
+              </tr>
+            ))
+          }</tbody
+        >
+      </table>
+    </div>
+    <p class="comparison-note" id="comparison-note">{copy.table.note}</p>
+    <section class="plans-features" aria-labelledby="included-features-title">
+      <h2 id="included-features-title">{copy.features.title}</h2>
+      <ul class="features-list">
+        {copy.features.items.map((item) => <li>{item}</li>)}
+      </ul>
+      <p class="features-more">{copy.features.more}</p>
+      <a
+        class="secondary-link features-link"
+        href={localePath(locale, '/features/')}
+      >
+        {copy.features.action}<span aria-hidden="true">→</span>
+      </a>
+    </section>
+    <section class="plan-conditions" aria-labelledby="conditions-title">
+      <h2 id="conditions-title">{copy.conditionsTitle}</h2>
+      <div class="conditions-grid">
+        {
+          copy.conditions.map((item, index) => (
+            <article>
+              <span class="condition-number" aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+    <section class="plans-availability" aria-labelledby="availability-title">
+      <h2 id="availability-title">{copy.availabilityTitle}</h2>
+      <p>{copy.availabilityBody}</p>
+      <div class="platform-grid">
+        {
+          platforms.map((platform) => (
+            <PlatformCard
+              platform={platform}
+              label={platformCopy.labels[platform.id]}
+              action={platformAction(
+                platform,
+                platformCopy.labels[platform.id].detail,
+                platformCopy.comingSoon,
+              )}
+            />
+          ))
+        }
+      </div>
+    </section>
+    <aside class="plans-support" aria-labelledby="plans-support-title">
+      <div>
+        <h2 id="plans-support-title">{copy.supportTitle}</h2><p>
+          {copy.supportBody}
+        </p>
+      </div>
+      <a class="secondary-link" href={localePath(locale, '/support/purchases/')}
+        >{copy.supportAction}<span aria-hidden="true">→</span></a
+      >
+    </aside>
+  </div>
+</SiteLayout>
+<style>
+  .plans-page {
+    max-width: 64rem;
+    padding-block: var(--space-6) var(--section-gap);
+  }
+  .plans-intro {
+    max-width: 48rem;
+    margin-bottom: var(--space-6);
+  }
+  h1 {
+    margin: 0;
+    font-size: var(--text-2xl);
+    line-height: 1.18;
+    letter-spacing: -0.04em;
+  }
+  .plans-promise {
+    margin: var(--space-4) 0 var(--space-2);
+    font-size: clamp(1.15rem, 2vw, 1.5rem);
+    font-weight: 700;
+    text-wrap: balance;
+  }
+  .plans-description {
+    margin: 0;
+    max-width: 43rem;
+    color: var(--color-muted);
+  }
+  .comparison-surface {
+    border: 1px solid var(--color-surface-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-surface);
+  }
+  table,
+  thead,
+  tbody {
+    display: block;
+    width: 100%;
+  }
+  thead tr,
+  tbody tr {
+    display: grid;
+    grid-template-columns: 24% 38% 38%;
+  }
+  thead tr {
+    grid-template-rows: repeat(5, auto);
+  }
+  th,
+  td {
+    padding: var(--space-4);
+    vertical-align: middle;
+  }
+  .comparison-label,
+  tbody th {
+    width: auto;
+    color: var(--color-muted);
+    text-align: left;
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+  .comparison-label {
+    grid-column: 1;
+    grid-row: 1 / span 5;
+    align-self: end;
+    padding-bottom: var(--space-5);
+  }
+  .plan-header {
+    display: grid;
+    grid-row: 1 / span 5;
+    grid-template-rows: subgrid;
+    padding: 0;
+    vertical-align: top;
+    border-top: 3px solid var(--color-muted);
+  }
+  .plan-header--plus {
+    border-color: var(--color-purple);
+  }
+  .plan-summary {
+    display: grid;
+    grid-row: 1 / -1;
+    grid-template-rows: subgrid;
+    padding: var(--space-5);
+    text-align: left;
+  }
+  .plan-name {
+    font-size: clamp(1.15rem, 2vw, 1.6rem);
+    font-weight: 750;
+    letter-spacing: -0.025em;
+  }
+  .plan-audience {
+    text-wrap: balance;
+    margin: var(--space-2) 0 var(--space-5);
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+    font-weight: 400;
+  }
+  .plan-price {
+    margin: 0;
+    font-size: clamp(1.75rem, 3vw, 2.65rem);
+    line-height: 1.2;
+    font-weight: 780;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+  .plan-detail {
+    margin: var(--space-2) 0 var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+    font-weight: 400;
+  }
+  .plan-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--color-surface-border);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-sm);
+    font-weight: 650;
+    text-decoration: none;
+    background: var(--color-navy-800);
+  }
+  .plan-action:hover {
+    background: color-mix(in srgb, var(--color-navy-800), var(--color-ink) 8%);
+  }
+  .plan-header--plus .plan-action {
+    color: var(--color-navy-950);
+    background: var(--color-action);
+    border-color: transparent;
+  }
+  .plan-header--plus .plan-action:hover {
+    background: color-mix(in srgb, var(--color-action), white 12%);
+  }
+  tbody tr {
+    border-top: 1px solid var(--color-surface-border);
+  }
+  td {
+    text-align: center;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .plan-header--plus,
+  td:last-child {
+    background: color-mix(in srgb, var(--color-purple) 9%, transparent);
+  }
+  .comparison-note {
+    margin: var(--space-3) 0 0;
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    line-height: 1.8;
+  }
+  #conditions-title,
+  #availability-title {
+    scroll-margin-top: var(--space-5);
+  }
+  h2 {
+    margin: 0 0 var(--space-4);
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    line-height: 1.4;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  .plans-features,
+  .plan-conditions,
+  .plans-availability {
+    margin-top: var(--section-gap);
+  }
+  .features-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3) var(--space-5);
+    margin: 0;
+    padding-left: 1.25rem;
+    font-size: var(--text-sm);
+    line-height: 1.8;
+  }
+  .features-list li {
+    padding-left: 0.25rem;
+  }
+  .features-list li::marker {
+    color: var(--color-action);
+  }
+  .features-more {
+    margin: var(--space-4) 0 0;
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    line-height: 1.8;
+  }
+  .features-link {
+    margin-top: var(--space-4);
+  }
+  .conditions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+  .conditions-grid article {
+    border-top: 1px solid var(--color-surface-border);
+    padding-top: var(--space-4);
+  }
+  .condition-number {
+    color: var(--color-purple);
+    font-size: var(--text-sm);
+    font-weight: 700;
+  }
+  h3 {
+    margin: var(--space-3) 0 var(--space-2);
+    font-size: 1.05rem;
+    line-height: 1.65;
+  }
+  .conditions-grid p,
+  .plans-support p,
+  .plans-availability > p {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    line-height: 1.85;
+  }
+  .plans-availability .platform-grid {
+    margin-top: var(--space-5);
+  }
+  .plans-support {
+    margin-top: var(--space-6);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-surface-border);
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    justify-content: space-between;
+  }
+  .plans-support h2 {
+    font-size: 1.15rem;
+    margin-bottom: var(--space-2);
+  }
+  .plans-support a {
+    flex-shrink: 0;
+    font-size: var(--text-sm);
+  }
+  @media (min-width: 48.001rem) {
+    .plan-header--free,
+    tbody th + td {
+      border-left: 1px solid var(--color-surface-border);
+    }
+  }
+  @media (max-width: 48rem) {
+    .plans-page {
+      padding-top: var(--space-5);
+    }
+    .plans-intro {
+      margin-bottom: var(--space-5);
+    }
+    th,
+    td {
+      padding: var(--space-3) 0.5rem;
+      font-size: var(--text-sm);
+    }
+    table,
+    thead,
+    tbody {
+      display: block;
+    }
+    thead tr,
+    tbody tr {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .comparison-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      padding: 0;
+    }
+    .plan-header {
+      padding: 0;
+    }
+    .plan-header--free {
+      grid-column: 1;
+    }
+    .plan-header--plus {
+      grid-column: 2;
+    }
+    .plan-summary {
+      padding: var(--space-4) var(--space-3);
+    }
+    .plan-name {
+      font-size: 1.1rem;
+    }
+    .plan-price {
+      font-size: clamp(1.4rem, 6vw, 1.8rem);
+    }
+    .plan-audience,
+    .plan-detail {
+      font-size: 0.85rem;
+    }
+    .plan-action {
+      padding-inline: 0.75rem;
+      font-size: 0.8rem;
+    }
+    tbody th {
+      grid-column: 1 / -1;
+      width: auto;
+      padding: var(--space-3) var(--space-3) var(--space-1);
+    }
+    tbody td {
+      padding: var(--space-2) var(--space-3) var(--space-3);
+    }
+    tbody {
+      background:
+        linear-gradient(
+            var(--color-surface-border),
+            var(--color-surface-border)
+          )
+          center / 1px 100% no-repeat,
+        linear-gradient(
+          to right,
+          transparent 50%,
+          color-mix(in srgb, var(--color-purple) 9%, transparent) 50%
+        );
+    }
+    tbody td:last-child {
+      background: transparent;
+    }
+    .plan-header--plus {
+      box-shadow: inset 1px 0 var(--color-surface-border);
+    }
+    .features-list,
+    .conditions-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+    .plans-support {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .plans-support a {
+      flex-shrink: 1;
+    }
+  }
+</style>

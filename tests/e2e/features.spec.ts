@@ -41,7 +41,7 @@ for (const locale of [
     environmentSupport: 'Supports SMB 2.0 or later',
     macOnly: 'Mac only',
     actions: [
-      { name: 'See Free and Plus details', href: '/support/purchases/' },
+      { name: 'Compare plans', href: '/plans/' },
       { name: 'View release information', href: '/releases/' },
       { name: 'Back to overview', href: '/' },
     ],
@@ -95,7 +95,7 @@ for (const locale of [
     environmentSupport: 'SMB 2.0以降に対応',
     macOnly: 'Macのみ',
     actions: [
-      { name: '無料範囲とPlusを見る', href: '/ja/support/purchases/' },
+      { name: 'プランを比較する', href: '/ja/plans/' },
       { name: 'リリース情報を見る', href: '/ja/releases/' },
       { name: '概要へ戻る', href: '/ja/' },
     ],
