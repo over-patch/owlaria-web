@@ -23,7 +23,7 @@ for (const locale of [
     compatibilityHeading: 'Open the files you already have.',
     heroActions: [
       { name: 'Explore features', href: '/features/' },
-      { name: 'See Free and Plus', href: '/support/purchases/' },
+      { name: 'Compare plans', href: '/plans/' },
     ],
     featureAction: 'Explore every feature',
     featureHref: '/features/',
@@ -54,7 +54,7 @@ for (const locale of [
     compatibilityHeading: 'いつものファイルを、そのまま開ける。',
     heroActions: [
       { name: '機能を見る', href: '/ja/features/' },
-      { name: '無料範囲とPlusを見る', href: '/ja/support/purchases/' },
+      { name: 'プランを比較する', href: '/ja/plans/' },
     ],
     featureAction: 'すべての機能を見る',
     featureHref: '/ja/features/',

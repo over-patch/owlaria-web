@@ -1,4 +1,5 @@
 ---
+import { plansCopy } from '../content/plans';
 import { siteCopy } from '../content/site';
 import { alternateLocale, localePath, type Locale } from '../i18n/config';
 
@@ -31,6 +32,10 @@ const currentYear = new Date().getUTCFullYear();
           <li><a href={localePath(locale, '/')}>{copy.footer.home}</a></li>
           <li>
             <a href={localePath(locale, '/features/')}>{copy.footer.features}</a
+            >
+          </li>
+          <li>
+            <a href={localePath(locale, '/plans/')}>{plansCopy[locale].title}</a
             >
           </li>
           <li>

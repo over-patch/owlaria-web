@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 
 const routePairs = [
   ['/', '/ja/'],
+  ['/plans/', '/ja/plans/'],
   ['/support/', '/ja/support/'],
   ['/support/purchases/', '/ja/support/purchases/'],
   ['/privacy/', '/ja/privacy/'],

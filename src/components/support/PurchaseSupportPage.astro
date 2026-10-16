@@ -3,7 +3,8 @@ import {
   purchaseSupportCopy,
   type PurchaseTextPart,
 } from '../../content/purchases';
-import type { Locale } from '../../i18n/config';
+import { localePath, type Locale } from '../../i18n/config';
+import { plansCopy } from '../../content/plans';
 import SiteLayout from '../../layouts/SiteLayout.astro';
 import SemanticPhraseText from '../SemanticPhraseText.astro';
 
@@ -34,6 +35,9 @@ const externalLabel = (part: PurchaseTextPart): string | undefined =>
           separator={locale === 'en' ? ' ' : ''}
         />
       </h1>
+      <a class="secondary-link" href={localePath(locale, '/plans/')}
+        >{plansCopy[locale].compareAction}<span aria-hidden="true">→</span></a
+      >
       <div class="support-introduction">
         {page.introduction.map((paragraph) => <p>{paragraph}</p>)}
       </div>
@@ -113,3 +117,9 @@ const externalLabel = (part: PurchaseTextPart): string | undefined =>
     </div>
   </div>
 </SiteLayout>
+
+<style>
+  .support-hero-copy > .secondary-link {
+    margin-top: var(--space-4);
+  }
+</style>

@@ -3,6 +3,16 @@ import { measureHeadingLines } from './helpers/heading-lines';
 
 const routes = [
   {
+    path: '/plans/',
+    fontFamily: 'Inter Variable',
+    absentFontFamily: 'Noto Sans JP Variable',
+  },
+  {
+    path: '/ja/plans/',
+    fontFamily: 'Noto Sans JP Variable',
+    absentFontFamily: 'Inter Variable',
+  },
+  {
     path: '/',
     fontFamily: 'Inter Variable',
     absentFontFamily: 'Noto Sans JP Variable',

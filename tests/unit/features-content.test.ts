@@ -184,12 +184,12 @@ describe('feature page content', () => {
 
   it('provides clear next steps after the feature catalog', () => {
     expect(featurePageCopy.ja.availability.actions).toEqual({
-      purchases: '無料範囲とPlusを見る',
+      purchases: 'プランを比較する',
       releases: 'リリース情報を見る',
       overview: '概要へ戻る',
     });
     expect(featurePageCopy.en.availability.actions).toEqual({
-      purchases: 'See Free and Plus details',
+      purchases: 'Compare plans',
       releases: 'View release information',
       overview: 'Back to overview',
     });

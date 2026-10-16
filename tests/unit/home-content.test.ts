@@ -54,11 +54,11 @@ describe('homepage content', () => {
   it('offers useful next steps in the hero', () => {
     expect(homeCopy.en.hero.actions).toEqual({
       features: 'Explore features',
-      purchases: 'See Free and Plus',
+      purchases: 'Compare plans',
     });
     expect(homeCopy.ja.hero.actions).toEqual({
       features: '機能を見る',
-      purchases: '無料範囲とPlusを見る',
+      purchases: 'プランを比較する',
     });
   });
 

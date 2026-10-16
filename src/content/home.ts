@@ -153,7 +153,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
       ],
       actions: {
         features: 'Explore features',
-        purchases: 'See Free and Plus',
+        purchases: 'Compare plans',
       },
       preview: {
         label: 'Owlaria product preview',
@@ -300,7 +300,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
       ],
       actions: {
         features: '機能を見る',
-        purchases: '無料範囲とPlusを見る',
+        purchases: 'プランを比較する',
       },
       preview: {
         label: 'Owlariaのアプリ画面',
