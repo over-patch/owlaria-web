@@ -40,6 +40,32 @@ const copy = homeCopy[locale];
           {copy.hero.mobileLines.map((line) => <span>{line}</span>)}
         </span>
       </h1>
+      <p class="hero-platforms">
+        <span class="hero-platform-item">
+          <span class="hero-platform-icon" aria-hidden="true">
+            <PlatformIcon platform="macos" />
+          </span>
+          <span>Mac</span>
+        </span>
+        <span aria-hidden="true">·</span>
+        <span class="hero-platform-item">
+          <span class="hero-platform-icon" aria-hidden="true">
+            <PlatformIcon platform="ios" />
+          </span>
+          <span>iPhone</span>
+        </span>
+      </p>
+      <div class="hero-actions">
+        <a class="primary-link" href={localePath(locale, '/features/')}>
+          {copy.hero.actions.features}<span aria-hidden="true">→</span>
+        </a>
+        <a
+          class="secondary-link"
+          href={localePath(locale, '/support/purchases/')}
+        >
+          {copy.hero.actions.purchases}<span aria-hidden="true">→</span>
+        </a>
+      </div>
       <figure
         class="hero-product-preview"
         aria-label={copy.hero.preview.label}
@@ -80,32 +106,6 @@ const copy = homeCopy[locale];
           ))
         }
       </ul>
-      <p class="hero-platforms">
-        <span class="hero-platform-item">
-          <span class="hero-platform-icon" aria-hidden="true">
-            <PlatformIcon platform="macos" />
-          </span>
-          <span>Mac</span>
-        </span>
-        <span aria-hidden="true">·</span>
-        <span class="hero-platform-item">
-          <span class="hero-platform-icon" aria-hidden="true">
-            <PlatformIcon platform="ios" />
-          </span>
-          <span>iPhone</span>
-        </span>
-      </p>
-      <div class="hero-actions">
-        <a class="primary-link" href={localePath(locale, '/features/')}>
-          {copy.hero.actions.features}<span aria-hidden="true">→</span>
-        </a>
-        <a
-          class="secondary-link"
-          href={localePath(locale, '/support/purchases/')}
-        >
-          {copy.hero.actions.purchases}<span aria-hidden="true">→</span>
-        </a>
-      </div>
     </div>
   </section>
 
