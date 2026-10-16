@@ -44,10 +44,10 @@ describe('homepage content', () => {
 
   it('uses descriptive localized search titles', () => {
     expect(homeCopy.en.metadata.title).toBe(
-      'Owlaria — Comic Library for NAS & Local Folders',
+      'Owlaria — Comic Viewer & Library with NAS Support',
     );
     expect(homeCopy.ja.metadata.title).toBe(
-      'Owlaria — NAS・ローカル対応コミックライブラリ',
+      'Owlaria — NAS対応コミックビューア＆ライブラリ',
     );
   });
 

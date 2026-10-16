@@ -122,9 +122,9 @@ export const platformAction = (
 export const homeCopy: Record<Locale, HomeCopy> = {
   en: {
     metadata: {
-      title: 'Owlaria — Comic Library for NAS & Local Folders',
+      title: 'Owlaria — Comic Viewer & Library with NAS Support',
       description:
-        'Turn the comic folders you already have on NAS or local storage into an organized library without rebuilding your archive.',
+        'Read and organize comics from NAS and local folders without modifying your source files. A comic viewer and library with two-page spreads, saved reading positions, and series management.',
     },
     hero: {
       eyebrow: 'A comic library that does not clutter your storage',
@@ -270,9 +270,9 @@ export const homeCopy: Record<Locale, HomeCopy> = {
   },
   ja: {
     metadata: {
-      title: 'Owlaria — NAS・ローカル対応コミックライブラリ',
+      title: 'Owlaria — NAS対応コミックビューア＆ライブラリ',
       description:
-        'NASやローカルストレージにあるコミックフォルダを作り直さず、そのまま整理されたライブラリとして管理できます。',
+        'NASやローカルフォルダのコミックを、元のファイルを変更せずに整理して読めるコミックビューア＆ライブラリ。見開き表示、読書位置の保存、シリーズ管理に対応しています。',
     },
     hero: {
       eyebrow: '保存先を汚さないコミックライブラリ',
