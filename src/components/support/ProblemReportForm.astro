@@ -34,14 +34,14 @@ const boundariesId = `problem-report-boundaries-${locale}`;
   data-error-offline={copy.errors.offline}
   data-validation-summary={copy.validationSummary}
 >
-  <div class="problem-report-heading" data-reveal>
+  <div class="problem-report-heading">
     <p class="eyebrow">{copy.eyebrow}</p>
     <h2 id={`problem-report-title-${locale}`}>{copy.title}</h2>
     <p>{copy.introduction}</p>
   </div>
 
   <div class="problem-report-layout">
-    <aside class="problem-report-boundaries" id={boundariesId} data-reveal>
+    <aside class="problem-report-boundaries" id={boundariesId}>
       <h3>{copy.oneWayNotice}</h3>
       <p>{copy.prohibitedInformation}</p>
       <p>
@@ -52,7 +52,7 @@ const boundariesId = `problem-report-boundaries-${locale}`;
       <p>{copy.appAlternative}</p>
     </aside>
 
-    <div class="problem-report-panel" data-reveal>
+    <div class="problem-report-panel">
       <form
         class="problem-report-form"
         data-problem-report-form

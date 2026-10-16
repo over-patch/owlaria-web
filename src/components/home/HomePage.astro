@@ -24,7 +24,7 @@ const copy = homeCopy[locale];
   description={copy.metadata.description}
 >
   <section class="home-hero shell">
-    <div class="hero-copy" data-reveal>
+    <div class="hero-copy">
       <p class="eyebrow">{copy.hero.eyebrow}</p>
       <h1 aria-label={copy.hero.heading}>
         <span
@@ -293,4 +293,7 @@ const copy = homeCopy[locale];
       <span>{copy.platforms.purchaseNote}</span>
     </p>
   </section>
+  <script>
+    import '../../scripts/motion';
+  </script>
 </SiteLayout>

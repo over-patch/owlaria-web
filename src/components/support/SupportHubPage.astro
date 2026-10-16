@@ -20,7 +20,7 @@ const purchasesPath = localePath(locale, '/support/purchases/');
   title={page.metadata.title}
   description={page.metadata.description}
 >
-  <header class="support-hub-hero shell" data-reveal>
+  <header class="support-hub-hero shell">
     <p class="eyebrow">{page.eyebrow}</p>
     <h1>{page.title}</h1>
     <p>{page.introduction}</p>
@@ -32,7 +32,7 @@ const purchasesPath = localePath(locale, '/support/purchases/');
     </h2>
 
     <div class="support-hub-grid">
-      <article class="support-hub-card support-hub-card--available" data-reveal>
+      <article class="support-hub-card support-hub-card--available">
         <p class="support-hub-label">{page.purchases.label}</p>
         <h3>
           <a href={purchasesPath}>{page.purchases.title}</a>
@@ -46,7 +46,6 @@ const purchasesPath = localePath(locale, '/support/purchases/');
       <article
         class="support-hub-card support-hub-card--available"
         data-support-problem-report
-        data-reveal
       >
         <p class="support-hub-label">{page.problemReport.label}</p>
         <h3>{page.problemReport.title}</h3>

@@ -19,7 +19,7 @@ const { copy, locale, pathname } = Astro.props;
   title={copy.metadata.title}
   description={copy.metadata.description}
 >
-  <header class="legal-hero shell" data-reveal>
+  <header class="legal-hero shell">
     <p class="eyebrow">{copy.eyebrow}</p>
     <h1>{copy.title}</h1>
     <dl class="legal-dates">
@@ -35,7 +35,7 @@ const { copy, locale, pathname } = Astro.props;
   </header>
 
   <div class="legal-layout shell">
-    <nav class="legal-contents" aria-label={copy.contentsLabel} data-reveal>
+    <nav class="legal-contents" aria-label={copy.contentsLabel}>
       <p>{copy.contentsLabel}</p>
       <ol>
         {
@@ -51,7 +51,7 @@ const { copy, locale, pathname } = Astro.props;
     <article class="legal-document">
       {
         copy.sections.map((section) => (
-          <section id={section.id} data-legal-section data-reveal>
+          <section id={section.id} data-legal-section>
             <h2>{section.title}</h2>
             {section.blocks.map((block) => (
               <LegalBlock block={block} />
