@@ -393,13 +393,13 @@ test('supports keyboard focus and reduced motion', async ({ page }) => {
   await externalLink.focus();
   await expect(externalLink).toBeFocused();
 
-  const reveal = page.locator('[data-reveal]').first();
+  const reveal = page.locator('.support-hero-copy');
   await expect(reveal).toBeVisible();
   await expect(reveal).toHaveCSS('opacity', '1');
   await expect(reveal).toHaveCSS('transform', 'none');
 
   await page.goto('/support/');
-  const hubReveal = page.locator('[data-reveal]').first();
+  const hubReveal = page.locator('.support-hub-hero');
   await expect(hubReveal).toBeVisible();
   await expect(hubReveal).toHaveCSS('opacity', '1');
   await expect(hubReveal).toHaveCSS('transform', 'none');

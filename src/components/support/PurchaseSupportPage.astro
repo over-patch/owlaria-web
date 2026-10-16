@@ -27,7 +27,7 @@ const externalLabel = (part: PurchaseTextPart): string | undefined =>
   description={page.metadata.description}
 >
   <header class="support-hero shell" id="page-top">
-    <div class="support-hero-copy" data-reveal>
+    <div class="support-hero-copy">
       <p class="eyebrow">{page.eyebrow}</p>
       <h1>
         <SemanticPhraseText
@@ -45,11 +45,7 @@ const externalLabel = (part: PurchaseTextPart): string | undefined =>
   </header>
 
   <div class="support-layout shell">
-    <nav
-      class="support-contents"
-      aria-labelledby="purchase-contents-title"
-      data-reveal
-    >
+    <nav class="support-contents" aria-labelledby="purchase-contents-title">
       <p class="support-contents-kicker">FAQ</p>
       <h2 id="purchase-contents-title">{page.contentsLabel}</h2>
       <p>{page.contentsHint}</p>
@@ -72,12 +68,7 @@ const externalLabel = (part: PurchaseTextPart): string | undefined =>
     <div class="support-answers">
       {
         page.faq.map((item, index) => (
-          <article
-            class="support-answer"
-            id={item.id}
-            data-purchase-faq
-            data-reveal
-          >
+          <article class="support-answer" id={item.id} data-purchase-faq>
             <p class="support-answer-number" aria-hidden="true">
               {String(index + 1).padStart(2, '0')}
             </p>
@@ -108,7 +99,7 @@ const externalLabel = (part: PurchaseTextPart): string | undefined =>
         ))
       }
 
-      <aside class="support-responsibility" data-reveal>
+      <aside class="support-responsibility">
         <p class="support-responsibility-label">Owlaria + Apple</p>
         <h2>{page.responsibility.title}</h2>
         {page.responsibility.paragraphs.map((paragraph) => <p>{paragraph}</p>)}

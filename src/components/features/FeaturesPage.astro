@@ -30,7 +30,7 @@ const featureCardIcons = {
   title={copy.metadata.title}
   description={copy.metadata.description}
 >
-  <header class="features-hero shell" data-reveal>
+  <header class="features-hero shell">
     <p class="eyebrow">{copy.hero.eyebrow}</p>
     <h1 aria-label={copy.hero.heading}>
       <HeadlineLines
@@ -41,11 +41,7 @@ const featureCardIcons = {
     <p class="feature-hero-body">{copy.hero.body}</p>
   </header>
 
-  <nav
-    class="feature-jump-nav shell"
-    aria-label={copy.navigationLabel}
-    data-reveal
-  >
+  <nav class="feature-jump-nav shell" aria-label={copy.navigationLabel}>
     <ol>
       {
         copy.sections.map((section) => (
@@ -71,7 +67,6 @@ const featureCardIcons = {
             { 'feature-story-has-preview': Boolean(section.preview) },
           ]}
           aria-labelledby={`${section.id}-heading`}
-          data-reveal
         >
           <div class="feature-story-layout">
             <header class="feature-story-heading">
@@ -304,7 +299,6 @@ const featureCardIcons = {
   <section
     class="feature-environment-section shell"
     aria-labelledby="environment-heading"
-    data-reveal
   >
     <header class="section-heading">
       <p class="eyebrow">{copy.environment.eyebrow}</p>
@@ -316,11 +310,7 @@ const featureCardIcons = {
     </div>
   </section>
 
-  <section
-    class="formats-section shell"
-    aria-labelledby="formats-heading"
-    data-reveal
-  >
+  <section class="formats-section shell" aria-labelledby="formats-heading">
     <header class="section-heading">
       <p class="eyebrow">{copy.formats.eyebrow}</p>
       <h2 id="formats-heading">
@@ -372,7 +362,6 @@ const featureCardIcons = {
   <section
     class="feature-platform-section shell"
     aria-labelledby="platform-heading"
-    data-reveal
   >
     <header class="section-heading">
       <p class="eyebrow">{copy.availability.eyebrow}</p>
