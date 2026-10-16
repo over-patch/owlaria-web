@@ -54,6 +54,7 @@ export type HomeCopy = {
     items: Array<{
       icon: HomeCapabilityIconName;
       title: string;
+      titlePhrases?: string[];
       body: string;
     }>;
   };
@@ -232,11 +233,13 @@ export const homeCopy: Record<Locale, HomeCopy> = {
         {
           icon: 'tracking',
           title: 'Smart file tracking',
+          titlePhrases: ['Smart file', 'tracking'],
           body: 'Keep your app metadata when a source file is moved or renamed.',
         },
         {
           icon: 'privacy',
           title: 'Private libraries',
+          titlePhrases: ['Private', 'libraries'],
           body: 'Lock selected libraries and unlock them with Touch ID or Face ID.',
         },
         {
@@ -386,11 +389,13 @@ export const homeCopy: Record<Locale, HomeCopy> = {
         {
           icon: 'tracking',
           title: 'ファイル移動を追跡',
+          titlePhrases: ['ファイル', '移動を追跡'],
           body: '保存場所や名前が変わっても、Owlaria内のメタデータを維持します。',
         },
         {
           icon: 'privacy',
           title: 'プライベートライブラリ',
+          titlePhrases: ['プライベート', 'ライブラリ'],
           body: '選んだライブラリをロックし、Touch IDやFace IDで解除できます。',
         },
         {

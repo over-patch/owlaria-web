@@ -6,6 +6,7 @@ export type FeaturePlatform = 'mac' | 'iphone';
 
 type FeatureItem = {
   title: string;
+  titlePhrases?: string[];
   body: string;
   platforms?: FeaturePlatform[];
 };
@@ -216,6 +217,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
           },
           {
             title: 'Private libraries',
+            titlePhrases: ['Private', 'libraries'],
             body: 'Protect a library with a password, Touch ID, or Face ID.',
           },
           {
@@ -506,6 +508,7 @@ export const featurePageCopy: Record<Locale, FeaturePageCopy> = {
           },
           {
             title: 'プライベートライブラリ',
+            titlePhrases: ['プライベート', 'ライブラリ'],
             body: 'パスワードで保護し、Touch IDやFace IDで解除できます。',
           },
           {

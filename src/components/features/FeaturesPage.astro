@@ -278,7 +278,16 @@ const featureCardIcons = {
                       className="feature-card-icon"
                     />
                   )}
-                  <h3>{item.title}</h3>
+                  <h3>
+                    {item.titlePhrases ? (
+                      <SemanticPhraseText
+                        phrases={item.titlePhrases}
+                        separator={locale === 'en' ? ' ' : ''}
+                      />
+                    ) : (
+                      item.title
+                    )}
+                  </h3>
                 </div>
                 <p>{item.body}</p>
                 {item.platforms && (
