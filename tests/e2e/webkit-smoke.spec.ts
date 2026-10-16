@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { measureHeadingLines } from './helpers/heading-lines';
 
 const routes = [
   {
@@ -55,3 +56,24 @@ for (const { path, fontFamily, absentFontFamily } of routes) {
     ).toBeVisible();
   });
 }
+
+test('support notice avoids a stranded sentence ending in WebKit', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/ja/support/');
+  await page.evaluate(() => document.fonts.ready);
+  const heading = page
+    .locator('.problem-report-boundaries')
+    .getByRole('heading', { level: 3 });
+  const lines = await heading.evaluate(measureHeadingLines);
+  const widest = Math.max(...lines.map(({ width }) => width));
+  expect(
+    lines.at(-1)!.width / widest,
+    JSON.stringify(lines),
+  ).toBeGreaterThanOrEqual(0.3);
+  expect(lines.every(({ left, right }) => left >= 0 && right <= 391)).toBe(
+    true,
+  );
+});
