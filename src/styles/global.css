@@ -1138,23 +1138,6 @@ html[lang='ja'] .feature-category-heading h2 {
   grid-column: 1 / -1;
   min-height: auto;
   padding: var(--card-padding);
-  background:
-    radial-gradient(
-      circle at 86% 0%,
-      color-mix(in srgb, var(--color-cyan) 12%, transparent),
-      transparent 34rem
-    ),
-    radial-gradient(
-      circle at 0% 100%,
-      color-mix(in srgb, var(--color-purple) 14%, transparent),
-      transparent 30rem
-    ),
-    linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--color-blue) 8%, var(--color-surface)),
-      var(--color-surface)
-    );
-  box-shadow: var(--shadow-glow);
 }
 
 .reader-feature-header {
@@ -2518,7 +2501,7 @@ html[lang='en'] .features-hero h1 {
 }
 
 .support-hub-resources {
-  padding-bottom: clamp(6rem, 12vw, 11rem);
+  padding-bottom: var(--section-gap);
 }
 
 .support-hub-section-title {
